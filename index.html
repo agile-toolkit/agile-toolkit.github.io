@@ -18,52 +18,36 @@
 
     header {
       background: linear-gradient(150deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
-      color: white;
+      color: #fff;
       padding: 4.5rem 2rem 4rem;
       text-align: center;
     }
-
     .header-badge {
       display: inline-block;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
       border-radius: 20px;
-      padding: 0.3rem 1rem;
-      font-size: 0.8125rem;
-      letter-spacing: 0.05em;
+      padding: .3rem 1rem;
+      font-size: .8125rem;
+      letter-spacing: .05em;
       text-transform: uppercase;
       margin-bottom: 1.25rem;
-      color: rgba(255,255,255,0.85);
+      color: rgba(255,255,255,.85);
     }
+    header h1 { font-size: 2.75rem; font-weight: 700; letter-spacing: -.5px; margin-bottom: 1rem; }
+    header p  { font-size: 1.125rem; opacity: .8; max-width: 520px; margin: 0 auto; }
 
-    header h1 {
-      font-size: 2.75rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 1rem;
-    }
-
-    header p {
-      font-size: 1.125rem;
-      opacity: 0.8;
-      max-width: 520px;
-      margin: 0 auto;
-    }
-
-    main {
-      max-width: 1120px;
-      margin: 3rem auto;
-      padding: 0 1.5rem;
-    }
+    main { max-width: 1120px; margin: 3rem auto; padding: 0 1.5rem; }
 
     .section-title {
-      font-size: 0.8125rem;
+      font-size: .8125rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: .08em;
       color: #57606a;
       margin-bottom: 1.25rem;
     }
+    .section-title strong { color: #1a7f37; }
 
     .grid {
       display: grid;
@@ -71,121 +55,99 @@
       gap: 1rem;
     }
 
+    /* ── Card base ── */
     .card {
-      background: white;
+      background: #fff;
       border: 1px solid #d1d9e0;
       border-radius: 10px;
-      padding: 1.375rem 1.5rem;
+      padding: 1.25rem 1.375rem 1.125rem;
       text-decoration: none;
       color: inherit;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
-      position: relative;
+      gap: .625rem;
+      transition: box-shadow .15s ease, border-color .15s ease, transform .15s ease;
     }
-
     .card:hover {
       border-color: #0969da;
-      box-shadow: 0 4px 20px rgba(9, 105, 218, 0.1);
+      box-shadow: 0 4px 20px rgba(9,105,218,.1);
       transform: translateY(-2px);
     }
 
-    .card-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.875rem;
-    }
+    /* Vercel-style top accent for active cards */
+    .card.has-data { border-top: 2px solid #2da44e; padding-top: calc(1.25rem - 1px); }
+    .card.has-live { border-top: 2px solid #e16f24; padding-top: calc(1.25rem - 1px); }
+    .card.has-data:hover,
+    .card.has-live:hover { border-top-color: #0969da; }
 
-    .card-icon {
-      font-size: 1.625rem;
-      line-height: 1;
-      flex-shrink: 0;
-      margin-top: 0.1rem;
-    }
+    /* ── Card head ── */
+    .card-head { display: flex; align-items: center; gap: .75rem; }
+    .card-icon  { font-size: 1.5rem; line-height: 1; flex-shrink: 0; }
+    .card-title { flex: 1; font-size: .9375rem; font-weight: 600; color: #0969da; }
 
-    .card-title {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #0969da;
-      line-height: 1.3;
-    }
-
-    .card-desc {
-      font-size: 0.875rem;
-      color: #57606a;
-      padding-left: 2.5rem;
-      line-height: 1.55;
-    }
-
-    .card-stats {
+    /* ── Badge ── */
+    .card-badge {
       display: none;
-      align-items: center;
-      gap: 0.4rem;
-      margin-left: 2.5rem;
-      padding: 0.35rem 0.625rem;
-      background: #dafbe1;
+      font-size: .6875rem; font-weight: 600;
+      letter-spacing: .04em; text-transform: uppercase;
+      padding: .175rem .5rem; border-radius: 20px; flex-shrink: 0;
+    }
+    .card-badge.is-active { display: inline-flex; background: #dafbe1; color: #1a7f37; }
+    .card-badge.is-live   {
+      display: inline-flex; align-items: center; gap: .3rem;
+      background: #fff3cd; color: #9a6700;
+    }
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #e16f24; flex-shrink: 0;
+      animation: blink 1.4s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:.3; } }
+
+    /* ── Description ── */
+    .card-desc { font-size: .875rem; color: #57606a; line-height: 1.55; }
+
+    /* ── Stats panel ── */
+    .card-stats {
+      display: none; /* JS sets to flex */
+      flex-direction: column;
+      gap: .3rem;
+      background: #f6f8fa;
+      border: 1px solid #d1d9e0;
       border-radius: 6px;
-      font-size: 0.8rem;
-      color: #1a7f37;
-      line-height: 1.4;
+      padding: .5rem .7rem;
+      font-size: .8125rem;
     }
+    .stats-row {
+      display: flex; align-items: baseline; flex-wrap: wrap;
+      gap: .2rem .3rem; color: #57606a; line-height: 1.5;
+    }
+    .s-val { font-weight: 600; color: #1f2328; }
+    .s-sep { color: #c8c8c8; padding: 0 .1rem; }
 
-    .card-stats-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #2da44e;
-      flex-shrink: 0;
+    .stats-meta {
+      display: flex; align-items: center; gap: .5rem;
     }
+    .stats-sparkline {
+      display: flex; align-items: center; gap: .375rem;
+      font-size: .75rem; color: #57606a;
+    }
+    .stats-age { margin-left: auto; font-size: .725rem; color: #8c959f; white-space: nowrap; }
 
-    .card.has-data {
-      border-color: #b4e2be;
-    }
+    .sparkline { vertical-align: middle; overflow: visible; }
 
-    .card.has-data:hover {
-      border-color: #0969da;
-    }
-
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding-left: 2.5rem;
-      margin-top: 0.25rem;
-    }
-
-    .card-link {
-      font-size: 0.8125rem;
-      color: #0969da;
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.2rem;
-    }
+    /* ── Footer ── */
+    .card-foot { display: flex; justify-content: flex-end; margin-top: auto; padding-top: .125rem; }
+    .card-cta  { font-size: .8125rem; font-weight: 500; color: #0969da; }
 
     footer {
-      text-align: center;
-      padding: 2.5rem 1rem 3rem;
-      color: #57606a;
-      font-size: 0.875rem;
-      border-top: 1px solid #d1d9e0;
-      margin-top: 1.5rem;
+      text-align: center; padding: 2.5rem 1rem 3rem;
+      color: #57606a; font-size: .875rem;
+      border-top: 1px solid #d1d9e0; margin-top: 1.5rem;
     }
-
-    footer a {
-      color: #0969da;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    footer .sep {
-      margin: 0 0.5rem;
-      opacity: 0.4;
-    }
+    footer a { color: #0969da; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer .sep { margin: 0 .5rem; opacity: .4; }
 
     @media (max-width: 640px) {
       header { padding: 3rem 1.25rem 2.5rem; }
@@ -204,107 +166,76 @@
 
 <main>
   <p class="section-title" id="section-title">10 tools &mdash; all free &amp; open source</p>
-
   <div class="grid">
 
     <a href="https://agile-toolkit.github.io/moving-motivators/" class="card" data-app="moving-motivators">
-      <div class="card-header">
-        <span class="card-icon">🎴</span>
-        <span class="card-title">Moving Motivators</span>
-      </div>
-      <div class="card-desc">Explore motivation and priorities with a familiar card-based exercise. Rank CHAMPFROGS motivators and assess change impact.</div>
-      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
-      <div class="card-footer"><span class="card-link">Open app →</span></div>
+      <div class="card-head"><span class="card-icon">🎴</span><span class="card-title">Moving Motivators</span><span class="card-badge"></span></div>
+      <p class="card-desc">Explore motivation and priorities with a familiar card-based exercise. Rank CHAMPFROGS motivators and assess change impact.</p>
+      <div class="card-stats"><div class="stats-row"></div></div>
+      <div class="card-foot"><span class="card-cta">Open app →</span></div>
     </a>
 
     <a href="https://agile-toolkit.github.io/scrum-facilitator/" class="card" data-app="scrum-facilitator">
-      <div class="card-header">
-        <span class="card-icon">⏱️</span>
-        <span class="card-title">Scrum Facilitator</span>
-      </div>
-      <div class="card-desc">Support scrum events and facilitation with clear, guided flows — timers, facilitation scripts, and retrospective tools.</div>
-      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
-      <div class="card-footer"><span class="card-link">Open app →</span></div>
+      <div class="card-head"><span class="card-icon">⏱️</span><span class="card-title">Scrum Facilitator</span><span class="card-badge"></span></div>
+      <p class="card-desc">Support scrum events and facilitation with clear, guided flows — timers, facilitation scripts, and retrospective tools.</p>
+      <div class="card-stats"><div class="stats-row"></div></div>
+      <div class="card-foot"><span class="card-cta">Open app →</span></div>
     </a>
 
     <a href="https://agile-toolkit.github.io/kanban-designer/" class="card" data-app="kanban-designer">
-      <div class="card-header">
-        <span class="card-icon">🗂️</span>
-        <span class="card-title">Kanban Designer</span>
-      </div>
-      <div class="card-desc">Design and iterate on boards and flow without fighting the tool. Visual guide to 10 Kanban board patterns.</div>
-      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
-      <div class="card-footer"><span class="card-link">Open app →</span></div>
+      <div class="card-head"><span class="card-icon">🗂️</span><span class="card-title">Kanban Designer</span><span class="card-badge"></span></div>
+      <p class="card-desc">Design and iterate on boards and flow without fighting the tool. Visual guide to 10 Kanban board patterns.</p>
+      <div class="card-stats"><div class="stats-row"></div></div>
+      <div class="card-foot"><span class="card-cta">Open app →</span></div>
     </a>
 
     <a href="https://agile-toolkit.github.io/salary-formula/" class="card" data-app="salary-formula">
-      <div class="card-header">
-        <span class="card-icon">💰</span>
-        <span class="card-title">Salary Formula</span>
-      </div>
-      <div class="card-desc">Transparent, formula-based compensation models teams can reason about. Design fair salary formulas based on Management 3.0 principles.</div>
-      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
-      <div class="card-footer"><span class="card-link">Open app →</span></div>
+      <div class="card-head"><span class="card-icon">💰</span><span class="card-title">Salary Formula</span><span class="card-badge"></span></div>
+      <p class="card-desc">Transparent, formula-based compensation models teams can reason about. Design fair salary formulas based on Management 3.0 principles.</p>
+      <div class="card-stats"><div class="stats-row"></div></div>
+      <div class="card-foot"><span class="card-cta">Open app →</span></div>
     </a>
 
     <a href="https://agile-toolkit.github.io/team-identity/" class="card" data-app="team-identity">
-      <div class="card-header">
-        <span class="card-icon">🤝</span>
-        <span class="card-title">Team Identity</span>
-      </div>
-      <div class="card-desc">Align on who the team is and how you want to show up together. Digital facilitation of Identity Symbols and Work Expo practices.</div>
-      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
-      <div class="card-footer"><span class="card-link">Open app →</span></div>
+      <div class="card-head"><span class="card-icon">🤝</span><span class="card-title">Team Identity</span><span class="card-badge"></span></div>
+      <p class="card-desc">Align on who the team is and how you want to show up together. Digital facilitation of Identity Symbols and Work Expo practices.</p>
+      <div class="card-stats"><div class="stats-row"></div></div>
+      <div class="card-foot"><span class="card-cta">Open app →</span></div>
     </a>
 
     <a href="https://agile-toolkit.github.io/improvement-board/" class="card" data-app="improvement-board">
-      <div class="card-header">
-        <span class="card-icon">📌</span>
-        <span class="card-title">Improvement Board</span>
-      </div>
-      <div class="card-desc">Surface improvements, experiments, and follow-through from retros. Platform for Improvement Dialogues and Copilot Programs.</div>
-      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
-      <div class="card-footer"><span class="card-link">Open app →</span></div>
+      <div class="card-head"><span class="card-icon">📌</span><span class="card-title">Improvement Board</span><span class="card-badge"></span></div>
+      <p class="card-desc">Surface improvements, experiments, and follow-through from retros. Platform for Improvement Dialogues and Copilot Programs.</p>
+      <div class="card-stats"><div class="stats-row"></div></div>
+      <div class="card-foot"><span class="card-cta">Open app →</span></div>
     </a>
 
     <a href="https://agile-toolkit.github.io/work-profiles/" class="card" data-app="work-profiles">
-      <div class="card-header">
-        <span class="card-icon">👤</span>
-        <span class="card-title">Work Profiles</span>
-      </div>
-      <div class="card-desc">Roles, expectations, and how people prefer to collaborate. Reputation-over-titles portfolio for tracking contributions and skills.</div>
-      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
-      <div class="card-footer"><span class="card-link">Open app →</span></div>
+      <div class="card-head"><span class="card-icon">👤</span><span class="card-title">Work Profiles</span><span class="card-badge"></span></div>
+      <p class="card-desc">Roles, expectations, and how people prefer to collaborate. Reputation-over-titles portfolio for tracking contributions and skills.</p>
+      <div class="card-stats"><div class="stats-row"></div></div>
+      <div class="card-foot"><span class="card-cta">Open app →</span></div>
     </a>
 
     <a href="https://agile-toolkit.github.io/planning-poker/" class="card" data-app="planning-poker">
-      <div class="card-header">
-        <span class="card-icon">🃏</span>
-        <span class="card-title">Planning Poker</span>
-      </div>
-      <div class="card-desc">Lightweight estimation sessions with a shared view of the table. Real-time tool with PIN-based team sessions and Fibonacci cards.</div>
-      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
-      <div class="card-footer"><span class="card-link">Open app →</span></div>
+      <div class="card-head"><span class="card-icon">🃏</span><span class="card-title">Planning Poker</span><span class="card-badge"></span></div>
+      <p class="card-desc">Lightweight estimation sessions with a shared view of the table. Real-time tool with PIN-based team sessions and Fibonacci cards.</p>
+      <div class="card-stats"><div class="stats-row"></div></div>
+      <div class="card-foot"><span class="card-cta">Open app →</span></div>
     </a>
 
     <a href="https://agile-toolkit.github.io/sprint-metrics/" class="card" data-app="sprint-metrics">
-      <div class="card-header">
-        <span class="card-icon">📊</span>
-        <span class="card-title">Sprint Metrics</span>
-      </div>
-      <div class="card-desc">Burn-down, forecast, and sprint data in one place for the current iteration. Chrome extension for Jira with flow metrics.</div>
-      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
-      <div class="card-footer"><span class="card-link">Open app →</span></div>
+      <div class="card-head"><span class="card-icon">📊</span><span class="card-title">Sprint Metrics</span><span class="card-badge"></span></div>
+      <p class="card-desc">Burn-down, forecast, and sprint data in one place for the current iteration. Chrome extension for Jira with flow metrics.</p>
+      <div class="card-stats"><div class="stats-row"></div></div>
+      <div class="card-foot"><span class="card-cta">Open app →</span></div>
     </a>
 
     <a href="https://agile-toolkit.github.io/change-planner/" class="card" data-app="change-planner">
-      <div class="card-header">
-        <span class="card-icon">🔄</span>
-        <span class="card-title">Change Planner</span>
-      </div>
-      <div class="card-desc">Structure and communicate change across teams and releases. Interactive planning based on the PDCA cycle and Jurgen Appelo's How to Change the World.</div>
-      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
-      <div class="card-footer"><span class="card-link">Open app →</span></div>
+      <div class="card-head"><span class="card-icon">🔄</span><span class="card-title">Change Planner</span><span class="card-badge"></span></div>
+      <p class="card-desc">Structure and communicate change across teams and releases. Interactive planning based on the PDCA cycle and Jurgen Appelo's How to Change the World.</p>
+      <div class="card-stats"><div class="stats-row"></div></div>
+      <div class="card-foot"><span class="card-cta">Open app →</span></div>
     </a>
 
   </div>
@@ -318,128 +249,244 @@
 
 <script>
 (function () {
+  'use strict';
+  try {
+
   function read(key) {
     try { return JSON.parse(localStorage.getItem(key)); } catch (e) { return null; }
   }
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function trunc(s, max) {
+    s = String(s || '');
+    return s.length > max ? s.slice(0, max - 1) + '…' : s;
+  }
+  function v(x)   { return '<b class="s-val">' + esc(x) + '</b>'; }
+  function lbl(x) { return '<span>' + esc(x) + '</span>'; }
+  function dot()  { return '<span class="s-sep">&middot;</span>'; }
 
-  function n(count, word) {
-    return count + ' ' + word + (count !== 1 ? 's' : '');
+  function timeAgo(ms) {
+    if (!ms) return '';
+    var d = Date.now() - ms;
+    var m = Math.floor(d / 60000);
+    if (m < 2)  return 'just now';
+    if (m < 60) return m + 'm ago';
+    var h = Math.floor(m / 60);
+    if (h < 24) return h + 'h ago';
+    var dy = Math.floor(h / 24);
+    if (dy < 7) return dy + 'd ago';
+    var w = Math.floor(dy / 7);
+    if (w < 5)  return w + 'w ago';
+    return Math.floor(dy / 30) + 'mo ago';
   }
 
-  var stats = {};
+  function makeSpark(vals) {
+    var data = vals.slice(-8);
+    if (data.length < 2) return '';
+    var W = 56, H = 18, pad = 2;
+    var hi = Math.max.apply(null, data), lo = Math.min.apply(null, data);
+    var rng = hi - lo || 1;
+    var pts = data.map(function (v, i) {
+      var x = pad + (i / (data.length - 1)) * (W - 2 * pad);
+      var y = (H - pad) - ((v - lo) / rng) * (H - 2 * pad);
+      return x.toFixed(1) + ',' + y.toFixed(1);
+    }).join(' ');
+    var lx = W - pad, ly = (H - pad) - ((data[data.length-1] - lo) / rng) * (H - 2*pad);
+    return '<svg class="sparkline" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '">'
+      + '<polyline points="' + pts + '" fill="none" stroke="#0969da" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'
+      + '<circle cx="' + lx.toFixed(1) + '" cy="' + ly.toFixed(1) + '" r="2.5" fill="#0969da"/>'
+      + '</svg>';
+  }
 
-  // scrum-facilitator
-  (function () {
-    var session = read('scrum-facilitator-session');
-    var history = read('scrum-facilitator-history') || [];
-    var parts = [];
-    if (session && session.ceremonyType) {
-      var labels = { daily: 'Daily Standup', planning: 'Sprint Planning', review: 'Sprint Review', retro: 'Retrospective', refinement: 'Refinement' };
-      parts.push('In progress: ' + (labels[session.ceremonyType] || session.ceremonyType));
+  /* ── Collect ── */
+  var data = {};
+
+  (function () { // scrum-facilitator
+    var sess = read('scrum-facilitator-session');
+    var hist = read('scrum-facilitator-history') || [];
+    if (!sess && !hist.length) return;
+    var labels = {daily:'Daily Standup',planning:'Sprint Planning',review:'Sprint Review',retro:'Retrospective',refinement:'Refinement'};
+    var chips = [], live = false, ts = null;
+    if (sess && sess.ceremonyType) {
+      live = true;
+      chips.push(v(labels[sess.ceremonyType] || sess.ceremonyType) + ' ' + lbl('in progress'));
+      ts = sess.savedAt || null;
     }
-    if (history.length) parts.push(n(history.length, 'saved session'));
-    if (parts.length) stats['scrum-facilitator'] = parts.join(' · ');
+    if (hist.length) {
+      chips.push(v(hist.length) + ' ' + lbl(hist.length === 1 ? 'session' : 'sessions'));
+      var last = hist[hist.length - 1];
+      if (!ts && last && last.savedAt) ts = last.savedAt;
+    }
+    data['scrum-facilitator'] = {chips:chips, ts:ts, live:live};
   }());
 
-  // kanban-designer
-  (function () {
+  (function () { // kanban-designer
     var boards = read('kanban-designer-boards') || [];
     if (!boards.length) return;
-    var currentId = localStorage.getItem('kanban-designer-current-id');
-    var current = boards.filter(function (b) { return b.id === currentId; })[0] || boards[boards.length - 1];
-    var parts = [n(boards.length, 'board')];
-    if (current && current.name) parts.push('Active: ' + current.name);
-    stats['kanban-designer'] = parts.join(' · ');
+    var curId = localStorage.getItem('kanban-designer-current-id');
+    var cur = null;
+    for (var i = 0; i < boards.length; i++) { if (boards[i].id === curId) { cur = boards[i]; break; } }
+    if (!cur) cur = boards[boards.length - 1];
+    var totalCards = 0;
+    boards.forEach(function(b){ (b.columns||[]).forEach(function(c){ totalCards += (c.cards||[]).length; }); });
+    var chips = [v(boards.length) + ' ' + lbl(boards.length === 1 ? 'board' : 'boards')];
+    if (cur && cur.name) chips.push(v('“' + trunc(cur.name, 18) + '”') + ' ' + lbl('active'));
+    if (totalCards > 0) chips.push(v(totalCards) + ' ' + lbl(totalCards === 1 ? 'card' : 'cards'));
+    data['kanban-designer'] = {chips:chips, ts: cur && cur.updatedAt ? cur.updatedAt : null};
   }());
 
-  // salary-formula
-  (function () {
-    var profiles = read('salary-formula-profiles') || [];
+  (function () { // salary-formula
+    var profiles  = read('salary-formula-profiles') || [];
     var scenarios = read('salary_scenarios_v1') || [];
-    var parts = [];
-    if (profiles.length) parts.push(n(profiles.length, 'profile'));
-    if (scenarios.length) parts.push(n(scenarios.length, 'scenario'));
-    if (parts.length) stats['salary-formula'] = parts.join(' · ');
+    if (!profiles.length && !scenarios.length) return;
+    var chips = [];
+    if (profiles.length)  chips.push(v(profiles.length)  + ' ' + lbl(profiles.length  === 1 ? 'profile'  : 'profiles'));
+    if (scenarios.length) chips.push(v(scenarios.length) + ' ' + lbl(scenarios.length === 1 ? 'scenario' : 'scenarios'));
+    var ts = scenarios.length && scenarios[scenarios.length-1].savedAt ? scenarios[scenarios.length-1].savedAt : null;
+    data['salary-formula'] = {chips:chips, ts:ts};
   }());
 
-  // team-identity
-  (function () {
-    var charter = read('team-identity-charter');
-    if (!charter) return;
-    var parts = [];
-    if (charter.teamName) parts.push(charter.teamName);
-    if (charter.agreements && charter.agreements.length) parts.push(n(charter.agreements.length, 'agreement'));
-    if (parts.length) stats['team-identity'] = parts.join(' · ');
+  (function () { // team-identity
+    var ch = read('team-identity-charter');
+    if (!ch) return;
+    var chips = [];
+    if (ch.teamName) chips.push(v('“' + trunc(ch.teamName, 20) + '”'));
+    if (ch.agreements && ch.agreements.length) chips.push(v(ch.agreements.length) + ' ' + lbl(ch.agreements.length === 1 ? 'agreement' : 'agreements'));
+    if (ch.values     && ch.values.length)     chips.push(v(ch.values.length)     + ' ' + lbl(ch.values.length     === 1 ? 'value'     : 'values'));
+    if (!chips.length) return;
+    data['team-identity'] = {chips:chips, ts: ch.savedAt || null};
   }());
 
-  // improvement-board
-  (function () {
-    var items = read('improvement-board-items') || [];
+  (function () { // improvement-board
+    var items   = read('improvement-board-items')   || [];
     var members = read('improvement-board-members') || [];
-    var parts = [];
-    if (items.length) parts.push(n(items.length, 'item'));
-    if (members.length) parts.push(n(members.length, 'member'));
-    if (parts.length) stats['improvement-board'] = parts.join(' · ');
-  }());
-
-  // work-profiles
-  (function () {
-    var profiles = read('work-profiles-data') || [];
-    var credits = read('work-profiles-credits') || [];
-    var parts = [];
-    if (profiles.length) parts.push(n(profiles.length, 'profile'));
-    if (credits.length) parts.push(n(credits.length, 'credit'));
-    if (parts.length) stats['work-profiles'] = parts.join(' · ');
-  }());
-
-  // planning-poker
-  (function () {
-    var stories = read('sprintMetrics_planningPoker') || [];
-    if (stories.length) stats['planning-poker'] = n(stories.length, 'story') + ' estimated';
-  }());
-
-  // sprint-metrics
-  (function () {
-    var sprints = read('sprint-metrics-sprints') || [];
-    var config = read('sprint-metrics-config');
-    if (!sprints.length && !config) return;
-    var parts = [];
-    if (config && config.name) parts.push(config.name);
-    if (sprints.length) {
-      parts.push(n(sprints.length, 'sprint'));
-      var last = sprints[sprints.length - 1];
-      if (last && last.completed != null) parts.push('last velocity: ' + last.completed);
+    if (!items.length && !members.length) return;
+    var chips = [];
+    if (items.length) {
+      chips.push(v(items.length) + ' ' + lbl(items.length === 1 ? 'item' : 'items'));
+      var open = items.filter(function(i){ return !i.completedAt && i.status !== 'done' && i.status !== 'completed'; }).length;
+      if (open > 0 && open < items.length) chips.push(v(open) + ' ' + lbl('open'));
     }
-    if (parts.length) stats['sprint-metrics'] = parts.join(' · ');
+    if (members.length) chips.push(v(members.length) + ' ' + lbl(members.length === 1 ? 'member' : 'members'));
+    data['improvement-board'] = {chips:chips, ts:null};
   }());
 
-  // change-planner
-  (function () {
-    var initiatives = read('change-planner-initiatives') || [];
-    if (initiatives.length) stats['change-planner'] = n(initiatives.length, 'initiative');
+  (function () { // work-profiles
+    var profiles = read('work-profiles-data')    || [];
+    var credits  = read('work-profiles-credits') || [];
+    if (!profiles.length && !credits.length) return;
+    var chips = [];
+    if (profiles.length) chips.push(v(profiles.length) + ' ' + lbl(profiles.length === 1 ? 'profile' : 'profiles'));
+    if (credits.length) {
+      chips.push(v(credits.length) + ' ' + lbl(credits.length === 1 ? 'credit' : 'credits'));
+      var pts = credits.reduce(function(s,c){ return s + (Number(c.points)||0); }, 0);
+      if (pts > 0) chips.push(v(pts) + ' ' + lbl('pts'));
+    }
+    var ts = profiles.length && profiles[profiles.length-1].createdAt ? profiles[profiles.length-1].createdAt : null;
+    data['work-profiles'] = {chips:chips, ts:ts};
   }());
 
-  // Inject into cards
+  (function () { // planning-poker
+    var stories = read('sprintMetrics_planningPoker') || [];
+    if (!stories.length) return;
+    var nums = stories.map(function(s){ return parseFloat(s.finalEstimate); }).filter(function(x){ return x > 0 && !isNaN(x); });
+    var chips = [v(stories.length) + ' ' + lbl(stories.length === 1 ? 'story' : 'stories') + ' ' + lbl('estimated')];
+    if (nums.length) {
+      var avg = (nums.reduce(function(a,b){ return a+b; }, 0) / nums.length).toFixed(1);
+      chips.push(v(avg) + ' ' + lbl('avg pts'));
+    }
+    data['planning-poker'] = {chips:chips, ts:null};
+  }());
+
+  (function () { // sprint-metrics
+    var sprints = read('sprint-metrics-sprints') || [];
+    var cfg     = read('sprint-metrics-config');
+    if (!sprints.length && !cfg) return;
+    var chips = [];
+    if (cfg && cfg.name) chips.push(v('“' + trunc(cfg.name, 18) + '”'));
+    if (sprints.length) {
+      chips.push(v(sprints.length) + ' ' + lbl(sprints.length === 1 ? 'sprint' : 'sprints'));
+      var last = sprints[sprints.length - 1];
+      if (last && last.completed != null) chips.push(v(last.completed) + ' ' + lbl('last vel.'));
+    }
+    var vels = sprints.map(function(s){ return Number(s.completed)||0; }).filter(function(x){ return x > 0; });
+    data['sprint-metrics'] = {chips:chips, ts:null, spark:vels};
+  }());
+
+  (function () { // change-planner
+    var inits = read('change-planner-initiatives') || [];
+    if (!inits.length) return;
+    var active = inits.filter(function(i){ return !i.completedAt; }).length;
+    var chips  = [v(inits.length) + ' ' + lbl(inits.length === 1 ? 'initiative' : 'initiatives')];
+    if (active > 0 && active < inits.length) chips.push(v(active) + ' ' + lbl('active'));
+    var latest = inits.slice().sort(function(a,b){ return ((b.updatedAt||b.createdAt||0)) - ((a.updatedAt||a.createdAt||0)); })[0];
+    if (latest && latest.title) chips.push(v('“' + trunc(latest.title, 22) + '”'));
+    var ts = latest ? (latest.updatedAt || latest.createdAt || null) : null;
+    data['change-planner'] = {chips:chips, ts:ts};
+  }());
+
+  /* ── Render ── */
   var activeCount = 0;
-  var cards = document.querySelectorAll('.card[data-app]');
-  for (var i = 0; i < cards.length; i++) {
-    var card = cards[i];
-    var app = card.getAttribute('data-app');
-    var text = stats[app];
-    if (!text) continue;
-    var statsEl = card.querySelector('.card-stats');
-    if (!statsEl) continue;
-    statsEl.querySelector('span:last-child').textContent = text;
-    statsEl.style.display = 'flex';
-    card.classList.add('has-data');
-    activeCount++;
-  }
 
-  // Update section title when some apps have data
+  document.querySelectorAll('.card[data-app]').forEach(function (card) {
+    var app = card.getAttribute('data-app');
+    var d   = data[app];
+    if (!d) return;
+
+    var badge = card.querySelector('.card-badge');
+    if (badge) {
+      if (d.live) {
+        badge.className = 'card-badge is-live';
+        badge.innerHTML = '<span class="badge-dot"></span>Live';
+      } else {
+        badge.className = 'card-badge is-active';
+        badge.textContent = 'Active';
+      }
+    }
+
+    var statsRow = card.querySelector('.stats-row');
+    if (statsRow && d.chips && d.chips.length) {
+      statsRow.innerHTML = d.chips.join(' ' + dot() + ' ');
+    }
+
+    var panel = card.querySelector('.card-stats');
+    if (panel) {
+      var hasSpark = d.spark && d.spark.length > 1;
+      var hasAge   = !!d.ts;
+      if (hasSpark || hasAge) {
+        var meta = document.createElement('div');
+        meta.className = 'stats-meta';
+        if (hasSpark) {
+          var sl = document.createElement('span');
+          sl.className = 'stats-sparkline';
+          sl.innerHTML = makeSpark(d.spark) + '<span>velocity trend</span>';
+          meta.appendChild(sl);
+        }
+        if (hasAge) {
+          var age = document.createElement('span');
+          age.className = 'stats-age';
+          age.textContent = timeAgo(d.ts);
+          meta.appendChild(age);
+        }
+        panel.appendChild(meta);
+      }
+      panel.style.display = 'flex';
+    }
+
+    card.classList.add(d.live ? 'has-live' : 'has-data');
+    activeCount++;
+  });
+
   if (activeCount > 0) {
     var title = document.getElementById('section-title');
-    if (title) title.innerHTML = '10 tools &mdash; all free &amp; open source &nbsp;·&nbsp; <strong>' + activeCount + ' in use</strong>';
+    if (title) {
+      title.innerHTML = '10 tools &mdash; all free &amp; open source'
+        + ' &nbsp;&middot;&nbsp; <strong>' + activeCount + ' ' + (activeCount === 1 ? 'app' : 'apps') + ' in use</strong>';
+    }
   }
+
+  } catch(e) { /* fail silently */ }
 }());
 </script>
 
