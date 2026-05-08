@@ -118,6 +118,35 @@
       line-height: 1.55;
     }
 
+    .card-stats {
+      display: none;
+      align-items: center;
+      gap: 0.4rem;
+      margin-left: 2.5rem;
+      padding: 0.35rem 0.625rem;
+      background: #dafbe1;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: #1a7f37;
+      line-height: 1.4;
+    }
+
+    .card-stats-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #2da44e;
+      flex-shrink: 0;
+    }
+
+    .card.has-data {
+      border-color: #b4e2be;
+    }
+
+    .card.has-data:hover {
+      border-color: #0969da;
+    }
+
     .card-footer {
       display: flex;
       align-items: center;
@@ -174,97 +203,107 @@
 </header>
 
 <main>
-  <p class="section-title">10 tools &mdash; all free &amp; open source</p>
+  <p class="section-title" id="section-title">10 tools &mdash; all free &amp; open source</p>
 
   <div class="grid">
 
-    <a href="https://agile-toolkit.github.io/moving-motivators/" class="card">
+    <a href="https://agile-toolkit.github.io/moving-motivators/" class="card" data-app="moving-motivators">
       <div class="card-header">
         <span class="card-icon">🎴</span>
         <span class="card-title">Moving Motivators</span>
       </div>
       <div class="card-desc">Explore motivation and priorities with a familiar card-based exercise. Rank CHAMPFROGS motivators and assess change impact.</div>
+      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
       <div class="card-footer"><span class="card-link">Open app →</span></div>
     </a>
 
-    <a href="https://agile-toolkit.github.io/scrum-facilitator/" class="card">
+    <a href="https://agile-toolkit.github.io/scrum-facilitator/" class="card" data-app="scrum-facilitator">
       <div class="card-header">
         <span class="card-icon">⏱️</span>
         <span class="card-title">Scrum Facilitator</span>
       </div>
       <div class="card-desc">Support scrum events and facilitation with clear, guided flows — timers, facilitation scripts, and retrospective tools.</div>
+      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
       <div class="card-footer"><span class="card-link">Open app →</span></div>
     </a>
 
-    <a href="https://agile-toolkit.github.io/kanban-designer/" class="card">
+    <a href="https://agile-toolkit.github.io/kanban-designer/" class="card" data-app="kanban-designer">
       <div class="card-header">
         <span class="card-icon">🗂️</span>
         <span class="card-title">Kanban Designer</span>
       </div>
       <div class="card-desc">Design and iterate on boards and flow without fighting the tool. Visual guide to 10 Kanban board patterns.</div>
+      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
       <div class="card-footer"><span class="card-link">Open app →</span></div>
     </a>
 
-    <a href="https://agile-toolkit.github.io/salary-formula/" class="card">
+    <a href="https://agile-toolkit.github.io/salary-formula/" class="card" data-app="salary-formula">
       <div class="card-header">
         <span class="card-icon">💰</span>
         <span class="card-title">Salary Formula</span>
       </div>
       <div class="card-desc">Transparent, formula-based compensation models teams can reason about. Design fair salary formulas based on Management 3.0 principles.</div>
+      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
       <div class="card-footer"><span class="card-link">Open app →</span></div>
     </a>
 
-    <a href="https://agile-toolkit.github.io/team-identity/" class="card">
+    <a href="https://agile-toolkit.github.io/team-identity/" class="card" data-app="team-identity">
       <div class="card-header">
         <span class="card-icon">🤝</span>
         <span class="card-title">Team Identity</span>
       </div>
       <div class="card-desc">Align on who the team is and how you want to show up together. Digital facilitation of Identity Symbols and Work Expo practices.</div>
+      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
       <div class="card-footer"><span class="card-link">Open app →</span></div>
     </a>
 
-    <a href="https://agile-toolkit.github.io/improvement-board/" class="card">
+    <a href="https://agile-toolkit.github.io/improvement-board/" class="card" data-app="improvement-board">
       <div class="card-header">
         <span class="card-icon">📌</span>
         <span class="card-title">Improvement Board</span>
       </div>
       <div class="card-desc">Surface improvements, experiments, and follow-through from retros. Platform for Improvement Dialogues and Copilot Programs.</div>
+      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
       <div class="card-footer"><span class="card-link">Open app →</span></div>
     </a>
 
-    <a href="https://agile-toolkit.github.io/work-profiles/" class="card">
+    <a href="https://agile-toolkit.github.io/work-profiles/" class="card" data-app="work-profiles">
       <div class="card-header">
         <span class="card-icon">👤</span>
         <span class="card-title">Work Profiles</span>
       </div>
       <div class="card-desc">Roles, expectations, and how people prefer to collaborate. Reputation-over-titles portfolio for tracking contributions and skills.</div>
+      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
       <div class="card-footer"><span class="card-link">Open app →</span></div>
     </a>
 
-    <a href="https://agile-toolkit.github.io/planning-poker/" class="card">
+    <a href="https://agile-toolkit.github.io/planning-poker/" class="card" data-app="planning-poker">
       <div class="card-header">
         <span class="card-icon">🃏</span>
         <span class="card-title">Planning Poker</span>
       </div>
       <div class="card-desc">Lightweight estimation sessions with a shared view of the table. Real-time tool with PIN-based team sessions and Fibonacci cards.</div>
+      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
       <div class="card-footer"><span class="card-link">Open app →</span></div>
     </a>
 
-    <a href="https://agile-toolkit.github.io/sprint-metrics/" class="card">
+    <a href="https://agile-toolkit.github.io/sprint-metrics/" class="card" data-app="sprint-metrics">
       <div class="card-header">
         <span class="card-icon">📊</span>
         <span class="card-title">Sprint Metrics</span>
       </div>
       <div class="card-desc">Burn-down, forecast, and sprint data in one place for the current iteration. Chrome extension for Jira with flow metrics.</div>
+      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
       <div class="card-footer"><span class="card-link">Open app →</span></div>
     </a>
 
-    <a href="https://agile-toolkit.github.io/change-planner/" class="card">
+    <a href="https://agile-toolkit.github.io/change-planner/" class="card" data-app="change-planner">
       <div class="card-header">
         <span class="card-icon">🔄</span>
         <span class="card-title">Change Planner</span>
       </div>
       <div class="card-desc">Structure and communicate change across teams and releases. Interactive planning based on the PDCA cycle and Jurgen Appelo's How to Change the World.</div>
+      <div class="card-stats"><span class="card-stats-dot"></span><span></span></div>
       <div class="card-footer"><span class="card-link">Open app →</span></div>
     </a>
 
@@ -276,6 +315,133 @@
   <span class="sep">&middot;</span>
   Practical tools for teams that ship together.
 </footer>
+
+<script>
+(function () {
+  function read(key) {
+    try { return JSON.parse(localStorage.getItem(key)); } catch (e) { return null; }
+  }
+
+  function n(count, word) {
+    return count + ' ' + word + (count !== 1 ? 's' : '');
+  }
+
+  var stats = {};
+
+  // scrum-facilitator
+  (function () {
+    var session = read('scrum-facilitator-session');
+    var history = read('scrum-facilitator-history') || [];
+    var parts = [];
+    if (session && session.ceremonyType) {
+      var labels = { daily: 'Daily Standup', planning: 'Sprint Planning', review: 'Sprint Review', retro: 'Retrospective', refinement: 'Refinement' };
+      parts.push('In progress: ' + (labels[session.ceremonyType] || session.ceremonyType));
+    }
+    if (history.length) parts.push(n(history.length, 'saved session'));
+    if (parts.length) stats['scrum-facilitator'] = parts.join(' · ');
+  }());
+
+  // kanban-designer
+  (function () {
+    var boards = read('kanban-designer-boards') || [];
+    if (!boards.length) return;
+    var currentId = localStorage.getItem('kanban-designer-current-id');
+    var current = boards.filter(function (b) { return b.id === currentId; })[0] || boards[boards.length - 1];
+    var parts = [n(boards.length, 'board')];
+    if (current && current.name) parts.push('Active: ' + current.name);
+    stats['kanban-designer'] = parts.join(' · ');
+  }());
+
+  // salary-formula
+  (function () {
+    var profiles = read('salary-formula-profiles') || [];
+    var scenarios = read('salary_scenarios_v1') || [];
+    var parts = [];
+    if (profiles.length) parts.push(n(profiles.length, 'profile'));
+    if (scenarios.length) parts.push(n(scenarios.length, 'scenario'));
+    if (parts.length) stats['salary-formula'] = parts.join(' · ');
+  }());
+
+  // team-identity
+  (function () {
+    var charter = read('team-identity-charter');
+    if (!charter) return;
+    var parts = [];
+    if (charter.teamName) parts.push(charter.teamName);
+    if (charter.agreements && charter.agreements.length) parts.push(n(charter.agreements.length, 'agreement'));
+    if (parts.length) stats['team-identity'] = parts.join(' · ');
+  }());
+
+  // improvement-board
+  (function () {
+    var items = read('improvement-board-items') || [];
+    var members = read('improvement-board-members') || [];
+    var parts = [];
+    if (items.length) parts.push(n(items.length, 'item'));
+    if (members.length) parts.push(n(members.length, 'member'));
+    if (parts.length) stats['improvement-board'] = parts.join(' · ');
+  }());
+
+  // work-profiles
+  (function () {
+    var profiles = read('work-profiles-data') || [];
+    var credits = read('work-profiles-credits') || [];
+    var parts = [];
+    if (profiles.length) parts.push(n(profiles.length, 'profile'));
+    if (credits.length) parts.push(n(credits.length, 'credit'));
+    if (parts.length) stats['work-profiles'] = parts.join(' · ');
+  }());
+
+  // planning-poker
+  (function () {
+    var stories = read('sprintMetrics_planningPoker') || [];
+    if (stories.length) stats['planning-poker'] = n(stories.length, 'story') + ' estimated';
+  }());
+
+  // sprint-metrics
+  (function () {
+    var sprints = read('sprint-metrics-sprints') || [];
+    var config = read('sprint-metrics-config');
+    if (!sprints.length && !config) return;
+    var parts = [];
+    if (config && config.name) parts.push(config.name);
+    if (sprints.length) {
+      parts.push(n(sprints.length, 'sprint'));
+      var last = sprints[sprints.length - 1];
+      if (last && last.completed != null) parts.push('last velocity: ' + last.completed);
+    }
+    if (parts.length) stats['sprint-metrics'] = parts.join(' · ');
+  }());
+
+  // change-planner
+  (function () {
+    var initiatives = read('change-planner-initiatives') || [];
+    if (initiatives.length) stats['change-planner'] = n(initiatives.length, 'initiative');
+  }());
+
+  // Inject into cards
+  var activeCount = 0;
+  var cards = document.querySelectorAll('.card[data-app]');
+  for (var i = 0; i < cards.length; i++) {
+    var card = cards[i];
+    var app = card.getAttribute('data-app');
+    var text = stats[app];
+    if (!text) continue;
+    var statsEl = card.querySelector('.card-stats');
+    if (!statsEl) continue;
+    statsEl.querySelector('span:last-child').textContent = text;
+    statsEl.style.display = 'flex';
+    card.classList.add('has-data');
+    activeCount++;
+  }
+
+  // Update section title when some apps have data
+  if (activeCount > 0) {
+    var title = document.getElementById('section-title');
+    if (title) title.innerHTML = '10 tools &mdash; all free &amp; open source &nbsp;·&nbsp; <strong>' + activeCount + ' in use</strong>';
+  }
+}());
+</script>
 
 </body>
 </html>
