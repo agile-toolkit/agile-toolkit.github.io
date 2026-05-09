@@ -15,7 +15,7 @@ function chip(value: string | number, label: string): StatChip {
   return { value, label }
 }
 
-// ── scrum-facilitator ──────────────────────────────────────────────────────
+// ── scrum-facilitator ───────────────────────────────────────────────────────────
 function readScrumFacilitator(): AppData | null {
   const session = read<{ ceremonyType?: string; stepIndex?: number; savedAt?: number }>(
     'scrum-facilitator-session',
@@ -42,21 +42,20 @@ function readScrumFacilitator(): AppData | null {
   }
   if (history.length) {
     chips.push(chip(history.length, plural(history.length, 'session')))
-    if (!timestamp) timestamp = history.at(-1)?.savedAt
+    if (!timestamp) timestamp = history[history.length - 1]?.savedAt
   }
   return { chips, timestamp, live }
 }
 
-// ── kanban-designer ────────────────────────────────────────────────────────
+// ── kanban-designer ──────────────────────────────────────────────────────────
 function readKanbanDesigner(): AppData | null {
-  const boards = read<Array<{
-    id: string; name: string; updatedAt?: number
-    columns?: Array<{ name: string; wipLimit?: number; cards?: unknown[] }>
-  }>>('kanban-designer-boards') ?? []
+  type Col = { name: string; wipLimit?: number; cards?: unknown[] }
+  type Board = { id: string; name: string; updatedAt?: number; columns?: Col[] }
+  const boards = read<Board[]>('kanban-designer-boards') ?? []
   if (!boards.length) return null
 
   const currentId = localStorage.getItem('kanban-designer-current-id')
-  const cur = boards.find(b => b.id === currentId) ?? boards.at(-1)!
+  const cur = boards.find(b => b.id === currentId) ?? boards[boards.length - 1]!
 
   const totalCards = boards.reduce(
     (s, b) => s + (b.columns ?? []).reduce((cs, c) => cs + (c.cards ?? []).length, 0),
@@ -76,7 +75,7 @@ function readKanbanDesigner(): AppData | null {
   return { chips, timestamp: cur.updatedAt, boardColumns }
 }
 
-// ── salary-formula ─────────────────────────────────────────────────────────
+// ── salary-formula ──────────────────────────────────────────────────────────
 function readSalaryFormula(): AppData | null {
   const profiles = read<unknown[]>('salary-formula-profiles') ?? []
   const scenarios = read<Array<{ savedAt?: number }>>('salary_scenarios_v1') ?? []
@@ -85,10 +84,10 @@ function readSalaryFormula(): AppData | null {
   const chips: StatChip[] = []
   if (profiles.length)  chips.push(chip(profiles.length,  plural(profiles.length,  'profile')))
   if (scenarios.length) chips.push(chip(scenarios.length, plural(scenarios.length, 'scenario')))
-  return { chips, timestamp: scenarios.at(-1)?.savedAt }
+  return { chips, timestamp: scenarios[scenarios.length - 1]?.savedAt }
 }
 
-// ── team-identity ──────────────────────────────────────────────────────────
+// ── team-identity ────────────────────────────────────────────────────────────
 function readTeamIdentity(): AppData | null {
   const ch = read<{
     teamName?: string; agreements?: unknown[]; values?: unknown[]; savedAt?: number
@@ -103,7 +102,7 @@ function readTeamIdentity(): AppData | null {
   return { chips, timestamp: ch.savedAt }
 }
 
-// ── improvement-board ──────────────────────────────────────────────────────
+// ── improvement-board ───────────────────────────────────────────────────────
 function readImprovementBoard(): AppData | null {
   const items   = read<Array<{ completedAt?: number; status?: string }>>('improvement-board-items')   ?? []
   const members = read<unknown[]>('improvement-board-members') ?? []
@@ -130,10 +129,10 @@ function readWorkProfiles(): AppData | null {
     if (pts > 0) chips.push(chip(pts, 'pts'))
   }
   const memberNames = profiles.map(p => p.name ?? '?').slice(0, 6)
-  return { chips, timestamp: profiles.at(-1)?.createdAt, memberNames }
+  return { chips, timestamp: profiles[profiles.length - 1]?.createdAt, memberNames }
 }
 
-// ── planning-poker ─────────────────────────────────────────────────────────
+// ── planning-poker ──────────────────────────────────────────────────────────
 function readPlanningPoker(): AppData | null {
   const stories = read<Array<{ finalEstimate?: string | number }>>('sprintMetrics_planningPoker') ?? []
   if (!stories.length) return null
@@ -151,7 +150,7 @@ function readPlanningPoker(): AppData | null {
   return { chips }
 }
 
-// ── sprint-metrics ─────────────────────────────────────────────────────────
+// ── sprint-metrics ──────────────────────────────────────────────────────────
 function readSprintMetrics(): AppData | null {
   const sprints = read<Array<{ completed?: number; planned?: number }>>('sprint-metrics-sprints') ?? []
   const config  = read<{ name?: string }>('sprint-metrics-config')
@@ -161,14 +160,14 @@ function readSprintMetrics(): AppData | null {
   if (config?.name) chips.push(chip(`"${trunc(config.name, 18)}"`, ''))
   if (sprints.length) {
     chips.push(chip(sprints.length, plural(sprints.length, 'sprint')))
-    const last = sprints.at(-1)
+    const last = sprints[sprints.length - 1]
     if (last?.completed != null) chips.push(chip(last.completed, 'last vel.'))
   }
   const velocities = sprints.map(s => Number(s.completed) || 0).filter(v => v > 0)
   return { chips, velocities }
 }
 
-// ── change-planner ─────────────────────────────────────────────────────────
+// ── change-planner ──────────────────────────────────────────────────────────
 function readChangePlanner(): AppData | null {
   const inits = read<Array<{
     completedAt?: number; title?: string; updatedAt?: number; createdAt?: number
@@ -186,7 +185,7 @@ function readChangePlanner(): AppData | null {
   return { chips, timestamp: latest?.updatedAt ?? latest?.createdAt }
 }
 
-// ── public API ─────────────────────────────────────────────────────────────
+// ── public API ───────────────────────────────────────────────────────────────
 export function readAll(): Record<string, AppData | null> {
   return {
     'moving-motivators': null,
