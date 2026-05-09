@@ -1,6 +1,8 @@
 import type { AppMeta } from '../apps'
 import type { AppData } from '../types'
 import { timeAgo } from '../utils'
+import Badge from './Badge'
+import StatChipRow from './StatChipRow'
 import MiniBarChart from './MiniBarChart'
 import MiniKanban from './MiniKanban'
 import MemberAvatars from './MemberAvatars'
@@ -31,17 +33,9 @@ export default function AppCard({ app, data }: Props) {
         <span className="flex-1 font-semibold text-blue-600 text-[0.9375rem] leading-snug">
           {app.title}
         </span>
-
-        {data?.live ? (
-          <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 flex-shrink-0">
-            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-            Live
-          </span>
-        ) : hasData ? (
-          <span className="text-[0.65rem] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 flex-shrink-0">
-            Active
-          </span>
-        ) : null}
+        {(data?.live || hasData) && (
+          <Badge variant={data?.live ? 'live' : 'active'} />
+        )}
       </div>
 
       {/* Description */}
@@ -50,37 +44,20 @@ export default function AppCard({ app, data }: Props) {
       {/* Stats panel */}
       {hasData && (
         <div className="mx-5 mt-3 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 space-y-2">
-          {/* Chips row */}
-          {data.chips.length > 0 && (
-            <div className="flex flex-wrap items-baseline gap-x-1 gap-y-0.5 text-[0.8125rem] text-slate-500 leading-snug">
-              {data.chips.map((c, i) => (
-                <span key={i} className="inline-flex items-baseline gap-1">
-                  {i > 0 && <span className="text-slate-300 mx-0.5">·</span>}
-                  {String(c.value) !== '' && (
-                    <b className="font-semibold text-slate-800">{c.value}</b>
-                  )}
-                  {c.label && <span>{c.label}</span>}
-                </span>
-              ))}
-            </div>
-          )}
+          {data.chips.length > 0 && <StatChipRow chips={data.chips} />}
 
-          {/* Improvement board progress bar */}
           {data.progressTotal != null && data.progressTotal > 0 && (
             <ProgressBar done={data.progressDone ?? 0} total={data.progressTotal} />
           )}
 
-          {/* Kanban column preview */}
           {data.boardColumns && data.boardColumns.length > 0 && (
             <MiniKanban columns={data.boardColumns} />
           )}
 
-          {/* Work profiles avatars */}
           {data.memberNames && data.memberNames.length > 0 && (
             <MemberAvatars names={data.memberNames} />
           )}
 
-          {/* Sprint velocity bar chart */}
           {data.velocities && data.velocities.length > 1 && (
             <div className="flex items-center gap-2">
               <MiniBarChart values={data.velocities} />
@@ -88,7 +65,6 @@ export default function AppCard({ app, data }: Props) {
             </div>
           )}
 
-          {/* Timestamp */}
           {data.timestamp != null && (
             <div className="text-right text-[0.7rem] text-slate-400 -mb-0.5">
               {timeAgo(data.timestamp)}
