@@ -1,12 +1,12 @@
-import type { AppMeta } from '../apps'
-import type { AppData } from '../types'
-import { timeAgo } from '../utils'
-import Badge from './Badge'
-import StatChipRow from './StatChipRow'
+import type { AppMeta } from '../../src/apps'
+import type { AppData } from '../../src/types'
+import { timeAgo } from '../../src/utils'
 import MiniBarChart from './MiniBarChart'
 import MiniKanban from './MiniKanban'
 import MemberAvatars from './MemberAvatars'
 import ProgressBar from './ProgressBar'
+import Badge from './Badge'
+import StatChipRow from './StatChipRow'
 
 interface Props {
   app: AppMeta
