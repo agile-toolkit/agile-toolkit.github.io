@@ -11,6 +11,193 @@ Color values, spacing, and radii are documented in `design-system/tokens.css`.
 
 ---
 
+## AppHeader
+
+The standard top-of-page navigation bar for every app in the suite. White, sticky, 56 px tall (`h-14`). Contains:
+- **Left**: 4-square grid icon (link to Dashboard) + app title button
+- **Right**: optional nav pills + `<LanguagePicker />` + optional children slot
+
+**Source:** `design-system/components/AppHeader.tsx`  
+**Depends on:** `design-system/components/LanguagePicker.tsx` (copy both)  
+**Live in:** each app's `src/components/AppHeader.tsx` (copy on adoption)
+
+### Props
+
+| Prop           | Type                                                                 | Description                                               |
+|----------------|----------------------------------------------------------------------|-----------------------------------------------------------|
+| `title`        | `string`                                                             | App name displayed next to the grid icon                  |
+| `onTitleClick` | `() => void` (optional)                                              | Called when the title is clicked (go-home / reset). Omit to render a non-interactive `<span>`. |
+| `navItems`     | `{ key: string; label: string; active: boolean; onClick: () => void }[]` (optional) | Nav pills rendered between title and language picker |
+| `children`     | `React.ReactNode` (optional)                                         | Extra controls appended after the language picker         |
+
+### Usage — minimal
+
+```tsx
+import AppHeader from './components/AppHeader'
+
+// Inside render:
+<AppHeader title={t('app.title')} onTitleClick={reset} />
+```
+
+### Usage — with nav pills and extra control
+
+```tsx
+<AppHeader
+  title={t('app.title')}
+  onTitleClick={() => setScreen('home')}
+  navItems={[
+    { key: 'settings', label: t('nav.settings'), active: screen === 'settings', onClick: () => setScreen('settings') },
+    { key: 'history',  label: t('nav.history'),  active: screen === 'history',  onClick: () => setScreen('history')  },
+  ]}
+>
+  <button onClick={handleExport} className="btn-ghost text-sm">Export</button>
+</AppHeader>
+```
+
+### Style invariants (do not override)
+
+| Property      | Value                                           |
+|---------------|-------------------------------------------------|
+| Background    | `bg-white`                                      |
+| Border        | `border-b border-gray-200`                      |
+| Position      | `sticky top-0 z-10`                             |
+| Height        | `h-14` (56 px)                                  |
+| Max-width     | `max-w-5xl mx-auto px-4`                        |
+| Title color   | `text-brand-600` (uses each app's brand token)  |
+| Active pill   | `bg-brand-50 text-brand-700`                    |
+| Inactive pill | `text-gray-500 hover:bg-gray-100`               |
+
+---
+
+## LanguagePicker
+
+A custom flag+code dropdown for switching between the four suite locales. Replaces the native `<select>`, button-group, and cycle-button patterns used across older app versions.
+
+**Source:** `design-system/components/LanguagePicker.tsx`  
+**Requires:** `react-i18next` configured with `en / es / be / ru` resources  
+**Live in:** each app's `src/components/LanguagePicker.tsx` (copy on adoption)
+
+### Flag map
+
+| Code | Flag | Label |
+|------|------|-------|
+| `en` | 🇬🇧  | EN    |
+| `es` | 🇪🇸  | ES    |
+| `be` | 🇧🇾  | BE    |
+| `ru` | 🇷🇺  | RU    |
+
+### Props
+
+None. Reads and sets language via `useTranslation()` → `i18n.changeLanguage(code)`.
+
+### Behaviour
+
+- Trigger button shows current flag + code + chevron (rotates when open).
+- Click outside closes the dropdown (`mousedown` listener on `document`).
+- Keyboard: **↓/↑** cycle languages while open, **Enter/Space/↓** open, **Escape** close.
+- Active option highlighted with `bg-brand-50 text-brand-700` + checkmark icon.
+- Dropdown anchored to the right edge of the trigger (`right-0`), `z-50`.
+
+### Usage
+
+```tsx
+import LanguagePicker from './components/LanguagePicker'
+
+// Standalone (e.g. inside AppHeader children slot):
+<LanguagePicker />
+
+// AppHeader handles placement automatically — just copy both files:
+<AppHeader title={t('app.title')} onTitleClick={reset} />
+// LanguagePicker is rendered inside AppHeader with no extra wiring needed.
+```
+
+---
+
+## ThemeToggle
+
+Sun/moon icon button that toggles between light and dark mode by setting `class="dark"` on `<html>`. Persists the user's preference to `localStorage('theme')` and respects `prefers-color-scheme` on first visit.
+
+**Source:** `design-system/components/ThemeToggle.tsx`  
+**Live in:** each app's `src/components/ThemeToggle.tsx` (copy on adoption)  
+**Requires:** `darkMode: 'class'` in `tailwind.config.js`
+
+### Props
+
+None. Self-contained — reads and writes `localStorage('theme')`.
+
+### Anti-flash setup
+
+Paste this inline script into `index.html` inside `<head>` **before** any other scripts to prevent the flash of wrong theme on load:
+
+```html
+<script>
+  (function(){
+    var t = localStorage.getItem('theme');
+    if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
+```
+
+### Usage with AppHeader
+
+```tsx
+import ThemeToggle from './components/ThemeToggle'
+
+<AppHeader title={t('app.title')} onTitleClick={reset}>
+  <ThemeToggle />
+</AppHeader>
+```
+
+### tailwind.config.js change required
+
+```js
+export default {
+  darkMode: 'class',   // ← add this line
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  theme: { extend: { colors: { brand: { /* ... */ } } } },
+  plugins: [],
+}
+```
+
+### Applying dark variants in components
+
+Pair every Tailwind color class with its `dark:` counterpart. The semantic token map is in `design-system/tokens.css` under "Theme: Light" and "Theme: Dark":
+
+```tsx
+// Before (light only)
+<div className="bg-white border border-gray-200">
+  <p className="text-gray-900">Title</p>
+  <p className="text-gray-500">Subtitle</p>
+</div>
+
+// After (theme-aware)
+<div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
+  <p className="text-gray-900 dark:text-gray-50">Title</p>
+  <p className="text-gray-500 dark:text-gray-400">Subtitle</p>
+</div>
+```
+
+### Token quick-reference
+
+| Element              | Light                  | Dark                       |
+|----------------------|------------------------|----------------------------|
+| Page background      | `bg-white`             | `dark:bg-gray-950`         |
+| Subtle bg (page)     | `bg-gray-50`           | `dark:bg-gray-900`         |
+| Muted bg (panels)    | `bg-gray-100`          | `dark:bg-gray-800`         |
+| Card / surface       | `bg-white`             | `dark:bg-gray-900`         |
+| Header background    | `bg-white`             | `dark:bg-gray-900`         |
+| Border (default)     | `border-gray-200`      | `dark:border-gray-700`     |
+| Border (subtle)      | `border-gray-100`      | `dark:border-gray-800`     |
+| Primary text         | `text-gray-900`        | `dark:text-gray-50`        |
+| Secondary text       | `text-gray-600`        | `dark:text-gray-400`       |
+| Muted text           | `text-gray-400`        | `dark:text-gray-600`       |
+| Input background     | `bg-white`             | `dark:bg-gray-900`         |
+| Input border         | `border-gray-300`      | `dark:border-gray-600`     |
+
+---
+
 ## AppCard
 
 A card that represents one app on the Dashboard. Shows icon, title, description, live/active badge, a stats panel with contextual localStorage data, and a CTA link.
@@ -255,23 +442,6 @@ The grey inset box inside each AppCard. Compose the above components inside it:
 </div>
 ```
 
-### Dashboard return link (in-app header)
+### Standard app header
 
-All apps include a 4-square grid icon in the header that returns the user to the dashboard. Place it to the left of the app title.
-
-```tsx
-<a
-  href="https://agile-toolkit.github.io/"
-  title="Agile Toolkit"
-  className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0"
->
-  <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
-    <rect x="1" y="1" width="6" height="6" rx="1"/>
-    <rect x="9" y="1" width="6" height="6" rx="1"/>
-    <rect x="1" y="9" width="6" height="6" rx="1"/>
-    <rect x="9" y="9" width="6" height="6" rx="1"/>
-  </svg>
-</a>
-```
-
-> **Note:** Planning Poker uses `hover:text-gray-200` instead of `hover:text-gray-600` because its header is dark (`bg-gray-800`).
+Use the `AppHeader` component (see above) — it handles the dashboard grid icon, title, nav pills, language picker, and all style invariants in one place. Do not copy the old inline header pattern.

@@ -76,4 +76,73 @@
   --text-timestamp:     0.7rem;     /* ~11px — relative timestamps           */
   --text-cta:           0.8125rem;  /* 13px  — "Open app →" link             */
   --text-avatar:        0.5625rem;  /* 9px   — avatar initials               */
+
+  /* ── Theme: Light (default) ───────────────────────────────────────────── */
+  /*
+   * Semantic theme tokens map to Tailwind classes via the convention below.
+   * Apps adopt dark mode by toggling class="dark" on <html> and referencing
+   * these tokens in their Tailwind config dark: variant.
+   *
+   * Tailwind mapping:
+   *   --theme-bg            → bg-white              / dark:bg-gray-950
+   *   --theme-bg-subtle     → bg-gray-50            / dark:bg-gray-900
+   *   --theme-bg-muted      → bg-gray-100           / dark:bg-gray-800
+   *   --theme-surface       → bg-white              / dark:bg-gray-900
+   *   --theme-surface-raised→ bg-white              / dark:bg-gray-850 (gray-800/50)
+   *   --theme-border        → border-gray-200       / dark:border-gray-700
+   *   --theme-border-subtle → border-gray-100       / dark:border-gray-800
+   *   --theme-text-primary  → text-gray-900         / dark:text-gray-50
+   *   --theme-text-secondary→ text-gray-600         / dark:text-gray-400
+   *   --theme-text-muted    → text-gray-400         / dark:text-gray-600
+   *   --theme-header-bg     → bg-white              / dark:bg-gray-900
+   *   --theme-header-border → border-gray-200       / dark:border-gray-800
+   *   --theme-card-bg       → bg-white              / dark:bg-gray-900
+   *   --theme-card-border   → border-gray-200       / dark:border-gray-700
+   *   --theme-input-bg      → bg-white              / dark:bg-gray-900
+   *   --theme-input-border  → border-gray-300       / dark:border-gray-600
+   */
+  --theme-bg:             #ffffff;
+  --theme-bg-subtle:      #f9fafb;   /* gray-50  */
+  --theme-bg-muted:       #f3f4f6;   /* gray-100 */
+  --theme-surface:        #ffffff;
+  --theme-surface-raised: #ffffff;
+  --theme-border:         #e5e7eb;   /* gray-200 */
+  --theme-border-subtle:  #f3f4f6;   /* gray-100 */
+  --theme-text-primary:   #111827;   /* gray-900 */
+  --theme-text-secondary: #4b5563;   /* gray-600 */
+  --theme-text-muted:     #9ca3af;   /* gray-400 */
+  --theme-header-bg:      #ffffff;
+  --theme-header-border:  #e5e7eb;   /* gray-200 */
+  --theme-card-bg:        #ffffff;
+  --theme-card-border:    #e5e7eb;   /* gray-200 */
+  --theme-input-bg:       #ffffff;
+  --theme-input-border:   #d1d5db;   /* gray-300 */
+}
+
+/* ── Theme: Dark ──────────────────────────────────────────────────────────── */
+/*
+ * Applied when <html class="dark"> is set.
+ * ThemeToggle (design-system/components/ThemeToggle.tsx) manages this class
+ * and persists the preference to localStorage('theme').
+ *
+ * Apps must add `darkMode: 'class'` to tailwind.config.js to enable
+ * Tailwind's dark: variant alongside these CSS tokens.
+ */
+.dark {
+  --theme-bg:             #030712;   /* gray-950 */
+  --theme-bg-subtle:      #111827;   /* gray-900 */
+  --theme-bg-muted:       #1f2937;   /* gray-800 */
+  --theme-surface:        #111827;   /* gray-900 */
+  --theme-surface-raised: #1f2937;   /* gray-800 */
+  --theme-border:         #374151;   /* gray-700 */
+  --theme-border-subtle:  #1f2937;   /* gray-800 */
+  --theme-text-primary:   #f9fafb;   /* gray-50  */
+  --theme-text-secondary: #9ca3af;   /* gray-400 */
+  --theme-text-muted:     #6b7280;   /* gray-500 */
+  --theme-header-bg:      #111827;   /* gray-900 */
+  --theme-header-border:  #1f2937;   /* gray-800 */
+  --theme-card-bg:        #111827;   /* gray-900 */
+  --theme-card-border:    #374151;   /* gray-700 */
+  --theme-input-bg:       #111827;   /* gray-900 */
+  --theme-input-border:   #4b5563;   /* gray-600 */
 }
