@@ -15,6 +15,22 @@ function chip(value: string | number, label: string): StatChip {
   return { value, label }
 }
 
+// ── moving-motivators ───────────────────────────────────────────────────────────
+function readMovingMotivators(): AppData | null {
+  const session = read<{
+    date?: string; savedAt?: number; ranked?: string[];
+    change?: string; changes?: Record<string, string>
+  }>('moving-motivators:lastSession')
+  if (!session?.ranked?.length) return null
+
+  const top3 = session.ranked.slice(0, 3)
+    .map(id => id.charAt(0).toUpperCase() + id.slice(1))
+    .join(' · ')
+  const chips: StatChip[] = [chip(top3, 'top motivators')]
+  if (session.change) chips.push(chip(`"${trunc(session.change, 22)}"`, 'change'))
+  return { chips, timestamp: session.savedAt }
+}
+
 // ── scrum-facilitator ───────────────────────────────────────────────────────────
 function readScrumFacilitator(): AppData | null {
   const session = read<{ ceremonyType?: string; stepIndex?: number; savedAt?: number }>(
@@ -89,13 +105,28 @@ function readSalaryFormula(): AppData | null {
 
 // ── team-identity ────────────────────────────────────────────────────────────
 function readTeamIdentity(): AppData | null {
+  const session = read<{
+    teamName?: string; symbol?: string; valuesCount?: number;
+    agreementsCount?: number; savedAt?: number
+  }>('team-identity:lastSession')
+
+  if (session) {
+    const chips: StatChip[] = []
+    if (session.teamName) chips.push(chip(`"${trunc(session.teamName, 20)}"`, ''))
+    if (session.symbol)   chips.push(chip(session.symbol, ''))
+    if (session.valuesCount)     chips.push(chip(session.valuesCount, plural(session.valuesCount, 'value')))
+    if (session.agreementsCount) chips.push(chip(session.agreementsCount, plural(session.agreementsCount, 'agreement')))
+    if (!chips.length) return null
+    return { chips, timestamp: session.savedAt }
+  }
+
+  // Fallback to legacy key
   const ch = read<{
     teamName?: string; agreements?: unknown[]; values?: unknown[]; savedAt?: number
   }>('team-identity-charter')
   if (!ch) return null
-
   const chips: StatChip[] = []
-  if (ch.teamName)     chips.push(chip(`"${trunc(ch.teamName, 20)}"`, ''))
+  if (ch.teamName)           chips.push(chip(`"${trunc(ch.teamName, 20)}"`, ''))
   if (ch.agreements?.length) chips.push(chip(ch.agreements.length, plural(ch.agreements.length, 'agreement')))
   if (ch.values?.length)     chips.push(chip(ch.values.length, plural(ch.values.length, 'value')))
   if (!chips.length) return null
@@ -188,7 +219,7 @@ function readChangePlanner(): AppData | null {
 // ── public API ───────────────────────────────────────────────────────────────
 export function readAll(): Record<string, AppData | null> {
   return {
-    'moving-motivators': null,
+    'moving-motivators': readMovingMotivators(),
     'scrum-facilitator':  readScrumFacilitator(),
     'kanban-designer':    readKanbanDesigner(),
     'salary-formula':     readSalaryFormula(),
