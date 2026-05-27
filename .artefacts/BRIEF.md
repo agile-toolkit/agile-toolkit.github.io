@@ -9,7 +9,7 @@ Central hub for the 10-app Agile Toolkit suite. Two roles: (1) displays a card p
 - [x] App card grid — 10 cards with icon, title, description, live localStorage data preview, CTA link
 - [x] Active/Live badge states on cards (emerald = data present, amber = session in progress)
 - [x] Hero header with suite branding and in-use app count
-- [x] `localStorage` readers for all 10 apps (`src/readers.ts`)
+- [x] `localStorage` readers for all 10 apps (`src/readers.ts`) — Moving Motivators reader updated to parse `moving-motivators:lastSession`; Team Identity reader updated to prefer `team-identity:lastSession` (with legacy fallback to `team-identity-charter`)
 - [x] Auto-refresh every 5 s + `storage` event listener
 - [x] Design system: `tokens.css` — color, spacing, typography tokens
 - [x] Design system: `AppCard`, `Badge`, `MemberAvatars`, `MiniBarChart`, `MiniKanban`, `ProgressBar`, `StatChipRow` components
@@ -45,6 +45,11 @@ Location: `design-system/`
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-05-27 — feat: Moving Motivators and Team Identity dashboard card readers
+- Done: added `readMovingMotivators()` reading `moving-motivators:lastSession` — shows top 3 motivators (capitalized, joined with ·) and change text chip; wired into `readAll()` replacing the previous `null`; updated `readTeamIdentity()` to prefer `team-identity:lastSession` (teamName, symbol, valuesCount, agreementsCount) with legacy fallback to `team-identity-charter` key
+- Remaining features: none known
+- Next task: check issues for human feedback; conduct research cycle (integration opportunities, UX improvements)
 
 ### 2026-05-20 — feat: AppHeader + LanguagePicker + ThemeToggle design system components (issue #3)
 - Done: created `design-system/components/AppHeader.tsx` (white sticky h-14 header, grid icon → dashboard, brand-colored title, optional nav pills, children slot); created `design-system/components/LanguagePicker.tsx` (custom flag+code dropdown: 🇬🇧EN 🇪🇸ES 🇧🇾BE 🇷🇺RU, outside-click + keyboard nav); created `design-system/components/ThemeToggle.tsx` (sun/moon icon button, `class="dark"` on `<html>`, localStorage persistence, system preference detection); extended `design-system/tokens.css` with full `:root` light tokens + `.dark` block with 16 semantic theme variables; documented all three in `design-system/components.md` with props, token quick-reference table, anti-flash script, and tailwind.config.js change
