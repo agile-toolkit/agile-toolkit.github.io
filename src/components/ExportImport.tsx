@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { scanOwnedLocalStorage, claimedByApp, appsInData, appTitlesFor } from '../data-keys'
 import { parseBackup, activeWorkspaceName } from '../backup'
 
@@ -62,6 +63,7 @@ interface ImportPreview {
 // ── component ─────────────────────────────────────────────────────────────────
 
 export default function ExportImport() {
+  const { t } = useTranslation()
   const fileRef = useRef<HTMLInputElement>(null)
   const [status, setStatus]   = useState<Status | null>(null)
   const [preview, setPreview] = useState<ImportPreview | null>(null)
@@ -76,7 +78,7 @@ export default function ExportImport() {
   function handleExport() {
     const { json, keyCount, appIds } = buildExport()
     if (keyCount === 0) {
-      flash({ type: 'err', msg: 'No app data found in this browser — nothing to export.' })
+      flash({ type: 'err', msg: t('data.export_empty') })
       return
     }
     const workspace = activeWorkspaceName()
@@ -85,7 +87,7 @@ export default function ExportImport() {
     const appSummary = titles.length <= 3
       ? titles.join(', ')
       : `${titles.slice(0, 3).join(', ')} +${titles.length - 3} more`
-    flash({ type: 'ok', msg: `Exported ${keyCount} keys (${appSummary}).` })
+    flash({ type: 'ok', msg: t('data.export_ok', { count: keyCount, apps: appSummary }) })
   }
 
   // ── import: parse file → show preview ───────────────────────────────────────
@@ -99,7 +101,7 @@ export default function ExportImport() {
       const { meta, data } = parseBackup(raw)
       const appIds = appsInData(data)
       if (appIds.length === 0) {
-        flash({ type: 'err', msg: 'No recognised app data found in this file.' })
+        flash({ type: 'err', msg: t('data.import_none') })
         return
       }
       setPreview({
@@ -108,8 +110,8 @@ export default function ExportImport() {
         keyCount: Object.keys(data).filter(k => claimedByApp(k) !== null).length,
         appTitles: appTitlesFor(appIds),
       })
-    } catch (err) {
-      flash({ type: 'err', msg: (err as Error).message ?? 'Could not read backup file.' })
+    } catch {
+      flash({ type: 'err', msg: t('data.import_error') })
     }
   }
 
@@ -120,19 +122,19 @@ export default function ExportImport() {
     const { restored, skipped } = restoreData(preview.data)
     setPreview(null)
     if (skipped.length > 0) {
-      flash({ type: 'err', msg: `Restored ${restored} keys. Skipped ${skipped.length} unrecognised.` })
+      flash({ type: 'err', msg: t('data.import_partial', { count: restored, skipped: skipped.length }) })
     } else {
-      flash({ type: 'ok', msg: `Restored ${restored} keys for: ${preview.appTitles.join(', ')}.` })
+      flash({ type: 'ok', msg: t('data.import_ok', { count: restored, apps: preview.appTitles.join(', ') }) })
     }
   }
 
   // ── render ───────────────────────────────────────────────────────────────────
 
   return (
-    <div className="border-t border-slate-200 mt-4">
+    <div className="border-t border-slate-200 dark:border-gray-800 mt-4">
       <div className="max-w-[1120px] mx-auto px-6 py-6">
-        <p className="text-[0.75rem] font-semibold uppercase tracking-widest text-slate-400 mb-3">
-          Data Management
+        <p className="text-[0.75rem] font-semibold uppercase tracking-widest text-slate-400 dark:text-gray-500 mb-3">
+          {t('data.section')}
         </p>
 
         {/* Normal toolbar */}
@@ -140,18 +142,18 @@ export default function ExportImport() {
           <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={handleExport}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-700 text-sm font-medium text-slate-700 dark:text-gray-200 hover:bg-slate-50 dark:hover:bg-gray-800 hover:border-slate-300 dark:hover:border-gray-600 transition-colors shadow-sm"
             >
               <DownloadIcon />
-              Export all data
+              {t('data.export_btn')}
             </button>
 
             <button
               onClick={() => fileRef.current?.click()}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-700 text-sm font-medium text-slate-700 dark:text-gray-200 hover:bg-slate-50 dark:hover:bg-gray-800 hover:border-slate-300 dark:hover:border-gray-600 transition-colors shadow-sm"
             >
               <UploadIcon />
-              Import data
+              {t('data.import_btn')}
             </button>
 
             <input ref={fileRef} type="file" accept=".json" className="hidden" onChange={handleFileChange} />
@@ -159,8 +161,8 @@ export default function ExportImport() {
             {status ? (
               <StatusBadge status={status} />
             ) : (
-              <span className="text-xs text-slate-400">
-                Back up all app data from this browser, or restore a previous backup.
+              <span className="text-xs text-slate-400 dark:text-gray-500">
+                {t('data.hint')}
               </span>
             )}
           </div>
@@ -168,30 +170,30 @@ export default function ExportImport() {
 
         {/* Import confirmation */}
         {preview && (
-          <div className="flex flex-wrap items-start gap-3 rounded-xl bg-amber-50 border border-amber-200 px-4 py-3">
+          <div className="flex flex-wrap items-start gap-3 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 px-4 py-3">
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-amber-900">
-                Restore {preview.keyCount} keys from workspace &ldquo;{preview.workspace}&rdquo;?
+              <p className="text-sm font-medium text-amber-900 dark:text-amber-200">
+                {t('data.import_confirm_title', { count: preview.keyCount, workspace: preview.workspace })}
               </p>
-              <p className="text-xs text-amber-700 mt-0.5">
-                Apps: {preview.appTitles.join(' · ')}
+              <p className="text-xs text-amber-700 dark:text-amber-300 mt-0.5">
+                {t('data.import_confirm_apps', { apps: preview.appTitles.join(' · ') })}
               </p>
-              <p className="text-xs text-amber-600 mt-1">
-                Existing data for these apps will be overwritten.
+              <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
+                {t('data.import_confirm_warn')}
               </p>
             </div>
             <div className="flex gap-2 flex-shrink-0 pt-0.5">
               <button
                 onClick={handleConfirmImport}
-                className="px-3 py-1.5 rounded-lg bg-amber-600 text-white text-sm font-medium hover:bg-amber-700 transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-amber-600 dark:bg-amber-700 text-white text-sm font-medium hover:bg-amber-700 dark:hover:bg-amber-600 transition-colors"
               >
-                Restore
+                {t('data.restore_btn')}
               </button>
               <button
                 onClick={() => setPreview(null)}
-                className="px-3 py-1.5 rounded-lg bg-white border border-amber-300 text-amber-800 text-sm font-medium hover:bg-amber-50 transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-white dark:bg-gray-900 border border-amber-300 dark:border-amber-700 text-amber-800 dark:text-amber-200 text-sm font-medium hover:bg-amber-50 dark:hover:bg-amber-900/30 transition-colors"
               >
-                Cancel
+                {t('data.cancel_btn')}
               </button>
             </div>
           </div>
@@ -207,8 +209,8 @@ function StatusBadge({ status }: { status: Status }) {
   return (
     <span className={`text-sm px-3 py-1.5 rounded-lg border ${
       status.type === 'ok'
-        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-        : 'bg-red-50 text-red-700 border-red-200'
+        ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'
+        : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800'
     }`}>
       {status.msg}
     </span>
@@ -217,7 +219,7 @@ function StatusBadge({ status }: { status: Status }) {
 
 function DownloadIcon() {
   return (
-    <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-4 h-4 text-slate-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
     </svg>
   )
@@ -225,7 +227,7 @@ function DownloadIcon() {
 
 function UploadIcon() {
   return (
-    <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-4 h-4 text-slate-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4 4l4-4m0 0l4 4m-4-4V4" />
     </svg>
   )
