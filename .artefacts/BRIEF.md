@@ -38,6 +38,9 @@ Location: `design-system/`
 ## Backlog
 
 - [ ] [#3] Design System: AppHeader + LanguagePicker + ThemeToggle components — implemented, pending adoption by 10 apps
+- [ ] [#7] Feature: Update readers to prefer `salary-formula:lastSession` and `work-profiles:lastSession` summary keys
+- [ ] [#8] Integration: Sprint Metrics — add `sprint-metrics:lastSession` key for richer Dashboard card
+- [ ] [#9] UX: Sort Dashboard cards by recency — active apps bubble to top
 
 ## Tech notes
 
@@ -45,6 +48,11 @@ Location: `design-system/`
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-05-30 — research: reader improvements and UX opportunities
+- Done: created issues #7 (update readers to prefer salary-formula:lastSession and work-profiles:lastSession summary keys — richer data, consistent pattern), #8 (Sprint Metrics: add sprint-metrics:lastSession summary key for velocity trend on Dashboard card — cross-repo task in sprint-metrics + Dashboard), #9 (UX: sort Dashboard cards by recency, active apps bubble to top using existing AppData.timestamp field)
+- Waiting for human review on all three
+- Next task: check issues for human feedback
 
 ### 2026-05-27 — feat: Moving Motivators and Team Identity dashboard card readers
 - Done: added `readMovingMotivators()` reading `moving-motivators:lastSession` — shows top 3 motivators (capitalized, joined with ·) and change text chip; wired into `readAll()` replacing the previous `null`; updated `readTeamIdentity()` to prefer `team-identity:lastSession` (teamName, symbol, valuesCount, agreementsCount) with legacy fallback to `team-identity-charter` key
