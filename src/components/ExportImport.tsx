@@ -1,82 +1,94 @@
 import { useRef, useState } from 'react'
-import { ALL_KNOWN_KEYS, APP_KEY_GROUPS } from '../data-keys'
+import { scanOwnedLocalStorage, claimedByApp, appsInData, appTitlesFor } from '../data-keys'
+import { parseBackup, activeWorkspaceName } from '../backup'
 
-interface BackupFile {
-  _meta: { version: number; exportedAt: string; keyCount: number }
-  [key: string]: unknown
+// ── export ────────────────────────────────────────────────────────────────────
+
+function buildExport(): { json: string; keyCount: number; appIds: string[] } {
+  const data = scanOwnedLocalStorage()
+  const appIds = appsInData(data)
+  const meta = {
+    version: 2,
+    exportedAt: new Date().toISOString(),
+    workspace: activeWorkspaceName(),
+    keyCount: Object.keys(data).length,
+    appIds,
+  }
+  return { json: JSON.stringify({ _meta: meta, data }, null, 2), keyCount: meta.keyCount, appIds }
 }
 
-function buildBackup(): { data: BackupFile; keyCount: number } {
-  const backup: BackupFile = {
-    _meta: { version: 1, exportedAt: new Date().toISOString(), keyCount: 0 },
-  }
-  let count = 0
-  for (const key of ALL_KNOWN_KEYS) {
-    const raw = localStorage.getItem(key)
-    if (raw !== null) {
-      try { backup[key] = JSON.parse(raw) } catch { backup[key] = raw }
-      count++
-    }
-  }
-  backup._meta.keyCount = count
-  return { data: backup, keyCount: count }
-}
-
-function doExport() {
-  const { data, keyCount } = buildBackup()
-  if (keyCount === 0) return { keyCount: 0 }
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+function triggerDownload(json: string, workspace: string) {
+  const blob = new Blob([json], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `agile-toolkit-backup-${new Date().toISOString().slice(0, 10)}.json`
+  const slug = workspace.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'default'
+  a.download = `agile-toolkit-${slug}-${new Date().toISOString().slice(0, 10)}.json`
   document.body.appendChild(a)
   a.click()
   document.body.removeChild(a)
   URL.revokeObjectURL(url)
-  return { keyCount }
 }
 
-function doImport(json: string): { keyCount: number; errors: string[] } {
-  const parsed = JSON.parse(json) as Record<string, unknown>
-  let keyCount = 0
-  const errors: string[] = []
-  for (const key of ALL_KNOWN_KEYS) {
-    if (Object.prototype.hasOwnProperty.call(parsed, key)) {
-      try {
-        localStorage.setItem(key, JSON.stringify(parsed[key]))
-        keyCount++
-      } catch {
-        errors.push(key)
-      }
+// ── import ────────────────────────────────────────────────────────────────────
+
+function restoreData(data: Record<string, unknown>): { restored: number; skipped: string[] } {
+  let restored = 0
+  const skipped: string[] = []
+  for (const [key, value] of Object.entries(data)) {
+    if (claimedByApp(key) === null) { skipped.push(key); continue }
+    try {
+      localStorage.setItem(key, JSON.stringify(value))
+      restored++
+    } catch {
+      skipped.push(key)
     }
   }
   window.dispatchEvent(new Event('storage'))
-  return { keyCount, errors }
+  return { restored, skipped }
 }
 
-function appsSummary(data: BackupFile): string {
-  const present = APP_KEY_GROUPS
-    .filter(g => g.keys.some(k => Object.prototype.hasOwnProperty.call(data, k)))
-    .map(g => g.appTitle)
-  if (!present.length) return 'no app data found'
-  if (present.length <= 3) return present.join(', ')
-  return `${present.slice(0, 3).join(', ')} + ${present.length - 3} more`
+// ── types ─────────────────────────────────────────────────────────────────────
+
+type Status = { type: 'ok' | 'err'; msg: string }
+
+interface ImportPreview {
+  data: Record<string, unknown>
+  workspace: string
+  keyCount: number
+  appTitles: string[]
 }
+
+// ── component ─────────────────────────────────────────────────────────────────
 
 export default function ExportImport() {
   const fileRef = useRef<HTMLInputElement>(null)
-  const [status, setStatus] = useState<{ type: 'ok' | 'err'; msg: string } | null>(null)
+  const [status, setStatus]   = useState<Status | null>(null)
+  const [preview, setPreview] = useState<ImportPreview | null>(null)
+
+  function flash(s: Status) {
+    setStatus(s)
+    setTimeout(() => setStatus(null), 5000)
+  }
+
+  // ── export ──────────────────────────────────────────────────────────────────
 
   function handleExport() {
-    const { keyCount } = doExport()
+    const { json, keyCount, appIds } = buildExport()
     if (keyCount === 0) {
-      setStatus({ type: 'err', msg: 'No app data found in this browser — nothing to export.' })
-    } else {
-      setStatus({ type: 'ok', msg: `Exported ${keyCount} data ${keyCount === 1 ? 'key' : 'keys'}.` })
+      flash({ type: 'err', msg: 'No app data found in this browser — nothing to export.' })
+      return
     }
-    setTimeout(() => setStatus(null), 4000)
+    const workspace = activeWorkspaceName()
+    triggerDownload(json, workspace)
+    const titles = appTitlesFor(appIds)
+    const appSummary = titles.length <= 3
+      ? titles.join(', ')
+      : `${titles.slice(0, 3).join(', ')} +${titles.length - 3} more`
+    flash({ type: 'ok', msg: `Exported ${keyCount} keys (${appSummary}).` })
   }
+
+  // ── import: parse file → show preview ───────────────────────────────────────
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -84,19 +96,37 @@ export default function ExportImport() {
     e.target.value = ''
     try {
       const raw = await file.text()
-      const parsed = JSON.parse(raw) as BackupFile
-      const summary = appsSummary(parsed)
-      const { keyCount, errors } = doImport(raw)
-      if (errors.length) {
-        setStatus({ type: 'err', msg: `Imported ${keyCount} keys. Failed: ${errors.join(', ')}` })
-      } else {
-        setStatus({ type: 'ok', msg: `Restored ${keyCount} keys (${summary}).` })
+      const { meta, data } = parseBackup(raw)
+      const appIds = appsInData(data)
+      if (appIds.length === 0) {
+        flash({ type: 'err', msg: 'No recognised app data found in this file.' })
+        return
       }
+      setPreview({
+        data,
+        workspace: meta.workspace,
+        keyCount: Object.keys(data).filter(k => claimedByApp(k) !== null).length,
+        appTitles: appTitlesFor(appIds),
+      })
     } catch (err) {
-      setStatus({ type: 'err', msg: (err as Error).message ?? 'Import failed.' })
+      flash({ type: 'err', msg: (err as Error).message ?? 'Could not read backup file.' })
     }
-    setTimeout(() => setStatus(null), 5000)
   }
+
+  // ── import: confirm → restore ────────────────────────────────────────────────
+
+  function handleConfirmImport() {
+    if (!preview) return
+    const { restored, skipped } = restoreData(preview.data)
+    setPreview(null)
+    if (skipped.length > 0) {
+      flash({ type: 'err', msg: `Restored ${restored} keys. Skipped ${skipped.length} unrecognised.` })
+    } else {
+      flash({ type: 'ok', msg: `Restored ${restored} keys for: ${preview.appTitles.join(', ')}.` })
+    }
+  }
+
+  // ── render ───────────────────────────────────────────────────────────────────
 
   return (
     <div className="border-t border-slate-200 mt-4">
@@ -104,54 +134,99 @@ export default function ExportImport() {
         <p className="text-[0.75rem] font-semibold uppercase tracking-widest text-slate-400 mb-3">
           Data Management
         </p>
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            onClick={handleExport}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-sm"
-          >
-            <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            Export all data
-          </button>
 
-          <button
-            onClick={() => fileRef.current?.click()}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-sm"
-          >
-            <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4 4l4-4m0 0l4 4m-4-4V4" />
-            </svg>
-            Import data
-          </button>
-
-          <input
-            ref={fileRef}
-            type="file"
-            accept=".json"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-
-          {status && (
-            <span
-              className={`text-sm px-3 py-1.5 rounded-lg ${
-                status.type === 'ok'
-                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                  : 'bg-red-50 text-red-700 border border-red-200'
-              }`}
+        {/* Normal toolbar */}
+        {!preview && (
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              onClick={handleExport}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-sm"
             >
-              {status.msg}
-            </span>
-          )}
+              <DownloadIcon />
+              Export all data
+            </button>
 
-          {!status && (
-            <span className="text-xs text-slate-400">
-              Back up all app data stored in this browser, or restore a previous backup.
-            </span>
-          )}
-        </div>
+            <button
+              onClick={() => fileRef.current?.click()}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-sm"
+            >
+              <UploadIcon />
+              Import data
+            </button>
+
+            <input ref={fileRef} type="file" accept=".json" className="hidden" onChange={handleFileChange} />
+
+            {status ? (
+              <StatusBadge status={status} />
+            ) : (
+              <span className="text-xs text-slate-400">
+                Back up all app data from this browser, or restore a previous backup.
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Import confirmation */}
+        {preview && (
+          <div className="flex flex-wrap items-start gap-3 rounded-xl bg-amber-50 border border-amber-200 px-4 py-3">
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-amber-900">
+                Restore {preview.keyCount} keys from workspace &ldquo;{preview.workspace}&rdquo;?
+              </p>
+              <p className="text-xs text-amber-700 mt-0.5">
+                Apps: {preview.appTitles.join(' · ')}
+              </p>
+              <p className="text-xs text-amber-600 mt-1">
+                Existing data for these apps will be overwritten.
+              </p>
+            </div>
+            <div className="flex gap-2 flex-shrink-0 pt-0.5">
+              <button
+                onClick={handleConfirmImport}
+                className="px-3 py-1.5 rounded-lg bg-amber-600 text-white text-sm font-medium hover:bg-amber-700 transition-colors"
+              >
+                Restore
+              </button>
+              <button
+                onClick={() => setPreview(null)}
+                className="px-3 py-1.5 rounded-lg bg-white border border-amber-300 text-amber-800 text-sm font-medium hover:bg-amber-50 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
+  )
+}
+
+// ── small helpers ─────────────────────────────────────────────────────────────
+
+function StatusBadge({ status }: { status: Status }) {
+  return (
+    <span className={`text-sm px-3 py-1.5 rounded-lg border ${
+      status.type === 'ok'
+        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+        : 'bg-red-50 text-red-700 border-red-200'
+    }`}>
+      {status.msg}
+    </span>
+  )
+}
+
+function DownloadIcon() {
+  return (
+    <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+    </svg>
+  )
+}
+
+function UploadIcon() {
+  return (
+    <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4 4l4-4m0 0l4 4m-4-4V4" />
+    </svg>
   )
 }

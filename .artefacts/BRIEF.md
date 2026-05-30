@@ -15,7 +15,7 @@ Central hub for the 10-app Agile Toolkit suite. Two roles: (1) displays a card p
 - [x] Design system: `AppCard`, `Badge`, `MemberAvatars`, `MiniBarChart`, `MiniKanban`, `ProgressBar`, `StatChipRow` components
 - [x] Design system: `AppHeader` + `LanguagePicker` components (issue #3)
 - [x] Design system: `ThemeToggle` component + light/dark theme tokens in `tokens.css`
-- [x] Export / Import — `ExportImport` component + `data-keys.ts` central key registry; Export downloads `agile-toolkit-backup-YYYY-MM-DD.json`; Import restores any known keys from a backup file
+- [x] Export / Import — v2 format with `_meta` envelope + `data` wrapper; prefix-based key ownership (no hardcoded list); import preview/confirm step; workspace-ready (`_meta.workspace` field; reads `agile-toolkit:activeWorkspace` when set)
 
 ## Design System
 
@@ -50,6 +50,10 @@ Location: `design-system/`
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-05-30 — feat: export/import v2 — prefix ownership, backup envelope, import preview
+- Done: redesigned `data-keys.ts` — each app declares `keyPrefixes[]` and `legacyKeys[]`; `claimedByApp(key)` resolves ownership by prefix match first; `scanOwnedLocalStorage()` scans ALL localStorage by ownership (not a hardcoded list); added `src/backup.ts` — v2 envelope `{ _meta: { version, exportedAt, workspace, keyCount, appIds }, data: { ... } }`, `parseBackup()` reads both v1 (flat) and v2 formats; updated `ExportImport.tsx` — export uses scan, writes v2, filename includes workspace slug; import shows confirmation step (apps found, key count, workspace) before writing; skips unrecognised keys
+- Next task: check issues for human feedback
 
 ### 2026-05-30 — feat: export/import + multi-team issues
 - Done: added `src/data-keys.ts` (central registry of all 27 known localStorage keys across 10 apps, grouped by app); added `src/components/ExportImport.tsx` (Export downloads backup JSON; Import reads backup and restores known keys, dispatches storage event to refresh cards); wired into `App.tsx` between the grid and footer; created dashboard issue #10 (workspace management design); created multi-team issues in moving-motivators#34, team-identity#26, scrum-facilitator#24
