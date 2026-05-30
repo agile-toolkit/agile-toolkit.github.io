@@ -3,6 +3,7 @@ import { APPS } from './apps'
 import { readAll } from './readers'
 import type { AppData } from './types'
 import AppCard from './components/AppCard'
+import ExportImport from './components/ExportImport'
 
 export default function App() {
   const [data, setData] = useState<Record<string, AppData | null>>({})
@@ -58,7 +59,9 @@ export default function App() {
         </div>
       </main>
 
-      <footer className="text-center py-10 text-sm text-slate-500 border-t border-slate-200 mt-6">
+      <ExportImport />
+
+      <footer className="text-center py-10 text-sm text-slate-500 border-t border-slate-200 mt-2">
         <a href="https://github.com/agile-toolkit" className="text-blue-600 hover:underline">
           github.com/agile-toolkit
         </a>

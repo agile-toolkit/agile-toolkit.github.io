@@ -15,6 +15,7 @@ Central hub for the 10-app Agile Toolkit suite. Two roles: (1) displays a card p
 - [x] Design system: `AppCard`, `Badge`, `MemberAvatars`, `MiniBarChart`, `MiniKanban`, `ProgressBar`, `StatChipRow` components
 - [x] Design system: `AppHeader` + `LanguagePicker` components (issue #3)
 - [x] Design system: `ThemeToggle` component + light/dark theme tokens in `tokens.css`
+- [x] Export / Import — `ExportImport` component + `data-keys.ts` central key registry; Export downloads `agile-toolkit-backup-YYYY-MM-DD.json`; Import restores any known keys from a backup file
 
 ## Design System
 
@@ -41,6 +42,7 @@ Location: `design-system/`
 - [ ] [#7] Feature: Update readers to prefer `salary-formula:lastSession` and `work-profiles:lastSession` summary keys
 - [ ] [#8] Integration: Sprint Metrics — add `sprint-metrics:lastSession` key for richer Dashboard card
 - [ ] [#9] UX: Sort Dashboard cards by recency — active apps bubble to top
+- [ ] [#10] Feature: Multi-team / multi-project workspace management (snapshot + restore named workspaces)
 
 ## Tech notes
 
@@ -48,6 +50,10 @@ Location: `design-system/`
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-05-30 — feat: export/import + multi-team issues
+- Done: added `src/data-keys.ts` (central registry of all 27 known localStorage keys across 10 apps, grouped by app); added `src/components/ExportImport.tsx` (Export downloads backup JSON; Import reads backup and restores known keys, dispatches storage event to refresh cards); wired into `App.tsx` between the grid and footer; created dashboard issue #10 (workspace management design); created multi-team issues in moving-motivators#34, team-identity#26, scrum-facilitator#24
+- Next task: check issues for human feedback
 
 ### 2026-05-30 — research: reader improvements and UX opportunities
 - Done: created issues #7 (update readers to prefer salary-formula:lastSession and work-profiles:lastSession summary keys — richer data, consistent pattern), #8 (Sprint Metrics: add sprint-metrics:lastSession summary key for velocity trend on Dashboard card — cross-repo task in sprint-metrics + Dashboard), #9 (UX: sort Dashboard cards by recency, active apps bubble to top using existing AppData.timestamp field)
