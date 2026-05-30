@@ -16,6 +16,8 @@ Central hub for the 10-app Agile Toolkit suite. Two roles: (1) displays a card p
 - [x] Design system: `AppHeader` + `LanguagePicker` components (issue #3)
 - [x] Design system: `ThemeToggle` component + light/dark theme tokens in `tokens.css`
 - [x] Export / Import — v2 format with `_meta` envelope + `data` wrapper; prefix-based key ownership (no hardcoded list); import preview/confirm step; workspace-ready (`_meta.workspace` field; reads `agile-toolkit:activeWorkspace` when set)
+- [x] Language switch — EN / ES / BE / RU via react-i18next; `LanguagePicker` in sticky nav; full UI translated including all 10 app titles and descriptions
+- [x] Theme toggle — light / dark / system-default via `ThemeToggle` in sticky nav; anti-flash script in `index.html`; `dark:` variants on all components; `darkMode: 'class'` in Tailwind
 
 ## Design System
 
@@ -46,10 +48,14 @@ Location: `design-system/`
 
 ## Tech notes
 
-- No react-i18next in this repo — Dashboard is English-only. The `AppHeader` and `LanguagePicker` design system components are reference implementations for copying into the 10 apps; they are not compiled by this repo's `tsc` (only `src/` is in `tsconfig.app.json`).
+- react-i18next added; locales in `src/i18n/{en,es,be,ru}.json`; language persisted to `localStorage('i18nextLng')`. The `AppHeader` and `LanguagePicker` design system components are reference implementations for copying into the 10 apps; they are not compiled by this repo's `tsc` (only `src/` is in `tsconfig.app.json`).
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-05-30 — feat: language switch + theme toggle
+- Done: added react-i18next with EN/ES/BE/RU locales (`src/i18n/*.json`) — all UI strings translated including all 10 app titles and descriptions; added `LanguagePicker.tsx` and `ThemeToggle.tsx` (copied from design system, adapted for dashboard's slate color scheme); added sticky nav bar in `App.tsx` hosting both controls; updated `tailwind.config.js` (`darkMode: 'class'`), `index.html` (anti-flash script), `main.tsx` (i18n import); applied `dark:` variants to every component (AppCard, Badge, StatChipRow, ProgressBar, MiniKanban, MemberAvatars, ExportImport); `ProgressBar` and `AppCard` also use `t()` for translatable strings
+- Next task: check issues for human feedback
 
 ### 2026-05-30 — feat: export/import v2 — prefix ownership, backup envelope, import preview
 - Done: redesigned `data-keys.ts` — each app declares `keyPrefixes[]` and `legacyKeys[]`; `claimedByApp(key)` resolves ownership by prefix match first; `scanOwnedLocalStorage()` scans ALL localStorage by ownership (not a hardcoded list); added `src/backup.ts` — v2 envelope `{ _meta: { version, exportedAt, workspace, keyCount, appIds }, data: { ... } }`, `parseBackup()` reads both v1 (flat) and v2 formats; updated `ExportImport.tsx` — export uses scan, writes v2, filename includes workspace slug; import shows confirmation step (apps found, key count, workspace) before writing; skips unrecognised keys

@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { APPS } from './apps'
 import { readAll } from './readers'
 import type { AppData } from './types'
 import AppCard from './components/AppCard'
 import ExportImport from './components/ExportImport'
+import LanguagePicker from './components/LanguagePicker'
+import ThemeToggle from './components/ThemeToggle'
 
 export default function App() {
+  const { t } = useTranslation()
   const [data, setData] = useState<Record<string, AppData | null>>({})
 
   const refresh = useCallback(() => {
@@ -22,31 +26,44 @@ export default function App() {
   const activeCount = Object.values(data).filter(Boolean).length
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Hero header */}
+    <div className="min-h-screen bg-slate-50 dark:bg-gray-950">
+
+      {/* Sticky nav */}
+      <nav className="sticky top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur-sm border-b border-slate-200 dark:border-gray-800">
+        <div className="max-w-[1120px] mx-auto px-6 h-12 flex items-center justify-between">
+          <span className="text-sm font-semibold text-slate-900 dark:text-gray-50 tracking-tight">
+            Agile Toolkit
+          </span>
+          <div className="flex items-center gap-1">
+            <LanguagePicker />
+            <ThemeToggle />
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero */}
       <header
-        className="text-white py-16 text-center px-4"
+        className="text-white py-14 text-center px-4"
         style={{ background: 'linear-gradient(150deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%)' }}
       >
         <div className="inline-block bg-white/10 border border-white/20 rounded-full px-4 py-1 text-xs uppercase tracking-widest text-white/85 mb-5">
-          Management 3.0
+          {t('hero.badge')}
         </div>
         <h1 className="text-4xl font-bold tracking-tight mb-4">Agile Toolkit</h1>
         <p className="text-lg text-white/80 max-w-lg mx-auto leading-relaxed">
-          Small, focused web apps for day-to-day agile practice — planning, facilitation, metrics, and team health.
+          {t('hero.subtitle')}
         </p>
       </header>
 
       {/* Grid */}
       <main className="max-w-[1120px] mx-auto px-6 py-10">
-        <p className="text-[0.8125rem] font-semibold uppercase tracking-widest text-slate-500 mb-5">
-          10 tools — all free &amp; open source
+        <p className="text-[0.8125rem] font-semibold uppercase tracking-widest text-slate-500 dark:text-gray-400 mb-5">
+          {t('stats.label', { count: 10 })}
           {activeCount > 0 && (
             <>
-              {' '}
-              &nbsp;·&nbsp;{' '}
-              <strong className="text-emerald-600">
-                {activeCount} {activeCount === 1 ? 'app' : 'apps'} in use
+              {' '}&nbsp;·&nbsp;{' '}
+              <strong className="text-emerald-600 dark:text-emerald-400">
+                {t('stats.in_use', { count: activeCount })}
               </strong>
             </>
           )}
@@ -61,12 +78,12 @@ export default function App() {
 
       <ExportImport />
 
-      <footer className="text-center py-10 text-sm text-slate-500 border-t border-slate-200 mt-2">
-        <a href="https://github.com/agile-toolkit" className="text-blue-600 hover:underline">
+      <footer className="text-center py-10 text-sm text-slate-500 dark:text-gray-400 border-t border-slate-200 dark:border-gray-800 mt-2">
+        <a href="https://github.com/agile-toolkit" className="text-blue-600 dark:text-blue-400 hover:underline">
           github.com/agile-toolkit
         </a>
         <span className="mx-2 opacity-40">·</span>
-        Practical tools for teams that ship together.
+        {t('footer.text')}
       </footer>
     </div>
   )
