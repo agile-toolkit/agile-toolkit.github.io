@@ -26,7 +26,7 @@ export default function App() {
   const activeCount = Object.values(data).filter(Boolean).length
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-gray-950">
+    <div className="min-h-screen bg-slate-50 dark:bg-gray-950" data-accent="cobalt">
 
       {/* Sticky nav */}
       <nav className="sticky top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur-sm border-b border-slate-200 dark:border-gray-800">

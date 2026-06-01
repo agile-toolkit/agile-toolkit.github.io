@@ -1,0 +1,9 @@
+<svg width="240" height="48" viewBox="0 0 240 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agile Toolkit">
+  <g>
+    <rect x="9.5" y="12.5" width="21" height="29" rx="5" transform="rotate(-14 20 27)" fill="#2D5BFF" opacity="0.22"></rect>
+    <rect x="13.5" y="10.5" width="21" height="29" rx="5" transform="rotate(-2 24 25)" fill="#2D5BFF" opacity="0.5"></rect>
+    <rect x="18" y="9" width="21" height="29" rx="5" transform="rotate(11 28.5 23.5)" fill="#2D5BFF"></rect>
+    <path d="M25.7 24.3l2.6 2.4 5-6.1" stroke="#FCFBF7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" transform="rotate(11 28.5 23.5)"></path>
+  </g>
+  <text x="56" y="32" font-family="&#39;Bricolage Grotesque&#39;,&#39;Hanken Grotesk&#39;,sans-serif" font-size="23" font-weight="800" letter-spacing="-0.02em" fill="#1C1B16">Agile<tspan fill="#2D5BFF"> Toolkit</tspan></text>
+</svg>

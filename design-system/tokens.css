@@ -128,7 +128,7 @@
  * Apps must add `darkMode: 'class'` to tailwind.config.js to enable
  * Tailwind's dark: variant alongside these CSS tokens.
  */
-.dark {
+[data-theme="dark"] {
   --theme-bg:             #030712;   /* gray-950 */
   --theme-bg-subtle:      #111827;   /* gray-900 */
   --theme-bg-muted:       #1f2937;   /* gray-800 */
