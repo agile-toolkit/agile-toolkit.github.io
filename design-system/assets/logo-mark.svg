@@ -1,0 +1,8 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agile Toolkit">
+  
+  <rect x="9.5" y="12.5" width="21" height="29" rx="5" transform="rotate(-14 20 27)" fill="currentColor" opacity="0.22"></rect>
+  <rect x="13.5" y="10.5" width="21" height="29" rx="5" transform="rotate(-2 24 25)" fill="currentColor" opacity="0.45"></rect>
+  <rect x="18" y="9" width="21" height="29" rx="5" transform="rotate(11 28.5 23.5)" fill="currentColor"></rect>
+  
+  <path d="M25.7 24.3l2.6 2.4 5-6.1" stroke="var(--paper, #FCFBF7)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" transform="rotate(11 28.5 23.5)"></path>
+</svg>
