@@ -90,6 +90,21 @@ export const APP_KEY_GROUPS: AppKeyGroup[] = [
   },
 ]
 
+/**
+ * Dashboard-internal localStorage keys.
+ * These are excluded from per-app export sets — `claimedByApp` returns null
+ * for them because the `agile-toolkit:` prefix is not in APP_KEY_GROUPS.
+ *
+ * agile-toolkit:activeWorkspace  — active workspace name (string)
+ * agile-toolkit:workspaces       — { [name]: { savedAt: number, data: Record<string,string> } }
+ */
+export const DASHBOARD_KEY_PREFIXES = ['agile-toolkit:']
+
+/** Returns true for keys owned by the dashboard itself (workspace management, settings). */
+export function isDashboardInternal(key: string): boolean {
+  return DASHBOARD_KEY_PREFIXES.some(p => key.startsWith(p))
+}
+
 /** Returns the appId that owns this key, or null if it belongs to no known app. */
 export function claimedByApp(key: string): string | null {
   for (const group of APP_KEY_GROUPS) {

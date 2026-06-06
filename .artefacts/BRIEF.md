@@ -18,6 +18,7 @@ Central hub for the 10-app Agile Toolkit suite. Two roles: (1) displays a card p
 - [x] Export / Import — v2 format with `_meta` envelope + `data` wrapper; prefix-based key ownership (no hardcoded list); import preview/confirm step; workspace-ready (`_meta.workspace` field; reads `agile-toolkit:activeWorkspace` when set)
 - [x] Language switch — EN / ES / BE / RU via react-i18next; `LanguagePicker` in sticky nav; full UI translated including all 10 app titles and descriptions
 - [x] Theme toggle — light / dark / system-default via `ThemeToggle` in sticky nav; anti-flash script in `index.html`; `dark:` variants on all components; `darkMode: 'class'` in Tailwind
+- [x] Workspace management — `WorkspaceManager` component in stats row; workspace selector dropdown; Save current snapshots all owned keys; New workspace prompts for name; Manage modal with Load / Rename / Delete per workspace; `agile-toolkit:workspaces` + `agile-toolkit:activeWorkspace` localStorage keys; i18n in EN/ES/BE/RU
 
 ## Design System
 
@@ -44,7 +45,16 @@ Location: `design-system/`
 - [ ] [#7] Feature: Update readers to prefer `salary-formula:lastSession` and `work-profiles:lastSession` summary keys
 - [ ] [#8] Integration: Sprint Metrics — add `sprint-metrics:lastSession` key for richer Dashboard card
 - [ ] [#9] UX: Sort Dashboard cards by recency — active apps bubble to top
-- [x] [#10] Feature: Multi-team / multi-project workspace management (snapshot + restore named workspaces) — approved, queued for implementation
+- [x] [#10] Feature: Multi-team / multi-project workspace management (snapshot + restore named workspaces) — implemented
+
+## localStorage keys
+
+Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app exports — `claimedByApp()` returns null for them.
+
+| Key | Shape | Set by |
+|-----|-------|--------|
+| `agile-toolkit:activeWorkspace` | `string` — active workspace name (default: "Default") | WorkspaceManager |
+| `agile-toolkit:workspaces` | `Record<name, { savedAt: number, data: Record<key, rawString> }>` | WorkspaceManager |
 
 ## Tech notes
 
@@ -52,6 +62,11 @@ Location: `design-system/`
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-06-06 — feat: workspace management (#10)
+- Done: created `src/components/WorkspaceManager.tsx` — workspace selector dropdown + Save current button in stats row; Manage modal with Load / Rename / Delete per workspace; `agile-toolkit:workspaces` (snapshot store) + `agile-toolkit:activeWorkspace` (active name) localStorage keys; `isDashboardInternal()` helper + `DASHBOARD_KEY_PREFIXES` exported from `data-keys.ts`; i18n in EN/ES/BE/RU; build passes
+- Remaining: none for #10
+- Next task: check issues for human feedback
 
 ### 2026-06-06 — research: found approved issue #10 — pivoting to implementation
 - Done: checked open issues; found #10 (Multi-team workspace management) with `approved` label
