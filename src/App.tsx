@@ -7,6 +7,7 @@ import AppCard from './components/AppCard'
 import ExportImport from './components/ExportImport'
 import LanguagePicker from './components/LanguagePicker'
 import ThemeToggle from './components/ThemeToggle'
+import WorkspaceManager from './components/WorkspaceManager'
 
 export default function App() {
   const { t } = useTranslation()
@@ -57,17 +58,20 @@ export default function App() {
 
       {/* Grid */}
       <main className="max-w-[1120px] mx-auto px-6 py-10">
-        <p className="text-[0.8125rem] font-semibold uppercase tracking-widest text-slate-500 dark:text-gray-400 mb-5">
-          {t('stats.label', { count: 10 })}
-          {activeCount > 0 && (
-            <>
-              {' '}&nbsp;·&nbsp;{' '}
-              <strong className="text-emerald-600 dark:text-emerald-400">
-                {t('stats.in_use', { count: activeCount })}
-              </strong>
-            </>
-          )}
-        </p>
+        <div className="flex items-center justify-between mb-5">
+          <p className="text-[0.8125rem] font-semibold uppercase tracking-widest text-slate-500 dark:text-gray-400">
+            {t('stats.label', { count: 10 })}
+            {activeCount > 0 && (
+              <>
+                {' '}&nbsp;·&nbsp;{' '}
+                <strong className="text-emerald-600 dark:text-emerald-400">
+                  {t('stats.in_use', { count: activeCount })}
+                </strong>
+              </>
+            )}
+          </p>
+          <WorkspaceManager />
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {APPS.map(app => (
