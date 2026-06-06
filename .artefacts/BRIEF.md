@@ -44,7 +44,7 @@ Location: `design-system/`
 - [ ] [#7] Feature: Update readers to prefer `salary-formula:lastSession` and `work-profiles:lastSession` summary keys
 - [ ] [#8] Integration: Sprint Metrics — add `sprint-metrics:lastSession` key for richer Dashboard card
 - [ ] [#9] UX: Sort Dashboard cards by recency — active apps bubble to top
-- [ ] [#10] Feature: Multi-team / multi-project workspace management (snapshot + restore named workspaces)
+- [x] [#10] Feature: Multi-team / multi-project workspace management (snapshot + restore named workspaces) — approved, queued for implementation
 
 ## Tech notes
 
@@ -52,6 +52,11 @@ Location: `design-system/`
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-06-06 — research: found approved issue #10 — pivoting to implementation
+- Done: checked open issues; found #10 (Multi-team workspace management) with `approved` label
+- Remaining: implement WorkspaceManager component — selector, save, new, load, delete, rename; localStorage keys agile-toolkit:workspaces and agile-toolkit:activeWorkspace
+- Next task: implement #10 (WorkspaceManager in Dashboard — workspace selector dropdown in nav, save current, new workspace, manage drawer with load/delete/rename; agile-toolkit:workspaces stores {[name]: {[key]: value, savedAt}}; agile-toolkit:activeWorkspace stores active name; wire into App.tsx nav bar alongside ExportImport; update data-keys.ts to exclude workspace keys from app export sets)
 
 ### 2026-05-30 — feat: language switch + theme toggle
 - Done: added react-i18next with EN/ES/BE/RU locales (`src/i18n/*.json`) — all UI strings translated including all 10 app titles and descriptions; added `LanguagePicker.tsx` and `ThemeToggle.tsx` (copied from design system, adapted for dashboard's slate color scheme); added sticky nav bar in `App.tsx` hosting both controls; updated `tailwind.config.js` (`darkMode: 'class'`), `index.html` (anti-flash script), `main.tsx` (i18n import); applied `dark:` variants to every component (AppCard, Badge, StatChipRow, ProgressBar, MiniKanban, MemberAvatars, ExportImport); `ProgressBar` and `AppCard` also use `t()` for translatable strings
