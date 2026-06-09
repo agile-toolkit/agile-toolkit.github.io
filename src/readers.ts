@@ -93,10 +93,29 @@ function readKanbanDesigner(): AppData | null {
 
 // ── salary-formula ──────────────────────────────────────────────────────────
 function readSalaryFormula(): AppData | null {
+  const session = read<{
+    lastScenario?: string | null
+    profileCount?: number
+    totalSalaryRange?: { min: number; max: number; currency: string } | null
+    updatedAt?: string
+  }>('salary-formula:lastSession')
+
+  if (session?.profileCount != null) {
+    const chips: StatChip[] = [chip(session.profileCount, plural(session.profileCount, 'profile'))]
+    if (session.lastScenario) chips.push(chip(`"${trunc(session.lastScenario, 18)}"`, 'scenario'))
+    if (session.totalSalaryRange) {
+      const { min, max, currency } = session.totalSalaryRange
+      const fmt = (n: number) => n >= 1000 ? `${Math.round(n / 1000)}k` : String(n)
+      chips.push(chip(`${fmt(min)}–${fmt(max)} ${currency}`, 'range'))
+    }
+    const ts = session.updatedAt ? new Date(session.updatedAt).getTime() : undefined
+    return { chips, timestamp: ts && !isNaN(ts) ? ts : undefined }
+  }
+
+  // fallback: raw arrays
   const profiles = read<unknown[]>('salary-formula-profiles') ?? []
   const scenarios = read<Array<{ savedAt?: number }>>('salary_scenarios_v1') ?? []
   if (!profiles.length && !scenarios.length) return null
-
   const chips: StatChip[] = []
   if (profiles.length)  chips.push(chip(profiles.length,  plural(profiles.length,  'profile')))
   if (scenarios.length) chips.push(chip(scenarios.length, plural(scenarios.length, 'scenario')))
@@ -148,10 +167,25 @@ function readImprovementBoard(): AppData | null {
 
 // ── work-profiles ──────────────────────────────────────────────────────────
 function readWorkProfiles(): AppData | null {
+  const session = read<{
+    profileCount?: number
+    avgCapacity?: number
+    topSkills?: string[]
+    lastUpdated?: string
+  }>('work-profiles:lastSession')
+
+  if (session?.profileCount != null) {
+    const chips: StatChip[] = [chip(session.profileCount, plural(session.profileCount, 'profile'))]
+    if (session.avgCapacity != null) chips.push(chip(`${Math.round(session.avgCapacity)}%`, 'avg capacity'))
+    if (session.topSkills?.length) chips.push(chip(session.topSkills.slice(0, 2).join(' · '), 'top skills'))
+    const ts = session.lastUpdated ? new Date(session.lastUpdated).getTime() : undefined
+    return { chips, timestamp: ts && !isNaN(ts) ? ts : undefined }
+  }
+
+  // fallback: raw arrays
   const profiles = read<Array<{ name?: string; createdAt?: number }>>('work-profiles-data') ?? []
   const credits  = read<Array<{ points?: number }>>('work-profiles-credits') ?? []
   if (!profiles.length && !credits.length) return null
-
   const chips: StatChip[] = []
   if (profiles.length) chips.push(chip(profiles.length, plural(profiles.length, 'profile')))
   if (credits.length) {
