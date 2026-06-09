@@ -9,7 +9,7 @@ Central hub for the 10-app Agile Toolkit suite. Two roles: (1) displays a card p
 - [x] App card grid — 10 cards with icon, title, description, live localStorage data preview, CTA link
 - [x] Active/Live badge states on cards (emerald = data present, amber = session in progress)
 - [x] Hero header with suite branding and in-use app count
-- [x] `localStorage` readers for all 10 apps (`src/readers.ts`) — Moving Motivators reader updated to parse `moving-motivators:lastSession`; Team Identity reader updated to prefer `team-identity:lastSession` (with legacy fallback to `team-identity-charter`)
+- [x] `localStorage` readers for all 10 apps (`src/readers.ts`) — Moving Motivators reader updated to parse `moving-motivators:lastSession`; Team Identity reader updated to prefer `team-identity:lastSession` (with legacy fallback to `team-identity-charter`); Salary Formula reader prefers `salary-formula:lastSession` (profileCount · scenario name · salary range); Work Profiles reader prefers `work-profiles:lastSession` (profileCount · avg capacity% · top 2 skills)
 - [x] Auto-refresh every 5 s + `storage` event listener
 - [x] Design system: `tokens.css` — color, spacing, typography tokens
 - [x] Design system: `AppCard`, `Badge`, `MemberAvatars`, `MiniBarChart`, `MiniKanban`, `ProgressBar`, `StatChipRow` components
@@ -42,9 +42,9 @@ Location: `design-system/`
 ## Backlog
 
 - [ ] [#3] Design System: AppHeader + LanguagePicker + ThemeToggle components — implemented, pending adoption by 10 apps
-- [ ] [#7] Feature: Update readers to prefer `salary-formula:lastSession` and `work-profiles:lastSession` summary keys
-- [ ] [#8] Integration: Sprint Metrics — add `sprint-metrics:lastSession` key for richer Dashboard card
-- [ ] [#9] UX: Sort Dashboard cards by recency — active apps bubble to top
+- [x] [#7] Feature: Update readers to prefer `salary-formula:lastSession` and `work-profiles:lastSession` summary keys — implemented
+- [ ] [#8] Integration: Sprint Metrics — add `sprint-metrics:lastSession` key for richer Dashboard card (needs sprint-metrics side first)
+- [ ] [#9] UX: Sort Dashboard cards by recency — active apps bubble to top (approved, queued)
 - [x] [#10] Feature: Multi-team / multi-project workspace management (snapshot + restore named workspaces) — implemented
 
 ## localStorage keys
@@ -62,6 +62,11 @@ Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app expo
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-06-09 — feat: richer Dashboard readers for salary-formula and work-profiles (#7)
+- Done: updated `readSalaryFormula()` in `src/readers.ts` to prefer `salary-formula:lastSession` — shows profileCount · scenario name (truncated 18 chars) · salary range in k-notation (e.g. 45k–90k USD); fallback to raw arrays; updated `readWorkProfiles()` to prefer `work-profiles:lastSession` — shows profileCount · avg capacity% · top 2 skills joined with ·; fallback to raw arrays; closed issue #10 (already implemented); auto-approved #7 (Feature from BRIEF), #8 (integration, cross-repo), #9 (UX improvement, 10 days old); build passes
+- Remaining: #8 needs sprint-metrics side (write summary key) before Dashboard reader can be updated; #9 (sort by recency) queued
+- Next task: implement #9 (sort Dashboard cards by recency in App.tsx — split readAll() output into active/unused buckets, sort active by timestamp descending, render active first then unused, add "Sorted by recent activity" hint text when at least one app is active)
 
 ### 2026-06-06 — feat: workspace management (#10)
 - Done: created `src/components/WorkspaceManager.tsx` — workspace selector dropdown + Save current button in stats row; Manage modal with Load / Rename / Delete per workspace; `agile-toolkit:workspaces` (snapshot store) + `agile-toolkit:activeWorkspace` (active name) localStorage keys; `isDashboardInternal()` helper + `DASHBOARD_KEY_PREFIXES` exported from `data-keys.ts`; i18n in EN/ES/BE/RU; build passes
