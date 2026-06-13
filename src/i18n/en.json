@@ -4,6 +4,7 @@
   "stats.label": "{{count}} tools — all free & open source",
   "stats.in_use_one": "1 app in use",
   "stats.in_use_other": "{{count}} apps in use",
+  "stats.sorted_hint": "sorted by recent activity",
   "data.section": "Data Management",
   "data.export_btn": "Export all data",
   "data.import_btn": "Import data",
