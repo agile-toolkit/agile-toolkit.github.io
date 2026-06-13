@@ -26,6 +26,16 @@ export default function App() {
 
   const activeCount = Object.values(data).filter(Boolean).length
 
+  const activeApps = APPS
+    .filter(app => data[app.id] != null)
+    .sort((a, b) => {
+      const ta = data[a.id]?.timestamp ?? 0
+      const tb = data[b.id]?.timestamp ?? 0
+      return tb - ta
+    })
+  const inactiveApps = APPS.filter(app => data[app.id] == null)
+  const sortedApps = [...activeApps, ...inactiveApps]
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-gray-950" data-accent="cobalt">
 
@@ -67,6 +77,10 @@ export default function App() {
                 <strong className="text-emerald-600 dark:text-emerald-400">
                   {t('stats.in_use', { count: activeCount })}
                 </strong>
+                {' '}&nbsp;·&nbsp;{' '}
+                <span className="text-slate-400 dark:text-gray-500 font-normal normal-case tracking-normal">
+                  {t('stats.sorted_hint')}
+                </span>
               </>
             )}
           </p>
@@ -74,7 +88,7 @@ export default function App() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {APPS.map(app => (
+          {sortedApps.map(app => (
             <AppCard key={app.id} app={app} data={data[app.id] ?? null} />
           ))}
         </div>
