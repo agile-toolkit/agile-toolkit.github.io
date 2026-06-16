@@ -19,4 +19,5 @@ export interface AppData {
   progressTotal?: number
   memberNames?: string[]
   boardColumns?: BoardColumnPreview[]
+  facetCoverage?: boolean[]
 }

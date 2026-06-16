@@ -71,6 +71,23 @@ export default function AppCard({ app, data }: Props) {
             </div>
           )}
 
+          {data.facetCoverage && data.facetCoverage.length === 4 && (
+            <div className="flex items-center gap-1.5">
+              {data.facetCoverage.map((filled, i) => (
+                <span
+                  key={i}
+                  title={['Dance', 'Mind', 'Stimulate', 'Change'][i]}
+                  className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                    filled
+                      ? ['bg-blue-400', 'bg-purple-400', 'bg-emerald-400', 'bg-amber-400'][i]
+                      : 'bg-slate-200 dark:bg-gray-700'
+                  }`}
+                />
+              ))}
+              <span className="text-[0.7rem] text-slate-400 dark:text-gray-500 ml-0.5">{t('card.facets')}</span>
+            </div>
+          )}
+
           {data.timestamp != null && (
             <div className="text-right text-[0.7rem] text-slate-400 dark:text-gray-500 -mb-0.5">
               {timeAgo(data.timestamp)}

@@ -39,6 +39,7 @@
   "card.progress_done": "{{count}} done",
   "card.progress_open": "{{count}} open",
   "card.velocity": "velocity trend",
+  "card.facets": "facets",
   "apps.moving_motivators.title": "Moving Motivators",
   "apps.moving_motivators.desc": "Explore motivation and priorities with a familiar card-based exercise. Rank CHAMPFROGS motivators and assess change impact.",
   "apps.scrum_facilitator.title": "Scrum Facilitator",
