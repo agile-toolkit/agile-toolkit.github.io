@@ -234,20 +234,49 @@ function readSprintMetrics(): AppData | null {
 
 // ── change-planner ──────────────────────────────────────────────────────────
 function readChangePlanner(): AppData | null {
-  const inits = read<Array<{
-    completedAt?: number; title?: string; updatedAt?: number; createdAt?: number
-  }>>('change-planner-initiatives') ?? []
+  type FacetId = 'dance' | 'mind' | 'stimulate' | 'change'
+  type Action = { facet?: FacetId; status?: string; dueDate?: string }
+  type Initiative = {
+    completedAt?: number; title?: string; goal?: string
+    updatedAt?: number; createdAt?: number
+    facetNotes?: Record<string, string>; actions?: Action[]
+  }
+  const FACETS: FacetId[] = ['dance', 'mind', 'stimulate', 'change']
+
+  const inits = read<Initiative[]>('change-planner-initiatives') ?? []
   if (!inits.length) return null
 
-  const active = inits.filter(i => !i.completedAt).length
+  const activeInits = inits.filter(i => !i.completedAt)
+  const active = activeInits.length
+
   const chips: StatChip[] = [chip(inits.length, plural(inits.length, 'initiative'))]
   if (active > 0 && active < inits.length) chips.push(chip(active, 'active'))
 
-  const latest = [...inits].sort(
+  const top = [...(activeInits.length ? activeInits : inits)].sort(
     (a, b) => ((b.updatedAt ?? b.createdAt ?? 0) - (a.updatedAt ?? a.createdAt ?? 0)),
   )[0]
-  if (latest?.title) chips.push(chip(`"${trunc(latest.title, 22)}"`, ''))
-  return { chips, timestamp: latest?.updatedAt ?? latest?.createdAt }
+
+  if (top?.title) chips.push(chip(`"${trunc(top.title, 22)}"`, ''))
+  if (top?.goal) chips.push(chip(trunc(top.goal, 40), 'goal'))
+
+  const actions = top?.actions ?? []
+  const today = new Date().toISOString().slice(0, 10)
+  const openCount = actions.filter(a => a.status !== 'done').length
+  const overdueCount = actions.filter(a => a.status !== 'done' && !!a.dueDate && a.dueDate < today).length
+  if (openCount > 0) chips.push(chip(openCount, plural(openCount, 'open action')))
+  if (overdueCount > 0) chips.push(chip(overdueCount, 'overdue'))
+
+  const facetCoverage = FACETS.map(fid => {
+    const hasNote = !!(top?.facetNotes?.[fid]?.trim())
+    const hasAction = actions.some(a => a.facet === fid)
+    return hasNote || hasAction
+  })
+
+  return {
+    chips,
+    timestamp: top?.updatedAt ?? top?.createdAt,
+    facetCoverage,
+  }
 }
 
 // ── public API ───────────────────────────────────────────────────────────────

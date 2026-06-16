@@ -39,6 +39,7 @@
   "card.progress_done": "{{count}} выканана",
   "card.progress_open": "{{count}} адкрыта",
   "card.velocity": "тэндэнцыя хуткасці",
+  "card.facets": "аспекты",
   "apps.moving_motivators.title": "Moving Motivators",
   "apps.moving_motivators.desc": "Вывучайце матывацыю і прыярытэты праз карткавую практыку. Ранжыруйце матыватары CHAMPFROGS і ацэньвайце ўплыў змяненняў.",
   "apps.scrum_facilitator.title": "Фасілітатар Scrum",
