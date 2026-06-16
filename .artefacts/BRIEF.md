@@ -20,6 +20,7 @@ Central hub for the 10-app Agile Toolkit suite. Two roles: (1) displays a card p
 - [x] Theme toggle — light / dark / system-default via `ThemeToggle` in sticky nav; anti-flash script in `index.html`; `dark:` variants on all components; `darkMode: 'class'` in Tailwind
 - [x] Workspace management — `WorkspaceManager` component in stats row; workspace selector dropdown; Save current snapshots all owned keys; New workspace prompts for name; Manage modal with Load / Rename / Delete per workspace; `agile-toolkit:workspaces` + `agile-toolkit:activeWorkspace` localStorage keys; i18n in EN/ES/BE/RU
 - [x] Sort by recency — active apps bubble to top of grid sorted by `timestamp` desc; inactive apps follow in suite order; "sorted by recent activity" hint text shown in stats bar when ≥1 app active; i18n in EN/ES/BE/RU
+- [x] Change Planner dashboard card — richer reader: goal excerpt, facet coverage dots (4 colored dots for dance/mind/stimulate/change), open action count, overdue count; `AppData.facetCoverage?: boolean[]` field; `AppCard` renders dot row; `card.facets` i18n key in EN/ES/BE/RU
 
 ## Design System
 
@@ -63,6 +64,11 @@ Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app expo
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-06-16 — feat: richer Change Planner dashboard card (change-planner#40)
+- Done: extended `AppData` with `facetCoverage?: boolean[]`; updated `readChangePlanner()` to extract goal excerpt, 4-boolean facet coverage (dance/mind/stimulate/change), open action count, overdue count from `change-planner-initiatives`; added 4-dot facet coverage row to `AppCard` (blue=dance, purple=mind, emerald=stimulate, amber=change); `card.facets` i18n key in EN/ES/BE/RU; build passes
+- Remaining: #8 (Sprint Metrics card) still pending sprint-metrics side
+- Next task: check issues for human feedback; implement #8 (Sprint Metrics dashboard card) once sprint-metrics writes `sprint-metrics:lastSession` key
 
 ### 2026-06-13 — feat: sort Dashboard cards by recency (#9)
 - Done: `App.tsx` splits `APPS` into active (data != null) and inactive buckets; active apps sorted by `timestamp` desc; `sortedApps` rendered instead of `APPS`; "sorted by recent activity" hint text appended to stats bar when `activeCount > 0`; `stats.sorted_hint` i18n key added to EN/ES/BE/RU
