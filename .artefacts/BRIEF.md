@@ -45,7 +45,7 @@ Location: `design-system/`
 
 - [ ] [#3] Design System: AppHeader + LanguagePicker + ThemeToggle components — implemented, pending adoption by 10 apps
 - [x] [#7] Feature: Update readers to prefer `salary-formula:lastSession` and `work-profiles:lastSession` summary keys — implemented
-- [ ] [#8] Integration: Sprint Metrics — add `sprint-metrics:lastSession` key for richer Dashboard card (needs sprint-metrics side first)
+- [x] [#8] Integration: Sprint Metrics — `readSprintMetrics()` updated to prefer `sprint-metrics:lastSession` (projectName · last vel. · avg vel. · sprints left) with fallback to raw keys
 - [x] [#9] UX: Sort Dashboard cards by recency — active apps bubble to top (implemented)
 - [x] [#10] Feature: Multi-team / multi-project workspace management (snapshot + restore named workspaces) — implemented
 
@@ -64,6 +64,11 @@ Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app expo
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-06-16 — feat: Sprint Metrics dashboard card reads sprint-metrics:lastSession (#8)
+- Done: updated `readSprintMetrics()` in `src/readers.ts` to prefer `sprint-metrics:lastSession` — shows projectName · lastVelocity last vel. · avgVelocity avg vel. · sprintsRemaining sprint left (if set); still reads `sprint-metrics-sprints` raw array for MiniBarChart velocities; fallback to old raw-key reader when summary key absent; closed issue #7 (already implemented); closed issue #8; build passes
+- Remaining: none
+- Next task: check issues for human feedback; research cycle for next improvements
 
 ### 2026-06-16 — feat: richer Change Planner dashboard card (change-planner#40)
 - Done: extended `AppData` with `facetCoverage?: boolean[]`; updated `readChangePlanner()` to extract goal excerpt, 4-boolean facet coverage (dance/mind/stimulate/change), open action count, overdue count from `change-planner-initiatives`; added 4-dot facet coverage row to `AppCard` (blue=dance, purple=mind, emerald=stimulate, amber=change); `card.facets` i18n key in EN/ES/BE/RU; build passes

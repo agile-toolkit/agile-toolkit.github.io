@@ -217,6 +217,27 @@ function readPlanningPoker(): AppData | null {
 
 // ── sprint-metrics ──────────────────────────────────────────────────────────
 function readSprintMetrics(): AppData | null {
+  const session = read<{
+    projectName?: string
+    lastVelocity?: number
+    avgVelocity?: number
+    sprintsRemaining?: number | null
+    updatedAt?: string
+  }>('sprint-metrics:lastSession')
+
+  if (session?.avgVelocity != null) {
+    const chips: StatChip[] = []
+    if (session.projectName) chips.push(chip(`"${trunc(session.projectName, 18)}"`, ''))
+    if (session.lastVelocity != null) chips.push(chip(session.lastVelocity, 'last vel.'))
+    chips.push(chip(session.avgVelocity, 'avg vel.'))
+    if (session.sprintsRemaining != null) chips.push(chip(session.sprintsRemaining, plural(session.sprintsRemaining, 'sprint left')))
+    const rawSprints = read<Array<{ completed?: number }>>('sprint-metrics-sprints') ?? []
+    const velocities = rawSprints.map(s => Number(s.completed) || 0).filter(v => v > 0)
+    const ts = session.updatedAt ? new Date(session.updatedAt).getTime() : undefined
+    return { chips, velocities: velocities.length ? velocities : undefined, timestamp: ts && !isNaN(ts) ? ts : undefined }
+  }
+
+  // fallback: raw arrays
   const sprints = read<Array<{ completed?: number; planned?: number }>>('sprint-metrics-sprints') ?? []
   const config  = read<{ name?: string }>('sprint-metrics-config')
   if (!sprints.length && !config) return null
