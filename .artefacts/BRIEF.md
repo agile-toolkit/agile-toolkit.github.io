@@ -49,6 +49,12 @@ Location: `design-system/`
 - [x] [#9] UX: Sort Dashboard cards by recency — active apps bubble to top (implemented)
 - [x] [#10] Feature: Multi-team / multi-project workspace management (snapshot + restore named workspaces) — implemented
 
+## Backlog
+
+- [ ] [#21] Integration: Update Planning Poker Dashboard reader to prefer `planning-poker:lastSession` (sessionName · estimatedCount/storyCount · avgPoints; timestamp for sorting; fallback to history[0] then legacy key)
+- [ ] [#22] Integration: Update Improvement Board Dashboard reader to prefer `improvement-board:lastSession` (identified · inProgress · done · total · memberCount; timestamp from lastUpdated; fallback to raw arrays)
+- [ ] [#23] UX: Show Team Identity draft-in-progress live indicator — detect `team-identity:draft` key, set live=true + "draft in progress" chip when draft is newer than saved session
+
 ## localStorage keys
 
 Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app exports — `claimedByApp()` returns null for them.
@@ -64,6 +70,11 @@ Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app expo
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-06-20 — research: Planning Poker reader, Improvement Board reader, Team Identity draft indicator
+- Done: checked open issues (none); surveyed readers.ts against apps' current localStorage contracts; found 3 integration gaps; created issues #21 (Planning Poker reader → planning-poker:lastSession), #22 (Improvement Board reader → improvement-board:lastSession), #23 (Team Identity draft live indicator); all added to project as Todo
+- Remaining: none
+- Next task: check issues for human feedback; implement #21/#22/#23 if approved
 
 ### 2026-06-16 — feat: Sprint Metrics dashboard card reads sprint-metrics:lastSession (#8)
 - Done: updated `readSprintMetrics()` in `src/readers.ts` to prefer `sprint-metrics:lastSession` — shows projectName · lastVelocity last vel. · avgVelocity avg vel. · sprintsRemaining sprint left (if set); still reads `sprint-metrics-sprints` raw array for MiniBarChart velocities; fallback to old raw-key reader when summary key absent; closed issue #7 (already implemented); closed issue #8; build passes
