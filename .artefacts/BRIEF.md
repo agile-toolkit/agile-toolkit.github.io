@@ -54,6 +54,9 @@ Location: `design-system/`
 - [ ] [#21] Integration: Update Planning Poker Dashboard reader to prefer `planning-poker:lastSession` (sessionName · estimatedCount/storyCount · avgPoints; timestamp for sorting; fallback to history[0] then legacy key)
 - [ ] [#22] Integration: Update Improvement Board Dashboard reader to prefer `improvement-board:lastSession` (identified · inProgress · done · total · memberCount; timestamp from lastUpdated; fallback to raw arrays)
 - [ ] [#23] UX: Show Team Identity draft-in-progress live indicator — detect `team-identity:draft` key, set live=true + "draft in progress" chip when draft is newer than saved session
+- [ ] [#24] Integration: Moving Motivators dashboard card — add session count chip from `moving-motivators:sessionHistory` (up to 20 sessions stored; show count when ≥2)
+- [ ] [#25] Integration: Scrum Facilitator dashboard card — add team name chip from `scrum-facilitator-team-name` (prepend as quoted name chip)
+- [ ] [#26] UX: Empty state onboarding hint when `activeCount === 0` — show "No data yet — open any app below to get started" below stats bar; i18n in EN/ES/BE/RU
 
 ## localStorage keys
 
@@ -70,6 +73,11 @@ Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app expo
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-06-23 — research: Moving Motivators session count, Scrum Facilitator team name, empty state UX
+- Done: audited readers.ts against all app localStorage contracts; found 3 gaps; created issues #24 (Moving Motivators session count from sessionHistory), #25 (Scrum Facilitator team name chip from scrum-facilitator-team-name key), #26 (empty state onboarding hint when activeCount=0); all added to project as Backlog; checked existing issues #21/#22/#23 — needs-review, 3 days old, not yet 7 days for auto-approve
+- Remaining: none
+- Next task: check issues for human feedback; implement first approved item among #21–#26
 
 ### 2026-06-20 — research: Planning Poker reader, Improvement Board reader, Team Identity draft indicator
 - Done: checked open issues (none); surveyed readers.ts against apps' current localStorage contracts; found 3 integration gaps; created issues #21 (Planning Poker reader → planning-poker:lastSession), #22 (Improvement Board reader → improvement-board:lastSession), #23 (Team Identity draft live indicator); all added to project as Todo
