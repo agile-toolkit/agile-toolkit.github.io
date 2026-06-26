@@ -74,6 +74,11 @@ Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app expo
 
 ## Agent Log
 
+### 2026-06-26 — research: checked 6 open issues, none actionable yet
+- Done: checked all 6 open issues (#21–#26) — all `needs-review` only; #21/#22/#23 are 6 days old (1 day short of 7-day auto-approve threshold), #24/#25/#26 are 3 days old; no `approved`, `incomplete`, `changes-requested`, or `research-more` labels; 6 issues already pending → no new research filed
+- Remaining: none
+- Next task: check issues for human feedback; #21/#22/#23 (Planning Poker reader, Improvement Board reader, Team Identity draft indicator) reach 7-day threshold on 2026-06-27 — auto-approve and implement first one then
+
 ### 2026-06-23 — research: Moving Motivators session count, Scrum Facilitator team name, empty state UX
 - Done: audited readers.ts against all app localStorage contracts; found 3 gaps; created issues #24 (Moving Motivators session count from sessionHistory), #25 (Scrum Facilitator team name chip from scrum-facilitator-team-name key), #26 (empty state onboarding hint when activeCount=0); all added to project as Backlog; checked existing issues #21/#22/#23 — needs-review, 3 days old, not yet 7 days for auto-approve
 - Remaining: none
