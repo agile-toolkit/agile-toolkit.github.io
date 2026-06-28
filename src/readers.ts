@@ -129,14 +129,24 @@ function readTeamIdentity(): AppData | null {
     agreementsCount?: number; savedAt?: number
   }>('team-identity:lastSession')
 
-  if (session) {
+  const draft = read<{ charter?: unknown; step?: number; savedAt?: number }>('team-identity:draft')
+  const draftIsNewer = !!draft && (!session || (draft.savedAt ?? 0) > (session.savedAt ?? 0))
+
+  if (session || draft) {
     const chips: StatChip[] = []
-    if (session.teamName) chips.push(chip(`"${trunc(session.teamName, 20)}"`, ''))
-    if (session.symbol)   chips.push(chip(session.symbol, ''))
-    if (session.valuesCount)     chips.push(chip(session.valuesCount, plural(session.valuesCount, 'value')))
-    if (session.agreementsCount) chips.push(chip(session.agreementsCount, plural(session.agreementsCount, 'agreement')))
+    if (session?.teamName)       chips.push(chip(`"${trunc(session.teamName, 20)}"`, ''))
+    if (session?.symbol)         chips.push(chip(session.symbol, ''))
+    if (session?.valuesCount)    chips.push(chip(session.valuesCount, plural(session.valuesCount, 'value')))
+    if (session?.agreementsCount) chips.push(chip(session.agreementsCount, plural(session.agreementsCount, 'agreement')))
+    if (draftIsNewer) {
+      chips.push(chip(draft!.step != null ? `step ${draft!.step}/5` : 'draft', 'in progress'))
+    }
     if (!chips.length) return null
-    return { chips, timestamp: session.savedAt }
+    return {
+      chips,
+      timestamp: draftIsNewer ? draft!.savedAt : session?.savedAt,
+      live: draftIsNewer,
+    }
   }
 
   // Fallback to legacy key
@@ -154,6 +164,26 @@ function readTeamIdentity(): AppData | null {
 
 // ── improvement-board ───────────────────────────────────────────────────────
 function readImprovementBoard(): AppData | null {
+  const session = read<{
+    identified?: number; inProgress?: number; done?: number
+    total?: number; memberCount?: number; lastUpdated?: string
+  }>('improvement-board:lastSession')
+
+  if (session?.total != null) {
+    const chips: StatChip[] = []
+    if (session.total > 0)     chips.push(chip(session.total, plural(session.total, 'item')))
+    if (session.inProgress)    chips.push(chip(session.inProgress, 'active'))
+    if (session.memberCount)   chips.push(chip(session.memberCount, plural(session.memberCount, 'member')))
+    const ts = session.lastUpdated ? new Date(session.lastUpdated).getTime() : undefined
+    return {
+      chips,
+      progressDone: session.done ?? 0,
+      progressTotal: session.total,
+      timestamp: ts && !isNaN(ts) ? ts : undefined,
+    }
+  }
+
+  // Fallback: raw arrays
   const items   = read<Array<{ completedAt?: number; status?: string }>>('improvement-board-items')   ?? []
   const members = read<unknown[]>('improvement-board-members') ?? []
   if (!items.length && !members.length) return null
@@ -199,19 +229,46 @@ function readWorkProfiles(): AppData | null {
 
 // ── planning-poker ──────────────────────────────────────────────────────────
 function readPlanningPoker(): AppData | null {
+  type PokerSession = {
+    sessionName?: string; deckType?: string
+    storyCount?: number; estimatedCount?: number
+    avgPoints?: number | null; date?: string
+  }
+
+  const session = read<PokerSession>('planning-poker:lastSession')
+  const history = read<PokerSession[]>('planning-poker:history') ?? []
+
+  const buildChips = (s: PokerSession, sessionCount?: number): StatChip[] => {
+    const chips: StatChip[] = []
+    if (s.sessionName) chips.push(chip(`"${trunc(s.sessionName, 20)}"`, ''))
+    const est = s.estimatedCount ?? 0
+    const tot = s.storyCount ?? 0
+    if (tot > 0) chips.push(chip(`${est}/${tot}`, 'estimated'))
+    else if (est > 0) chips.push(chip(est, plural(est, 'story', 'stories')))
+    if (s.avgPoints != null) chips.push(chip(Number(s.avgPoints).toFixed(1), 'avg pts'))
+    if (sessionCount != null && sessionCount > 1) chips.push(chip(sessionCount, plural(sessionCount, 'session')))
+    return chips
+  }
+
+  if (session?.storyCount != null || session?.estimatedCount != null) {
+    const chips = buildChips(session, history.length)
+    const ts = session.date ? new Date(session.date).getTime() : undefined
+    return { chips, timestamp: ts && !isNaN(ts) ? ts : undefined }
+  }
+
+  if (history.length) {
+    const h0 = history[0]!
+    const chips = buildChips(h0, history.length)
+    const ts = h0.date ? new Date(h0.date).getTime() : undefined
+    return { chips, timestamp: ts && !isNaN(ts) ? ts : undefined }
+  }
+
+  // Final fallback: legacy key
   const stories = read<Array<{ finalEstimate?: string | number }>>('sprintMetrics_planningPoker') ?? []
   if (!stories.length) return null
-
-  const nums = stories
-    .map(s => parseFloat(String(s.finalEstimate)))
-    .filter(x => x > 0 && !isNaN(x))
-  const chips: StatChip[] = [
-    chip(stories.length, `${plural(stories.length, 'story', 'stories')} estimated`),
-  ]
-  if (nums.length) {
-    const avg = (nums.reduce((a, b) => a + b, 0) / nums.length).toFixed(1)
-    chips.push(chip(avg, 'avg pts'))
-  }
+  const nums = stories.map(s => parseFloat(String(s.finalEstimate))).filter(x => x > 0 && !isNaN(x))
+  const chips: StatChip[] = [chip(stories.length, `${plural(stories.length, 'story', 'stories')} estimated`)]
+  if (nums.length) chips.push(chip((nums.reduce((a, b) => a + b, 0) / nums.length).toFixed(1), 'avg pts'))
   return { chips }
 }
 
