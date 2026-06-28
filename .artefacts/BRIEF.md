@@ -21,6 +21,9 @@ Central hub for the 10-app Agile Toolkit suite. Two roles: (1) displays a card p
 - [x] Workspace management — `WorkspaceManager` component in stats row; workspace selector dropdown; Save current snapshots all owned keys; New workspace prompts for name; Manage modal with Load / Rename / Delete per workspace; `agile-toolkit:workspaces` + `agile-toolkit:activeWorkspace` localStorage keys; i18n in EN/ES/BE/RU
 - [x] Sort by recency — active apps bubble to top of grid sorted by `timestamp` desc; inactive apps follow in suite order; "sorted by recent activity" hint text shown in stats bar when ≥1 app active; i18n in EN/ES/BE/RU
 - [x] Change Planner dashboard card — richer reader: goal excerpt, facet coverage dots (4 colored dots for dance/mind/stimulate/change), open action count, overdue count; `AppData.facetCoverage?: boolean[]` field; `AppCard` renders dot row; `card.facets` i18n key in EN/ES/BE/RU
+- [x] Planning Poker reader updated to prefer `planning-poker:lastSession` (sessionName · estimated/total stories · avgPoints; timestamp from date field); fallback to `planning-poker:history[0]`; final fallback to legacy `sprintMetrics_planningPoker` key (#21)
+- [x] Improvement Board reader updated to prefer `improvement-board:lastSession` (total · active · member count; progress bar from done/total; timestamp from lastUpdated) with fallback to raw arrays (#22)
+- [x] Team Identity reader detects `team-identity:draft` — when draft is newer than saved session, sets `live: true` and adds "step N/5 in progress" chip; amber Live badge shows (#23)
 
 ## Design System
 
@@ -51,9 +54,9 @@ Location: `design-system/`
 
 ## Backlog
 
-- [ ] [#21] Integration: Update Planning Poker Dashboard reader to prefer `planning-poker:lastSession` (sessionName · estimatedCount/storyCount · avgPoints; timestamp for sorting; fallback to history[0] then legacy key)
-- [ ] [#22] Integration: Update Improvement Board Dashboard reader to prefer `improvement-board:lastSession` (identified · inProgress · done · total · memberCount; timestamp from lastUpdated; fallback to raw arrays)
-- [ ] [#23] UX: Show Team Identity draft-in-progress live indicator — detect `team-identity:draft` key, set live=true + "draft in progress" chip when draft is newer than saved session
+- [x] [#21] Integration: Update Planning Poker Dashboard reader to prefer `planning-poker:lastSession` — implemented
+- [x] [#22] Integration: Update Improvement Board Dashboard reader to prefer `improvement-board:lastSession` — implemented
+- [x] [#23] UX: Show Team Identity draft-in-progress live indicator — implemented
 - [ ] [#24] Integration: Moving Motivators dashboard card — add session count chip from `moving-motivators:sessionHistory` (up to 20 sessions stored; show count when ≥2)
 - [ ] [#25] Integration: Scrum Facilitator dashboard card — add team name chip from `scrum-facilitator-team-name` (prepend as quoted name chip)
 - [ ] [#26] UX: Empty state onboarding hint when `activeCount === 0` — show "No data yet — open any app below to get started" below stats bar; i18n in EN/ES/BE/RU
@@ -73,6 +76,11 @@ Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app expo
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-06-28 — feat: dashboard reader updates for Planning Poker, Improvement Board, Team Identity (#21 #22 #23)
+- Done: auto-approved issues #21, #22, #23 (all 8 days old, past 7-day threshold); updated `readPlanningPoker()` to prefer `planning-poker:lastSession` (sessionName chip, X/Y estimated, avgPoints, session count from history) with fallback to `planning-poker:history[0]` then legacy `sprintMetrics_planningPoker`; updated `readImprovementBoard()` to prefer `improvement-board:lastSession` (total/active/member count chips, progress bar, timestamp from lastUpdated) with fallback to raw arrays; updated `readTeamIdentity()` to read `team-identity:draft` — when draft is newer than saved session, sets `live: true` + "step N/5 in progress" chip; build passes
+- Remaining: issues #24/#25/#26 reach 7-day auto-approve threshold 2026-06-30
+- Next task: check issues for human feedback; auto-approve and implement #24 (Moving Motivators session count), #25 (Scrum Facilitator team name), #26 (empty state hint) on or after 2026-06-30
 
 ### 2026-06-26 — research: checked 6 open issues, none actionable yet
 - Done: checked all 6 open issues (#21–#26) — all `needs-review` only; #21/#22/#23 are 6 days old (1 day short of 7-day auto-approve threshold), #24/#25/#26 are 3 days old; no `approved`, `incomplete`, `changes-requested`, or `research-more` labels; 6 issues already pending → no new research filed
