@@ -5,6 +5,7 @@
   "stats.in_use_one": "1 app en uso",
   "stats.in_use_other": "{{count}} apps en uso",
   "stats.sorted_hint": "ordenado por actividad reciente",
+  "stats.empty_hint": "Sin datos aún — abre cualquier app para comenzar.",
   "data.section": "Gestión de datos",
   "data.export_btn": "Exportar todos los datos",
   "data.import_btn": "Importar datos",

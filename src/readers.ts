@@ -21,6 +21,7 @@ function readMovingMotivators(): AppData | null {
     date?: string; savedAt?: number; ranked?: string[];
     change?: string; changes?: Record<string, string>
   }>('moving-motivators:lastSession')
+  const sessionHistory = read<Array<{ savedAt?: number; teamName?: string }>>('moving-motivators:sessionHistory') ?? []
   if (!session?.ranked?.length) return null
 
   const top3 = session.ranked.slice(0, 3)
@@ -28,7 +29,9 @@ function readMovingMotivators(): AppData | null {
     .join(' · ')
   const chips: StatChip[] = [chip(top3, 'top motivators')]
   if (session.change) chips.push(chip(`"${trunc(session.change, 22)}"`, 'change'))
-  return { chips, timestamp: session.savedAt }
+  if (sessionHistory.length > 1) chips.push(chip(sessionHistory.length, plural(sessionHistory.length, 'session')))
+  const timestamp = session.savedAt ?? sessionHistory[0]?.savedAt
+  return { chips, timestamp }
 }
 
 // ── scrum-facilitator ───────────────────────────────────────────────────────────
@@ -37,6 +40,7 @@ function readScrumFacilitator(): AppData | null {
     'scrum-facilitator-session',
   )
   const history = read<Array<{ savedAt?: number }>>('scrum-facilitator-history') ?? []
+  const teamNameRaw = localStorage.getItem('scrum-facilitator-team-name')
   if (!session && !history.length) return null
 
   const labels: Record<string, string> = {
@@ -51,6 +55,7 @@ function readScrumFacilitator(): AppData | null {
   let live = false
   let timestamp: number | undefined
 
+  if (teamNameRaw) chips.push(chip(`"${trunc(teamNameRaw, 20)}"`, ''))
   if (session?.ceremonyType) {
     live = true
     chips.push(chip(labels[session.ceremonyType] ?? session.ceremonyType, 'in progress'))
