@@ -57,9 +57,9 @@ Location: `design-system/`
 - [x] [#21] Integration: Update Planning Poker Dashboard reader to prefer `planning-poker:lastSession` — implemented
 - [x] [#22] Integration: Update Improvement Board Dashboard reader to prefer `improvement-board:lastSession` — implemented
 - [x] [#23] UX: Show Team Identity draft-in-progress live indicator — implemented
-- [ ] [#24] Integration: Moving Motivators dashboard card — add session count chip from `moving-motivators:sessionHistory` (up to 20 sessions stored; show count when ≥2)
-- [ ] [#25] Integration: Scrum Facilitator dashboard card — add team name chip from `scrum-facilitator-team-name` (prepend as quoted name chip)
-- [ ] [#26] UX: Empty state onboarding hint when `activeCount === 0` — show "No data yet — open any app below to get started" below stats bar; i18n in EN/ES/BE/RU
+- [x] [#24] Integration: Moving Motivators dashboard card — add session count chip from `moving-motivators:sessionHistory` (up to 20 sessions stored; show count when ≥2)
+- [x] [#25] Integration: Scrum Facilitator dashboard card — add team name chip from `scrum-facilitator-team-name` (prepend as quoted name chip)
+- [x] [#26] UX: Empty state onboarding hint when `activeCount === 0` — show "No data yet — open any app below to get started" below stats bar; i18n in EN/ES/BE/RU
 
 ## localStorage keys
 
@@ -76,6 +76,11 @@ Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app expo
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-07-01 — feat: dashboard reader enhancements and empty-state hint (#24 #25 #26)
+- Done: auto-approved issues #24, #25, #26 (8 days old, past 7-day threshold); updated `readMovingMotivators()` to also read `moving-motivators:sessionHistory` — adds session count chip when ≥2 sessions, uses `sessionHistory[0].savedAt` as timestamp fallback; updated `readScrumFacilitator()` to read `scrum-facilitator-team-name` (plain string via `localStorage.getItem`) — prepends quoted team name chip before ceremony/session chips; added `activeCount === 0` conditional in `App.tsx` rendering `stats.empty_hint` paragraph below stats bar; added `stats.empty_hint` i18n key in EN/ES/BE/RU; build passes
+- Remaining: none
+- Next task: check issues for human feedback; research cycle for next improvements
 
 ### 2026-06-28 — feat: dashboard reader updates for Planning Poker, Improvement Board, Team Identity (#21 #22 #23)
 - Done: auto-approved issues #21, #22, #23 (all 8 days old, past 7-day threshold); updated `readPlanningPoker()` to prefer `planning-poker:lastSession` (sessionName chip, X/Y estimated, avgPoints, session count from history) with fallback to `planning-poker:history[0]` then legacy `sprintMetrics_planningPoker`; updated `readImprovementBoard()` to prefer `improvement-board:lastSession` (total/active/member count chips, progress bar, timestamp from lastUpdated) with fallback to raw arrays; updated `readTeamIdentity()` to read `team-identity:draft` — when draft is newer than saved session, sets `live: true` + "step N/5 in progress" chip; build passes
