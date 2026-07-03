@@ -24,6 +24,9 @@ Central hub for the 10-app Agile Toolkit suite. Two roles: (1) displays a card p
 - [x] Planning Poker reader updated to prefer `planning-poker:lastSession` (sessionName · estimated/total stories · avgPoints; timestamp from date field); fallback to `planning-poker:history[0]`; final fallback to legacy `sprintMetrics_planningPoker` key (#21)
 - [x] Improvement Board reader updated to prefer `improvement-board:lastSession` (total · active · member count; progress bar from done/total; timestamp from lastUpdated) with fallback to raw arrays (#22)
 - [x] Team Identity reader detects `team-identity:draft` — when draft is newer than saved session, sets `live: true` and adds "step N/5 in progress" chip; amber Live badge shows (#23)
+- [ ] [#29] Integration: Scrum Facilitator participant/retro-note count chips — auto-approve target 2026-07-10
+- [ ] [#30] Integration: Sprint Metrics mood emoji chip — auto-approve target 2026-07-10
+- [ ] [#31] UX: attention badge for overdue/at-risk app state (Change Planner overdue, Kanban Designer over-WIP) — auto-approve target 2026-07-10
 
 ## Design System
 
@@ -60,6 +63,9 @@ Location: `design-system/`
 - [x] [#24] Integration: Moving Motivators dashboard card — add session count chip from `moving-motivators:sessionHistory` (up to 20 sessions stored; show count when ≥2)
 - [x] [#25] Integration: Scrum Facilitator dashboard card — add team name chip from `scrum-facilitator-team-name` (prepend as quoted name chip)
 - [x] [#26] UX: Empty state onboarding hint when `activeCount === 0` — show "No data yet — open any app below to get started" below stats bar; i18n in EN/ES/BE/RU
+- [ ] [#29] Integration: Scrum Facilitator participant/retro-note count chips (fields already written, unused by reader)
+- [ ] [#30] Integration: Sprint Metrics mood emoji chip (`lastMood` already written, unused by reader)
+- [ ] [#31] UX: attention badge for overdue/at-risk app state (Change Planner overdue, Kanban Designer over-WIP)
 
 ## localStorage keys
 
@@ -76,6 +82,11 @@ Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app expo
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-07-03 — research: reader integration gaps and attention-state UX
+- Done: no open issues found (all previously filed issues implemented/closed); audited `src/readers.ts` against each app's current `## localStorage keys` documentation for unused fields; found `scrum-facilitator-session.participantCount`/`retroNotesCount` (explicitly noted as "pre-computed for easy dashboard reads" in scrum-facilitator's own BRIEF.md) unused by `readScrumFacilitator()`; found `sprint-metrics:lastSession.lastMood` unused by `readSprintMetrics()`; found `Badge.tsx` has no way to flag overdue/at-risk app state even though `readChangePlanner()` (`overdueCount`) and `readKanbanDesigner()` (`boardColumns[].overWip`) already compute it; verified Kanban Designer reader against actual keys (`kanban-designer-boards`/`kanban-designer-current-id`) — confirmed still written alongside newer `kanban-designer:lastSession`/`kanban-designer:currentBoard`, no bug there; created issues #29 (Scrum Facilitator chips), #30 (Sprint Metrics mood emoji), #31 (attention badge) — all `needs-review`; GitHub Projects v2 (`gh project`) returns "unknown owner type" in this session, consistent with other repos' notes that Projects write ops are blocked here — relying on `needs-review` label only
+- Remaining: none
+- Next task: check issues for human feedback; #29/#30/#31 reach 7-day auto-approve threshold 2026-07-10
 
 ### 2026-07-01 — feat: dashboard reader enhancements and empty-state hint (#24 #25 #26)
 - Done: auto-approved issues #24, #25, #26 (8 days old, past 7-day threshold); updated `readMovingMotivators()` to also read `moving-motivators:sessionHistory` — adds session count chip when ≥2 sessions, uses `sessionHistory[0].savedAt` as timestamp fallback; updated `readScrumFacilitator()` to read `scrum-facilitator-team-name` (plain string via `localStorage.getItem`) — prepends quoted team name chip before ceremony/session chips; added `activeCount === 0` conditional in `App.tsx` rendering `stats.empty_hint` paragraph below stats bar; added `stats.empty_hint` i18n key in EN/ES/BE/RU; build passes
