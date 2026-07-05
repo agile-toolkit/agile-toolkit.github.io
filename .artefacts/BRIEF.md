@@ -27,6 +27,8 @@ Central hub for the 10-app Agile Toolkit suite. Two roles: (1) displays a card p
 - [ ] [#29] Integration: Scrum Facilitator participant/retro-note count chips — auto-approve target 2026-07-10
 - [ ] [#30] Integration: Sprint Metrics mood emoji chip — auto-approve target 2026-07-10
 - [ ] [#31] UX: attention badge for overdue/at-risk app state (Change Planner overdue, Kanban Designer over-WIP) — auto-approve target 2026-07-10
+- [ ] [#32] Integration: Moving Motivators team-session data unused by Dashboard reader — auto-approve target 2026-07-12
+- [ ] [#33] Integration: surface Sprint Metrics lastSprintGoal chip on Dashboard card — auto-approve target 2026-07-12
 
 ## Design System
 
@@ -66,6 +68,8 @@ Location: `design-system/`
 - [ ] [#29] Integration: Scrum Facilitator participant/retro-note count chips (fields already written, unused by reader)
 - [ ] [#30] Integration: Sprint Metrics mood emoji chip (`lastMood` already written, unused by reader)
 - [ ] [#31] UX: attention badge for overdue/at-risk app state (Change Planner overdue, Kanban Designer over-WIP)
+- [ ] [#32] Integration: Moving Motivators team-session data (`motivationSnapshot`/`teamSessionHistory`) unread by `readMovingMotivators()` — solo-only reader misses team/PIN workshop sessions entirely
+- [ ] [#33] Integration: Sprint Metrics `lastSprintGoal` field unread by `readSprintMetrics()` — goal excerpt chip
 
 ## localStorage keys
 
@@ -82,6 +86,11 @@ Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app expo
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-07-05 — research: Moving Motivators team-session gap, Sprint Metrics goal chip
+- Done: checked human feedback first — issues #29/#30/#31 all still `needs-review` only (created 2026-07-03, 7-day auto-approve threshold 2026-07-10, not yet stale as of this run) — no action needed, no other labels present; CI green (last `Deploy to GitHub Pages` run on `main`: success). Audited `src/readers.ts` against each app's current `## localStorage keys` BRIEF sections for further unread fields not already covered by #29–#31; verified findings against actual source before filing: found `readMovingMotivators()` only ever reads solo-session keys (`moving-motivators:lastSession`/`sessionHistory`) — confirmed via grep that `moving-motivators:motivationSnapshot` and `moving-motivators:teamSessionHistory` (written by `TeamSession.tsx` lines 593–613 on team/PIN session reveal) appear nowhere in `readers.ts`, so a team that only ever runs live workshop sessions shows an inactive Dashboard card; found `sprint-metrics:lastSession.lastSprintGoal` (written by `writeLastSession()` line 111 in sprint-metrics `App.tsx`, distinct from the already-tracked `lastMood` field in #30) also unread by `readSprintMetrics()`. Created issues #32 (Moving Motivators team-session reader gap) and #33 (Sprint Metrics goal chip) — both `needs-review`. Project board Status field write still blocked in this session (consistent with all sibling repos this cycle) — relying on `needs-review` label only.
+- Remaining: none
+- Next task: check issues for human feedback; #29/#30/#31 reach 7-day auto-approve threshold 2026-07-10; #32/#33 reach threshold 2026-07-12
 
 ### 2026-07-03 — research: reader integration gaps and attention-state UX
 - Done: no open issues found (all previously filed issues implemented/closed); audited `src/readers.ts` against each app's current `## localStorage keys` documentation for unused fields; found `scrum-facilitator-session.participantCount`/`retroNotesCount` (explicitly noted as "pre-computed for easy dashboard reads" in scrum-facilitator's own BRIEF.md) unused by `readScrumFacilitator()`; found `sprint-metrics:lastSession.lastMood` unused by `readSprintMetrics()`; found `Badge.tsx` has no way to flag overdue/at-risk app state even though `readChangePlanner()` (`overdueCount`) and `readKanbanDesigner()` (`boardColumns[].overWip`) already compute it; verified Kanban Designer reader against actual keys (`kanban-designer-boards`/`kanban-designer-current-id`) — confirmed still written alongside newer `kanban-designer:lastSession`/`kanban-designer:currentBoard`, no bug there; created issues #29 (Scrum Facilitator chips), #30 (Sprint Metrics mood emoji), #31 (attention badge) — all `needs-review`; GitHub Projects v2 (`gh project`) returns "unknown owner type" in this session, consistent with other repos' notes that Projects write ops are blocked here — relying on `needs-review` label only
