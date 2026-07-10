@@ -36,7 +36,10 @@ function readMovingMotivators(): AppData | null {
 
 // ── scrum-facilitator ───────────────────────────────────────────────────────────
 function readScrumFacilitator(): AppData | null {
-  const session = read<{ ceremonyType?: string; stepIndex?: number; savedAt?: number }>(
+  const session = read<{
+    ceremonyType?: string; stepIndex?: number; savedAt?: number
+    participantCount?: number; retroNotesCount?: number
+  }>(
     'scrum-facilitator-session',
   )
   const history = read<Array<{ savedAt?: number }>>('scrum-facilitator-history') ?? []
@@ -59,6 +62,12 @@ function readScrumFacilitator(): AppData | null {
   if (session?.ceremonyType) {
     live = true
     chips.push(chip(labels[session.ceremonyType] ?? session.ceremonyType, 'in progress'))
+    if (session.participantCount && session.participantCount > 0) {
+      chips.push(chip(session.participantCount, plural(session.participantCount, 'participant')))
+    }
+    if (session.ceremonyType === 'retro' && session.retroNotesCount && session.retroNotesCount > 0) {
+      chips.push(chip(session.retroNotesCount, plural(session.retroNotesCount, 'note')))
+    }
     timestamp = session.savedAt
   }
   if (history.length) {

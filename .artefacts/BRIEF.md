@@ -24,7 +24,7 @@ Central hub for the 10-app Agile Toolkit suite. Two roles: (1) displays a card p
 - [x] Planning Poker reader updated to prefer `planning-poker:lastSession` (sessionName · estimated/total stories · avgPoints; timestamp from date field); fallback to `planning-poker:history[0]`; final fallback to legacy `sprintMetrics_planningPoker` key (#21)
 - [x] Improvement Board reader updated to prefer `improvement-board:lastSession` (total · active · member count; progress bar from done/total; timestamp from lastUpdated) with fallback to raw arrays (#22)
 - [x] Team Identity reader detects `team-identity:draft` — when draft is newer than saved session, sets `live: true` and adds "step N/5 in progress" chip; amber Live badge shows (#23)
-- [ ] [#29] Integration: Scrum Facilitator participant/retro-note count chips — auto-approve target 2026-07-10
+- [x] [#29] Integration: Scrum Facilitator participant/retro-note count chips
 - [ ] [#30] Integration: Sprint Metrics mood emoji chip — auto-approve target 2026-07-10
 - [ ] [#31] UX: attention badge for overdue/at-risk app state (Change Planner overdue, Kanban Designer over-WIP) — auto-approve target 2026-07-10
 - [ ] [#32] Integration: Moving Motivators team-session data unused by Dashboard reader — auto-approve target 2026-07-12
@@ -65,7 +65,7 @@ Location: `design-system/`
 - [x] [#24] Integration: Moving Motivators dashboard card — add session count chip from `moving-motivators:sessionHistory` (up to 20 sessions stored; show count when ≥2)
 - [x] [#25] Integration: Scrum Facilitator dashboard card — add team name chip from `scrum-facilitator-team-name` (prepend as quoted name chip)
 - [x] [#26] UX: Empty state onboarding hint when `activeCount === 0` — show "No data yet — open any app below to get started" below stats bar; i18n in EN/ES/BE/RU
-- [ ] [#29] Integration: Scrum Facilitator participant/retro-note count chips (fields already written, unused by reader)
+- [x] [#29] Integration: Scrum Facilitator participant/retro-note count chips (fields already written, unused by reader) — implemented
 - [ ] [#30] Integration: Sprint Metrics mood emoji chip (`lastMood` already written, unused by reader)
 - [ ] [#31] UX: attention badge for overdue/at-risk app state (Change Planner overdue, Kanban Designer over-WIP)
 - [ ] [#32] Integration: Moving Motivators team-session data (`motivationSnapshot`/`teamSessionHistory`) unread by `readMovingMotivators()` — solo-only reader misses team/PIN workshop sessions entirely
@@ -86,6 +86,11 @@ Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app expo
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-07-10 — feat: Scrum Facilitator participant/retro-note count chips (#29)
+- Done: checked human feedback first — #29/#30/#31 all `needs-review` only, created 2026-07-03, now past the 7-day auto-approve threshold (reached 2026-07-10); #32/#33 created 2026-07-05, not yet stale (threshold 2026-07-12); no `approved`/`incomplete`/`changes-requested`/`research-more` labels on any open issue. Auto-approved #29, #30, #31 (comments posted on each explaining reasoning, no label change — Integration/UX findings from BRIEF-driven research, self-contained reader changes, no new deps); implemented #29 this run (one-task-per-run rule): widened the `scrum-facilitator-session` read type in `readScrumFacilitator()` to include `participantCount?`/`retroNotesCount?`; added a participant-count chip when `session.participantCount > 0`; added a retro-notes-count chip when `ceremonyType === 'retro'` and `retroNotesCount > 0`; both follow the existing `plural()` chip pattern, no new i18n keys. Build passes (tsc -b && vite build). #30/#31 remain auto-approved and queued for next run.
+- Remaining: implement #30 (Sprint Metrics mood emoji chip) next, then #31 (attention badge); #32/#33 reach 7-day threshold 2026-07-12
+- Next task: check issues for human feedback; implement #30 (Sprint Metrics mood emoji chip in `readSprintMetrics()` — `MOOD_EMOJIS` array, chip when `lastMood` 1–5) next, already auto-approved; else #31 (attention badge — `AppData.attention?: boolean`, third `Badge` variant, `readChangePlanner()`/`readKanbanDesigner()` set it); #32/#33 reach 7-day auto-approve threshold 2026-07-12 if #30/#31 already done by then
 
 ### 2026-07-05 — research: Moving Motivators team-session gap, Sprint Metrics goal chip
 - Done: checked human feedback first — issues #29/#30/#31 all still `needs-review` only (created 2026-07-03, 7-day auto-approve threshold 2026-07-10, not yet stale as of this run) — no action needed, no other labels present; CI green (last `Deploy to GitHub Pages` run on `main`: success). Audited `src/readers.ts` against each app's current `## localStorage keys` BRIEF sections for further unread fields not already covered by #29–#31; verified findings against actual source before filing: found `readMovingMotivators()` only ever reads solo-session keys (`moving-motivators:lastSession`/`sessionHistory`) — confirmed via grep that `moving-motivators:motivationSnapshot` and `moving-motivators:teamSessionHistory` (written by `TeamSession.tsx` lines 593–613 on team/PIN session reveal) appear nowhere in `readers.ts`, so a team that only ever runs live workshop sessions shows an inactive Dashboard card; found `sprint-metrics:lastSession.lastSprintGoal` (written by `writeLastSession()` line 111 in sprint-metrics `App.tsx`, distinct from the already-tracked `lastMood` field in #30) also unread by `readSprintMetrics()`. Created issues #32 (Moving Motivators team-session reader gap) and #33 (Sprint Metrics goal chip) — both `needs-review`. Project board Status field write still blocked in this session (consistent with all sibling repos this cycle) — relying on `needs-review` label only.
