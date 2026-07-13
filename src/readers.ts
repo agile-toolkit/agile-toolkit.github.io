@@ -287,12 +287,15 @@ function readPlanningPoker(): AppData | null {
 }
 
 // ── sprint-metrics ──────────────────────────────────────────────────────────
+const MOOD_EMOJIS = ['😫', '😟', '😐', '🙂', '😄']
+
 function readSprintMetrics(): AppData | null {
   const session = read<{
     projectName?: string
     lastVelocity?: number
     avgVelocity?: number
     sprintsRemaining?: number | null
+    lastMood?: number | null
     updatedAt?: string
   }>('sprint-metrics:lastSession')
 
@@ -302,6 +305,9 @@ function readSprintMetrics(): AppData | null {
     if (session.lastVelocity != null) chips.push(chip(session.lastVelocity, 'last vel.'))
     chips.push(chip(session.avgVelocity, 'avg vel.'))
     if (session.sprintsRemaining != null) chips.push(chip(session.sprintsRemaining, plural(session.sprintsRemaining, 'sprint left')))
+    if (session.lastMood != null && session.lastMood >= 1 && session.lastMood <= 5) {
+      chips.push(chip(MOOD_EMOJIS[session.lastMood - 1]!, 'mood'))
+    }
     const rawSprints = read<Array<{ completed?: number }>>('sprint-metrics-sprints') ?? []
     const velocities = rawSprints.map(s => Number(s.completed) || 0).filter(v => v > 0)
     const ts = session.updatedAt ? new Date(session.updatedAt).getTime() : undefined
