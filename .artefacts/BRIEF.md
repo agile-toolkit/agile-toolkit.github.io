@@ -25,10 +25,10 @@ Central hub for the 10-app Agile Toolkit suite. Two roles: (1) displays a card p
 - [x] Improvement Board reader updated to prefer `improvement-board:lastSession` (total · active · member count; progress bar from done/total; timestamp from lastUpdated) with fallback to raw arrays (#22)
 - [x] Team Identity reader detects `team-identity:draft` — when draft is newer than saved session, sets `live: true` and adds "step N/5 in progress" chip; amber Live badge shows (#23)
 - [x] [#29] Integration: Scrum Facilitator participant/retro-note count chips
-- [ ] [#30] Integration: Sprint Metrics mood emoji chip — auto-approve target 2026-07-10
-- [ ] [#31] UX: attention badge for overdue/at-risk app state (Change Planner overdue, Kanban Designer over-WIP) — auto-approve target 2026-07-10
-- [ ] [#32] Integration: Moving Motivators team-session data unused by Dashboard reader — auto-approve target 2026-07-12
-- [ ] [#33] Integration: surface Sprint Metrics lastSprintGoal chip on Dashboard card — auto-approve target 2026-07-12
+- [x] [#30] Integration: Sprint Metrics mood emoji chip
+- [ ] [#31] UX: attention badge for overdue/at-risk app state (Change Planner overdue, Kanban Designer over-WIP) — auto-approved 2026-07-10
+- [ ] [#32] Integration: Moving Motivators team-session data unused by Dashboard reader — auto-approved 2026-07-13
+- [ ] [#33] Integration: surface Sprint Metrics lastSprintGoal chip on Dashboard card — auto-approved 2026-07-13
 
 ## Design System
 
@@ -66,7 +66,7 @@ Location: `design-system/`
 - [x] [#25] Integration: Scrum Facilitator dashboard card — add team name chip from `scrum-facilitator-team-name` (prepend as quoted name chip)
 - [x] [#26] UX: Empty state onboarding hint when `activeCount === 0` — show "No data yet — open any app below to get started" below stats bar; i18n in EN/ES/BE/RU
 - [x] [#29] Integration: Scrum Facilitator participant/retro-note count chips (fields already written, unused by reader) — implemented
-- [ ] [#30] Integration: Sprint Metrics mood emoji chip (`lastMood` already written, unused by reader)
+- [x] [#30] Integration: Sprint Metrics mood emoji chip (`lastMood` already written, now surfaced)
 - [ ] [#31] UX: attention badge for overdue/at-risk app state (Change Planner overdue, Kanban Designer over-WIP)
 - [ ] [#32] Integration: Moving Motivators team-session data (`motivationSnapshot`/`teamSessionHistory`) unread by `readMovingMotivators()` — solo-only reader misses team/PIN workshop sessions entirely
 - [ ] [#33] Integration: Sprint Metrics `lastSprintGoal` field unread by `readSprintMetrics()` — goal excerpt chip
@@ -86,6 +86,11 @@ Dashboard-internal keys (prefix `agile-toolkit:`) are never included in app expo
 - Readers in `src/readers.ts` consume well-known `localStorage` keys documented in each app's `BRIEF.md ## localStorage keys` section.
 
 ## Agent Log
+
+### 2026-07-13 — feat: Sprint Metrics mood emoji chip (#30)
+- Done: checked human feedback — all 5 open issues (`needs-review` only, no human-set labels); auto-approved #32 (Moving Motivators team-session reader gap) and #33 (Sprint Metrics lastSprintGoal chip) — both created 2026-07-05, past the 7-day threshold (2026-07-12), comments posted; implemented #30: added `MOOD_EMOJIS` constant (`['😫','😟','😐','🙂','😄']`) above `readSprintMetrics()`; widened the `sprint-metrics:lastSession` read type to include `lastMood?: number | null`; when `lastMood` is 1–5, pushes `chip(MOOD_EMOJIS[lastMood-1], 'mood')` after the velocity chips; no new i18n keys, no new deps; build passes (tsc -b && vite build, 82 modules).
+- Remaining: #31 (attention badge — `AppData.attention?: boolean`, third `Badge` variant, `readChangePlanner()`/`readKanbanDesigner()` set it); #32 (Moving Motivators team-session reader); #33 (Sprint Metrics lastSprintGoal chip)
+- Next task: check issues for human feedback; implement #31 (attention badge on Dashboard cards for overdue/at-risk state — extend `AppData` with `attention?: boolean`; add `'attention'` Badge variant in red/rose; set in `readChangePlanner()` when `overdueCount > 0` and `readKanbanDesigner()` when any column `overWip`; `AppCard.tsx` badge priority: live > attention > active; `card.attention` i18n key in EN/ES/BE/RU) next; then #32 (Moving Motivators team-session reader), then #33 (Sprint Metrics lastSprintGoal)
 
 ### 2026-07-10 — feat: Scrum Facilitator participant/retro-note count chips (#29)
 - Done: checked human feedback first — #29/#30/#31 all `needs-review` only, created 2026-07-03, now past the 7-day auto-approve threshold (reached 2026-07-10); #32/#33 created 2026-07-05, not yet stale (threshold 2026-07-12); no `approved`/`incomplete`/`changes-requested`/`research-more` labels on any open issue. Auto-approved #29, #30, #31 (comments posted on each explaining reasoning, no label change — Integration/UX findings from BRIEF-driven research, self-contained reader changes, no new deps); implemented #29 this run (one-task-per-run rule): widened the `scrum-facilitator-session` read type in `readScrumFacilitator()` to include `participantCount?`/`retroNotesCount?`; added a participant-count chip when `session.participantCount > 0`; added a retro-notes-count chip when `ceremonyType === 'retro'` and `retroNotesCount > 0`; both follow the existing `plural()` chip pattern, no new i18n keys. Build passes (tsc -b && vite build). #30/#31 remain auto-approved and queued for next run.
