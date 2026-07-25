@@ -1,5 +1,5 @@
 interface Props {
-  variant: 'live' | 'active'
+  variant: 'live' | 'active' | 'attention'
 }
 
 export default function Badge({ variant }: Props) {
@@ -8,6 +8,14 @@ export default function Badge({ variant }: Props) {
       <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 flex-shrink-0">
         <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
         Live
+      </span>
+    )
+  }
+  if (variant === 'attention') {
+    return (
+      <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-red-100 text-red-700 flex-shrink-0">
+        <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+        Needs attention
       </span>
     )
   }

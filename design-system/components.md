@@ -220,6 +220,10 @@ A card that represents one app on the Dashboard. Shows icon, title, description,
 | Active  | `data !== null`      | `--color-active-top-border` | "Active" (emerald)  |
 | Live    | `data.live === true` | `--color-live-top-border`   | "Live" + pulse dot  |
 
+Badge priority when multiple states apply: `live` > `attention` > `active` — a
+live session still takes visual priority even when the app also has something
+needing attention.
+
 ### Usage
 
 ```tsx
@@ -236,15 +240,16 @@ Inline pill that shows live/active status. Extracted from AppCard.
 
 ### Props
 
-| Prop      | Type                  | Description                    |
-|-----------|-----------------------|--------------------------------|
-| `variant` | `'live' \| 'active'` | Controls color scheme and icon |
+| Prop      | Type                              | Description                    |
+|-----------|------------------------------------|--------------------------------|
+| `variant` | `'live' \| 'active' \| 'attention'` | Controls color scheme and icon |
 
 ### Usage
 
 ```tsx
-<Badge variant="live" />    {/* amber pill + animated pulse dot */}
-<Badge variant="active" />  {/* emerald pill                   */}
+<Badge variant="live" />       {/* amber pill + animated pulse dot */}
+<Badge variant="active" />     {/* emerald pill                    */}
+<Badge variant="attention" />  {/* red pill + static dot — at-risk app state */}
 ```
 
 ---

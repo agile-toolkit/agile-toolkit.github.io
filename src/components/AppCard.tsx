@@ -19,6 +19,7 @@ export default function AppCard({ app, data }: Props) {
   const hasData = data !== null
   const titleKey = `apps.${app.id.replace(/-/g, '_')}.title`
   const descKey  = `apps.${app.id.replace(/-/g, '_')}.desc`
+  const badgeVariant = data?.live ? 'live' : data?.attention ? 'attention' : hasData ? 'active' : null
 
   const borderClass = data?.live
     ? 'border-t-[2px] border-t-orange-400 border-x-slate-200 dark:border-x-gray-700 border-b-slate-200 dark:border-b-gray-700'
@@ -37,9 +38,7 @@ export default function AppCard({ app, data }: Props) {
         <span className="flex-1 font-semibold text-blue-600 dark:text-blue-400 text-[0.9375rem] leading-snug">
           {t(titleKey, app.title)}
         </span>
-        {(data?.live || hasData) && (
-          <Badge variant={data?.live ? 'live' : 'active'} />
-        )}
+        {badgeVariant && <Badge variant={badgeVariant} />}
       </div>
 
       {/* Description */}

@@ -41,6 +41,11 @@ double-exported.
   dedicated `<app>:lastSession` summary key (richer, pre-aggregated) with a
   fallback to that app's raw arrays for apps that haven't written a summary
   key yet, or for legacy data written before the summary key existed.
+- **`AppData.attention`** — optional flag a reader sets when that app has
+  something at-risk (Change Planner: an overdue open action; Kanban Designer:
+  a column over its WIP limit). Renders as the red `Badge` `'attention'`
+  variant on the card header; priority vs. the other badge states is
+  `live` > `attention` > `active`.
 - **Refresh** — polls every 5s and also listens for the `storage` event, so a
   card updates within the same tab if another app writes to `localStorage`
   (e.g. two tabs open side by side).

@@ -102,7 +102,7 @@ function readKanbanDesigner(): AppData | null {
     overWip: !!c.wipLimit && (c.cards ?? []).length > c.wipLimit,
   }))
 
-  return { chips, timestamp: cur.updatedAt, boardColumns }
+  return { chips, timestamp: cur.updatedAt, boardColumns, attention: boardColumns.some(c => c.overWip) }
 }
 
 // ── salary-formula ──────────────────────────────────────────────────────────
@@ -374,6 +374,7 @@ function readChangePlanner(): AppData | null {
     chips,
     timestamp: top?.updatedAt ?? top?.createdAt,
     facetCoverage,
+    attention: overdueCount > 0,
   }
 }
 

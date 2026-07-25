@@ -14,6 +14,7 @@ export interface AppData {
   chips: StatChip[]
   timestamp?: number
   live?: boolean
+  attention?: boolean
   velocities?: number[]
   progressDone?: number
   progressTotal?: number
