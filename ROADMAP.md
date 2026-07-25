@@ -4,23 +4,24 @@ Derived from GOAL.md. Rebuilt when GOAL changes or an epic ships.
 
 ## Current epic
 
-None — idle. See `## Next epics` below for the next candidate.
+**[E1: Reader completeness](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/40)**
+— serves GOAL #1, #5. Auto-approved (all three sub-issues past the 7-day
+staleness threshold, epic already agreed in this roadmap). Three
+self-contained, independently-shippable features, no ordering dependency:
+- [#31](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/31) —
+  attention badge on cards for at-risk app state (Change Planner overdue
+  actions, Kanban Designer over-WIP columns)
+- [#32](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/32) —
+  Moving Motivators team/PIN session data is invisible to the Dashboard
+  reader today (only solo sessions are read)
+- [#33](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/33) —
+  Sprint Metrics `lastSprintGoal` field is written but never surfaced as a
+  chip
 
 ## Next epics
 
-1. **E1: Reader completeness** — serves #1, #5. Three open, self-contained
-   reader/UX gaps already scoped in issues, none implemented yet:
-   - [#31](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/31) —
-     attention badge on cards for at-risk app state (Change Planner overdue
-     actions, Kanban Designer over-WIP columns)
-   - [#32](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/32) —
-     Moving Motivators team/PIN session data is invisible to the Dashboard
-     reader today (only solo sessions are read)
-   - [#33](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/33) —
-     Sprint Metrics `lastSprintGoal` field is written but never surfaced as a
-     chip
-   All three are `needs-review`, past the 7-day staleness threshold — next
-   `research` run should auto-approve and adopt this as `current_epic`.
+None queued — E1 above is the only scoped epic. Next `research` run (after
+E1 ships) should look for new candidates.
 
 ## Polish backlog
 
