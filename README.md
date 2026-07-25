@@ -5,8 +5,7 @@ reading each app's own `localStorage` in the same browser — no backend, no
 sync. Also hosts the shared design system (`design-system/`) that the other
 apps copy tokens and components from.
 
-See `.artefacts/GOAL.md` for why this exists and `.artefacts/ROADMAP.md` for
-what's next.
+See `GOAL.md` for why this exists and `ROADMAP.md` for what's next.
 
 ## Dev commands
 
