@@ -22,16 +22,40 @@ function readMovingMotivators(): AppData | null {
     change?: string; changes?: Record<string, string>
   }>('moving-motivators:lastSession')
   const sessionHistory = read<Array<{ savedAt?: number; teamName?: string }>>('moving-motivators:sessionHistory') ?? []
-  if (!session?.ranked?.length) return null
 
-  const top3 = session.ranked.slice(0, 3)
+  const teamSnapshot = read<{
+    teamName?: string; date?: string; topMotivators?: string[]; participantCount?: number
+  }>('moving-motivators:motivationSnapshot')
+  const teamHistory = read<Array<{
+    sessionId?: string; teamName?: string; date?: string; topMotivators?: string[]; participantCount?: number
+  }>>('moving-motivators:teamSessionHistory') ?? []
+  const team = teamSnapshot?.topMotivators?.length ? teamSnapshot : teamHistory[0]
+
+  const hasSolo = !!session?.ranked?.length
+  const hasTeam = !!team?.topMotivators?.length
+  if (!hasSolo && !hasTeam) return null
+
+  const soloTimestamp = session?.savedAt ?? sessionHistory[0]?.savedAt
+  const teamTimestamp = team?.date ? new Date(team.date).getTime() : undefined
+  const useTeam = hasTeam && (!hasSolo || (teamTimestamp ?? 0) > (soloTimestamp ?? 0))
+
+  if (useTeam) {
+    const top3 = team!.topMotivators!.slice(0, 3)
+      .map(id => id.charAt(0).toUpperCase() + id.slice(1))
+      .join(' · ')
+    const chips: StatChip[] = [chip(top3, 'top motivators')]
+    if (team!.participantCount) chips.push(chip(team!.participantCount, plural(team!.participantCount, 'participant')))
+    if (teamHistory.length > 1) chips.push(chip(teamHistory.length, plural(teamHistory.length, 'session')))
+    return { chips, timestamp: teamTimestamp }
+  }
+
+  const top3 = session!.ranked!.slice(0, 3)
     .map(id => id.charAt(0).toUpperCase() + id.slice(1))
     .join(' · ')
   const chips: StatChip[] = [chip(top3, 'top motivators')]
-  if (session.change) chips.push(chip(`"${trunc(session.change, 22)}"`, 'change'))
+  if (session!.change) chips.push(chip(`"${trunc(session!.change, 22)}"`, 'change'))
   if (sessionHistory.length > 1) chips.push(chip(sessionHistory.length, plural(sessionHistory.length, 'session')))
-  const timestamp = session.savedAt ?? sessionHistory[0]?.savedAt
-  return { chips, timestamp }
+  return { chips, timestamp: soloTimestamp }
 }
 
 // ── scrum-facilitator ───────────────────────────────────────────────────────────

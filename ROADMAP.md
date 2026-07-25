@@ -8,12 +8,12 @@ Derived from GOAL.md. Rebuilt when GOAL changes or an epic ships.
 — serves GOAL #1, #5. Auto-approved (all three sub-issues past the 7-day
 staleness threshold, epic already agreed in this roadmap). Three
 self-contained, independently-shippable features, no ordering dependency:
-- [#31](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/31) —
+- ~~[#31](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/31) —
   attention badge on cards for at-risk app state (Change Planner overdue
-  actions, Kanban Designer over-WIP columns)
-- [#32](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/32) —
+  actions, Kanban Designer over-WIP columns)~~ — shipped in `9591d29`
+- ~~[#32](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/32) —
   Moving Motivators team/PIN session data is invisible to the Dashboard
-  reader today (only solo sessions are read)
+  reader today (only solo sessions are read)~~ — shipped this run
 - [#33](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/33) —
   Sprint Metrics `lastSprintGoal` field is written but never surfaced as a
   chip
