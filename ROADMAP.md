@@ -4,7 +4,8 @@ Derived from GOAL.md. Rebuilt when GOAL changes or an epic ships.
 
 ## Current epic
 
-**E2: Shared team identity primitive** — serves the platform thesis directly
+**[E2: Shared team identity primitive](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/41)**
+— serves the platform thesis directly
 ("a shared team object... written once and readable everywhere") and the
 Dashboard's stated role ("owns the workspace primitive that everything else
 syncs around"). Filed after GOAL.md was refreshed to the new suite platform
