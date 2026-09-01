@@ -78,7 +78,7 @@ export default function App() {
                   {t('stats.in_use', { count: activeCount })}
                 </strong>
                 {' '}&nbsp;·&nbsp;{' '}
-                <span className="text-slate-400 dark:text-gray-500 font-normal normal-case tracking-normal">
+                <span className="text-[color:var(--fg-3)] font-normal normal-case tracking-normal">
                   {t('stats.sorted_hint')}
                 </span>
               </>
@@ -103,7 +103,7 @@ export default function App() {
       <ExportImport />
 
       <footer className="text-center py-10 text-sm text-slate-500 dark:text-gray-400 border-t border-slate-200 dark:border-gray-800 mt-2">
-        <a href="https://github.com/agile-toolkit" className="text-blue-600 dark:text-blue-400 hover:underline">
+        <a href="https://github.com/agile-toolkit" className="text-blue-600 dark:text-blue-400 underline">
           github.com/agile-toolkit
         </a>
         <span className="mx-2 opacity-40">·</span>

@@ -55,7 +55,7 @@ export default function LanguagePicker() {
         className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-sm font-medium text-slate-600 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-gray-800 transition-colors select-none"
       >
         <span>{active.label}</span>
-        <svg className={`w-3 h-3 text-slate-400 dark:text-gray-500 transition-transform ${open ? 'rotate-180' : ''}`} viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <svg className={`w-3 h-3 text-[color:var(--fg-3)] transition-transform ${open ? 'rotate-180' : ''}`} viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d="M2 4l4 4 4-4" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </button>

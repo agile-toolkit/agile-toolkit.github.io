@@ -24,7 +24,7 @@ export default function MiniKanban({ columns }: Props) {
             col.overWip ? 'text-red-700 dark:text-red-300' : 'text-slate-700 dark:text-gray-200'
           }`}>
             {col.count}
-            {col.wip ? <span className="text-[0.6rem] font-normal text-slate-400 dark:text-gray-500">/{col.wip}</span> : null}
+            {col.wip ? <span className="text-[0.6rem] font-normal text-[color:var(--fg-3)]">/{col.wip}</span> : null}
           </div>
         </div>
       ))}

@@ -133,7 +133,7 @@ export default function ExportImport() {
   return (
     <div className="border-t border-slate-200 dark:border-gray-800 mt-4">
       <div className="max-w-[1120px] mx-auto px-6 py-6">
-        <p className="text-[0.75rem] font-semibold uppercase tracking-widest text-slate-400 dark:text-gray-500 mb-3">
+        <p className="text-[0.75rem] font-semibold uppercase tracking-widest text-[color:var(--fg-3)] mb-3">
           {t('data.section')}
         </p>
 
@@ -161,7 +161,7 @@ export default function ExportImport() {
             {status ? (
               <StatusBadge status={status} />
             ) : (
-              <span className="text-xs text-slate-400 dark:text-gray-500">
+              <span className="text-xs text-[color:var(--fg-3)]">
                 {t('data.hint')}
               </span>
             )}

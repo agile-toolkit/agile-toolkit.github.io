@@ -320,12 +320,14 @@ function readSprintMetrics(): AppData | null {
     avgVelocity?: number
     sprintsRemaining?: number | null
     lastMood?: number | null
+    lastSprintGoal?: string
     updatedAt?: string
   }>('sprint-metrics:lastSession')
 
   if (session?.avgVelocity != null) {
     const chips: StatChip[] = []
     if (session.projectName) chips.push(chip(`"${trunc(session.projectName, 18)}"`, ''))
+    if (session.lastSprintGoal) chips.push(chip(trunc(session.lastSprintGoal, 40), 'goal'))
     if (session.lastVelocity != null) chips.push(chip(session.lastVelocity, 'last vel.'))
     chips.push(chip(session.avgVelocity, 'avg vel.'))
     if (session.sprintsRemaining != null) chips.push(chip(session.sprintsRemaining, plural(session.sprintsRemaining, 'sprint left')))

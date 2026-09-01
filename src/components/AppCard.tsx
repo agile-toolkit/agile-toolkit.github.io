@@ -66,7 +66,7 @@ export default function AppCard({ app, data }: Props) {
           {data.velocities && data.velocities.length > 1 && (
             <div className="flex items-center gap-2">
               <MiniBarChart values={data.velocities} />
-              <span className="text-[0.725rem] text-slate-400 dark:text-gray-500">{t('card.velocity')}</span>
+              <span className="text-[0.725rem] text-[color:var(--fg-3)]">{t('card.velocity')}</span>
             </div>
           )}
 
@@ -83,12 +83,12 @@ export default function AppCard({ app, data }: Props) {
                   }`}
                 />
               ))}
-              <span className="text-[0.7rem] text-slate-400 dark:text-gray-500 ml-0.5">{t('card.facets')}</span>
+              <span className="text-[0.7rem] text-[color:var(--fg-3)] ml-0.5">{t('card.facets')}</span>
             </div>
           )}
 
           {data.timestamp != null && (
-            <div className="text-right text-[0.7rem] text-slate-400 dark:text-gray-500 -mb-0.5">
+            <div className="text-right text-[0.7rem] text-[color:var(--fg-3)] -mb-0.5">
               {timeAgo(data.timestamp)}
             </div>
           )}

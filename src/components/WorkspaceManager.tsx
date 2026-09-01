@@ -248,7 +248,7 @@ export default function WorkspaceManager() {
               <button
                 onClick={() => setManageOpen(false)}
                 aria-label={t('workspace.close')}
-                className="text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300 transition-colors text-lg leading-none"
+                className="text-[color:var(--fg-3)] hover:text-slate-600 dark:hover:text-gray-300 transition-colors text-lg leading-none"
               >
                 ✕
               </button>
@@ -256,7 +256,7 @@ export default function WorkspaceManager() {
 
             <div className="divide-y divide-slate-100 dark:divide-gray-800 max-h-96 overflow-y-auto">
               {workspaceNames.length === 0 && (
-                <p className="px-5 py-8 text-sm text-center text-slate-400 dark:text-gray-500">
+                <p className="px-5 py-8 text-sm text-center text-[color:var(--fg-3)]">
                   {t('workspace.empty')}
                 </p>
               )}
@@ -293,7 +293,7 @@ export default function WorkspaceManager() {
                           {name}{name === active && ' ✓'}
                         </p>
                       )}
-                      <p className="text-xs text-slate-400 dark:text-gray-500 mt-0.5">
+                      <p className="text-xs text-[color:var(--fg-3)] mt-0.5">
                         {snap.savedAt > 0
                           ? t('workspace.saved_at', {
                               time: new Date(snap.savedAt).toLocaleString(),
@@ -338,7 +338,7 @@ export default function WorkspaceManager() {
 function WorkspaceIcon() {
   return (
     <svg
-      className="w-3.5 h-3.5 text-slate-400 dark:text-gray-500 flex-shrink-0"
+      className="w-3.5 h-3.5 text-[color:var(--fg-3)] flex-shrink-0"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
@@ -356,7 +356,7 @@ function WorkspaceIcon() {
 function ChevronIcon({ open }: { open: boolean }) {
   return (
     <svg
-      className={`w-3 h-3 text-slate-400 dark:text-gray-500 flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
+      className={`w-3 h-3 text-[color:var(--fg-3)] flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"

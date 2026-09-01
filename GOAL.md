@@ -1,28 +1,54 @@
-### Agile Toolkit Dashboard — Goal
+# Agile Toolkit — Goals
 
-#### Outcome
+Human-authored. The agent derives `ROADMAP.md` from this and never edits it.
+Goals name outcomes, not mechanisms — invention is expected. Canonical source:
+`GOALS.md` in the `agile-toolkit/.github` meta-repo.
 
-Be the door people bookmark — the page they return to, and the place
-from which they discover tools they did not know they needed.
+## The thesis
 
-#### Why this app can win it
+Eleven tools are not the product. One platform is. A team's identity,
+capacity, estimates, ceremonies, improvements and metrics are the same team
+seen from different angles — and every commercial alternative sells them as
+separate seats. Our advantage is that the pieces already share a browser: a
+URL, no login, and data each app can read from the others. What holds it
+together is a shared team object — one team's identity, people, capacity and
+history, written once and readable everywhere. The goal is to make that
+connection so useful that leaving it costs something.
 
-It already sees every app's data. It can show a person something useful
-before they open anything, which no launcher-style page normally can. It is also
-the only surface where the suite looks like a suite rather than eleven unrelated
-links.
+## Revenue
 
-#### Signals
+Sustainability is an outcome, not an afterthought. The free product must stay
+whole; the paid one adds, never gates. Order matters: reach and platform
+depth come first, because a paid tier on an empty funnel earns nothing and
+costs credibility. Three live paths:
 
-1. Share of suite sessions that begin here rather than at a deep link.
-2. Apps used per visitor — the number that turns eleven tools into one product.
-3. Return rate: visitors who come back within a sprint.
-4. Onward clicks: dashboard visit converting into an actual app session.
+- **Team sync** — local data is free forever; cross-device, cross-team and
+  historical persistence is the natural paid tier.
+- **White-label** — consultants hand these to clients; branding and client
+  workspaces are worth paying for.
+- **Teaching** — board design, facilitation and compensation carry training
+  material that sells itself alongside the tool.
 
-#### Boundaries
+## Signals
 
-- Not an analytics product; it reflects local data, it does not collect it.
-- Not an account system.
-- Never a wall between a person and an app they came to use.
+Reach (stars, inbound links) · Adoption (returning sessions, apps per
+visitor) · Platform depth (teams using 3+ tools, cross-app data flowing) ·
+Revenue (paying teams, covering costs, compounding without labour). Platform
+depth is the leading indicator: teams that use three tools are the ones who
+will pay for the fourth to remember them.
+
+## Boundaries
+
+No mandatory account for core use · no ads, no data selling, no dark
+patterns · no backend the agent operates · a paid tier never removes what was
+free.
+
+## This app's role: Dashboard — Activation
+
+Turns one-tool visitors into platform users; owns the workspace primitive
+that everything else syncs around.
+
+None of the suite's apps are: a Jira replacement, an HR record system, a BI
+tool, a signup wall, or an instrument for tracking individuals.
 
 *Repo: `agile-toolkit/agile-toolkit.github.io`*

@@ -7,7 +7,7 @@ export default function ProgressBar({ done, total }: Props) {
   const pct = total > 0 ? Math.round((done / total) * 100) : 0
   return (
     <div className="space-y-1 mt-1">
-      <div className="flex justify-between text-[0.7rem] text-slate-400 dark:text-gray-500">
+      <div className="flex justify-between text-[0.7rem] text-[color:var(--fg-3)]">
         <span>{t('card.progress_done', { count: done })}</span>
         <span>{t('card.progress_open', { count: total - done })}</span>
       </div>
