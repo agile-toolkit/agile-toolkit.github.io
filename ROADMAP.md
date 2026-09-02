@@ -4,61 +4,19 @@ Derived from GOAL.md. Rebuilt when GOAL changes or an epic ships.
 
 ## Current epic
 
-**[E2: Shared team identity primitive](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/41)**
-— serves the platform thesis directly
-("a shared team object... written once and readable everywhere") and the
-Dashboard's stated role ("owns the workspace primitive that everything else
-syncs around"). Filed after GOAL.md was refreshed to the new suite platform
-thesis (2026-09-01).
-
-**Problem, grounded in the current code:** every app that needs a team name
-asks for its own, separately, and none of them share it:
-- `team-identity:lastSession.teamName` (`readTeamIdentity()` already reads
-  it for the card, but only for display)
-- `scrum-facilitator-team-name` (its own standalone key)
-- Moving Motivators' team sessions carry their own `teamName` per session
-- Planning Poker, Sprint Metrics, Improvement Board, Kanban Designer,
-  Work Profiles, Change Planner, Salary Formula have no team-name concept
-  today, or store one locally with no cross-app link
-
-A visitor who names their team in Team Identity gets asked to name it again
-in every other tool. That's the opposite of "written once, readable
-everywhere," and it's the concrete, observable form of the missing platform
-layer the new GOAL calls out.
-
-**Phase 1 (this epic, this repo):** the Dashboard defines and owns the
-contract, alongside the existing `agile-toolkit:activeWorkspace` /
-`agile-toolkit:workspaces` primitive it already maintains:
-- Add `agile-toolkit:activeTeam` — `{ name: string, source: string,
-  updatedAt: number }` — written by whichever app the user last set a team
-  name in (starting with Team Identity, since it's the canonical "produces
-  the team object" app per GOAL), read by the Dashboard.
-- Dashboard surfaces the active team name in its own header/workspace area
-  (not just inside the Team Identity card) so it visibly becomes a
-  suite-wide fact, not an app-local one.
-- Document the contract in `README.md` `## localStorage keys` and in
-  `design-system/components.md` (or a new `design-system/contracts.md` if
-  the pattern is going to recur) so other apps' agents know the key exists
-  and its shape before they start reading or writing it.
-
-**Phase 2+ (future epics, filed in the consumer/producer repos when picked):**
-Team Identity writes `agile-toolkit:activeTeam` on save; Scrum Facilitator,
-Planning Poker, Moving Motivators and others prefill their own team-name
-field from it instead of asking again. Out of scope for this epic — each of
-those is a separate repo's own epic, filed and implemented when that repo is
-next picked, per the one-repo-per-run rule.
-
-**Why Dashboard goes first:** the Dashboard already owns the one existing
-cross-app primitive (`agile-toolkit:workspaces`), already reads every app's
-`teamName`-shaped field for its cards, and is the only place a visitor sees
-all ten tools at once — it's the natural place to define the contract before
-asking nine other repos to adopt it.
+None. E2 (below) shipped the same run it was filed — see `## Shipped`.
+Next `research` run should look for the next candidate; the most obvious
+lead is Phase 2 of E2 (per-app adoption of `agile-toolkit:activeTeam`), but
+that's each consumer app's own epic, filed in that app's own repo when it's
+next picked — not this one.
 
 ## Next epics
 
-None queued beyond E2 above. Phase 2 epics (per-app adoption of
-`agile-toolkit:activeTeam`) get filed in each consumer app's own repo, not
-here, once Phase 1 ships and the contract is stable.
+None queued in this repo. Phase 2 of E2 (per-app adoption of
+`agile-toolkit:activeTeam` — Scrum Facilitator, Planning Poker, Moving
+Motivators and others prefilling their own team-name field from it instead
+of asking again) belongs in each consumer app's own repo, filed when that
+repo is next picked, per the one-repo-per-run rule.
 
 ## Polish backlog
 
@@ -105,3 +63,15 @@ below is already live in `main`:
   Moving Motivators team/PIN session data surfaced on the card~~
 - ~~[#33](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/33) —
   Sprint Metrics `lastSprintGoal` chip~~
+
+**v0.3.0 — [E2: Shared team identity primitive](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/41)**
+(2026-09-01) — filed and shipped the same run, against the new suite
+platform GOAL:
+- ~~`agile-toolkit:activeTeam` contract (`src/team.ts`) — written by
+  whichever app last set a team name, starting with the Dashboard itself
+  seeding it from Team Identity's `teamName` on every scan~~
+- ~~`TeamPill` in the nav bar surfaces the active team name suite-wide,
+  not just inside the Team Identity card~~
+- ~~Contract + component copied into `design-system/` with a catalog entry,
+  so other apps can adopt reading — or writing — it as their own future
+  epic (Phase 2, filed per-repo, not here)~~

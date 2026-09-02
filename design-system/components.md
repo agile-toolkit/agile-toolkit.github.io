@@ -365,7 +365,7 @@ Emerald progress bar with "X done / Y open" labels. Used on the Improvement Boar
 - Fill = `done / total × 100%`, rounded to nearest integer.
 - Fill color: `emerald-500` (`--color-active-fill`).
 - Track: `slate-200`, `h-1.5`, `rounded-full`.
-- Labels: "X done" (left) | "Y open" (right) in `text-[0.7rem] text-slate-400`.
+- Labels: "X done" (left) | "Y open" (right) in `text-[0.7rem] text-[color:var(--fg-3)]`.
 - Smooth fill transition: `duration-500`.
 
 ### Usage
@@ -435,12 +435,12 @@ The grey inset box inside each AppCard. Compose the above components inside it:
   {data.velocities?.length > 1 && (
     <div className="flex items-center gap-2">
       <MiniBarChart values={data.velocities} />
-      <span className="text-[0.725rem] text-slate-400">velocity trend</span>
+      <span className="text-[0.725rem] text-[color:var(--fg-3)]">velocity trend</span>
     </div>
   )}
 
   {data.timestamp != null && (
-    <div className="text-right text-[0.7rem] text-slate-400">
+    <div className="text-right text-[0.7rem] text-[color:var(--fg-3)]">
       {timeAgo(data.timestamp)}
     </div>
   )}
@@ -450,3 +450,52 @@ The grey inset box inside each AppCard. Compose the above components inside it:
 ### Standard app header
 
 Use the `AppHeader` component (see above) — it handles the dashboard grid icon, title, nav pills, language picker, and all style invariants in one place. Do not copy the old inline header pattern.
+
+---
+
+## TeamPill
+
+Displays the suite-wide active team name from the cross-app `agile-toolkit:activeTeam` contract (see `design-system/team.ts`), if one is set. Renders nothing when no team is set — it never blocks or gates solo use.
+
+**Source:** `design-system/components/TeamPill.tsx`
+**Depends on:** `design-system/team.ts` (copy both), `react-i18next`
+**Live in:** the Dashboard's `src/components/TeamPill.tsx` — the first (and, as of this writing, only) app to both write and read the contract. Adopt in another app to *read* it (drop `<TeamPill />` into `AppHeader`'s `children` slot); adopt in an app that owns a team-name field to also *write* it via `writeActiveTeam(name, sourceAppId)`.
+
+### The `agile-toolkit:activeTeam` contract
+
+```ts
+interface ActiveTeam {
+  name: string        // trimmed, non-empty
+  source: string       // the app id that last wrote it, e.g. "team-identity"
+  updatedAt: number    // Date.now() at write time
+}
+```
+
+`readActiveTeam()` returns `null` if unset or unparseable. `writeActiveTeam(name, source)` no-ops when the name/source already match the stored value, so a polling refresh loop doesn't spam `storage` events or rewrite `updatedAt` on every tick. Last-write-wins across apps — there's no merge or conflict resolution, matching every other cross-app key in this suite.
+
+### Usage
+
+```tsx
+import TeamPill from './components/TeamPill'
+
+<AppHeader title={t('app.title')}>
+  <TeamPill />
+</AppHeader>
+```
+
+To also *write* the contract (an app that owns its own team-name field should propagate it):
+
+```ts
+import { writeActiveTeam } from './team'
+
+writeActiveTeam(teamName, 'scrum-facilitator') // use this app's id as source
+```
+
+### Why this exists
+
+Filed as Dashboard epic E2 against the suite's platform GOAL ("a shared team
+object... written once and readable everywhere"). Phase 1 (the contract +
+Dashboard read/write) shipped in the Dashboard; per-app adoption (reading it
+to prefill an existing team-name field, or writing it instead of a
+standalone key) is each app's own future epic, filed when that repo is next
+picked.

@@ -2,10 +2,22 @@
 
 ## Unreleased
 
+## 0.3.0 — E2: Shared team identity primitive (2026-09-01)
+
 - docs: refresh `GOAL.md` from the suite-wide `GOALS.md` platform thesis
   (shared team object, revenue paths, per-app platform roles) and rebuild
-  `ROADMAP.md` around it. Filed E2 (shared team identity primitive) as the
-  next epic — no code shipped yet, implementation starts next run.
+  `ROADMAP.md` around it.
+- feat: cross-app team identity contract — `agile-toolkit:activeTeam`
+  (`src/team.ts`: `readActiveTeam()` / `writeActiveTeam(name, source)`).
+  The Dashboard seeds it from Team Identity's `teamName` on every scan
+  (Team Identity is the canonical "produces the team object" app per GOAL)
+  and displays it via a new `TeamPill` in the nav bar, next to the wordmark
+  — a team named once in Team Identity is now visible suite-wide instead of
+  staying local to that app's own card. Contract + component copied into
+  `design-system/` (`team.ts`, `components/TeamPill.tsx`, new catalog entry)
+  so any other app can adopt reading it — or writing it instead of its own
+  standalone team-name key — as its own future epic. i18n: `team.pill_label`
+  in EN/ES/BE/RU.
 
 ## 0.2.0 — E1: Reader completeness (2026-09-01)
 

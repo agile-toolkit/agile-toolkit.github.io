@@ -61,5 +61,6 @@
   "apps.sprint_metrics.title": "Sprint Metrics",
   "apps.sprint_metrics.desc": "Burn-down, forecast, and sprint data in one place for the current iteration. Chrome extension for Jira with flow metrics.",
   "apps.change_planner.title": "Change Planner",
-  "apps.change_planner.desc": "Structure and communicate change across teams and releases. Interactive planning based on the PDCA cycle and Jurgen Appelo's How to Change the World."
+  "apps.change_planner.desc": "Structure and communicate change across teams and releases. Interactive planning based on the PDCA cycle and Jurgen Appelo's How to Change the World.",
+  "team.pill_label": "Active team: {{name}}"
 }

@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { APPS } from './apps'
-import { readAll } from './readers'
+import { readAll, readTeamIdentityName } from './readers'
+import { writeActiveTeam } from './team'
 import type { AppData } from './types'
 import AppCard from './components/AppCard'
 import ExportImport from './components/ExportImport'
 import LanguagePicker from './components/LanguagePicker'
+import TeamPill from './components/TeamPill'
 import ThemeToggle from './components/ThemeToggle'
 import WorkspaceManager from './components/WorkspaceManager'
 
@@ -15,6 +17,13 @@ export default function App() {
 
   const refresh = useCallback(() => {
     try { setData(readAll()) } catch { /* ignore */ }
+    // Team Identity is the canonical "produces the team object" app per
+    // GOAL.md — seed the cross-app activeTeam contract from it until other
+    // apps adopt writing it directly (E2 Phase 2, filed per-repo).
+    try {
+      const name = readTeamIdentityName()
+      if (name) writeActiveTeam(name, 'team-identity')
+    } catch { /* ignore */ }
   }, [])
 
   useEffect(() => {
@@ -42,10 +51,13 @@ export default function App() {
       {/* Sticky nav */}
       <nav className="sticky top-0 z-20 bg-white/90 dark:bg-gray-950/90 backdrop-blur-sm border-b border-slate-200 dark:border-gray-800">
         <div className="max-w-[1120px] mx-auto px-6 h-12 flex items-center justify-between">
-          <span className="text-sm font-semibold text-slate-900 dark:text-gray-50 tracking-tight">
-            Agile Toolkit
-          </span>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="text-sm font-semibold text-slate-900 dark:text-gray-50 tracking-tight flex-shrink-0">
+              Agile Toolkit
+            </span>
+            <TeamPill />
+          </div>
+          <div className="flex items-center gap-1 flex-shrink-0">
             <LanguagePicker />
             <ThemeToggle />
           </div>

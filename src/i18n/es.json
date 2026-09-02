@@ -61,5 +61,6 @@
   "apps.sprint_metrics.title": "Métricas de Sprint",
   "apps.sprint_metrics.desc": "Burndown, previsión y datos de sprint en un solo lugar para la iteración actual. Extensión de Chrome para Jira con métricas de flujo.",
   "apps.change_planner.title": "Planificador de Cambios",
-  "apps.change_planner.desc": "Estructura y comunica cambios en equipos y versiones. Planificación interactiva basada en el ciclo PDCA y 'Cómo Cambiar el Mundo' de Jurgen Appelo."
+  "apps.change_planner.desc": "Estructura y comunica cambios en equipos y versiones. Planificación interactiva basada en el ciclo PDCA y 'Cómo Cambiar el Mundo' de Jurgen Appelo.",
+  "team.pill_label": "Equipo activo: {{name}}"
 }

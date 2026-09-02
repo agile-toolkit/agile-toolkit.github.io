@@ -30,6 +30,7 @@ new key an app adds under a registered prefix is picked up automatically.
 |-----|-------|---------|
 | `agile-toolkit:activeWorkspace` | `string` — active workspace name (default `"Default"`) | Set by `WorkspaceManager`; read on every app-data scan |
 | `agile-toolkit:workspaces` | `{ [name]: { savedAt: number, data: Record<string,string> } }` | Named snapshots of every other app's owned keys, saved/restored by `WorkspaceManager` |
+| `agile-toolkit:activeTeam` | `{ name: string, source: string, updatedAt: number }` | Cross-app team identity contract (E2). Written by whichever app last set a team name — today that's the Dashboard itself, seeding it from Team Identity's `teamName` on every scan (`src/team.ts`). Read by `TeamPill` in the nav bar. Other apps can adopt the same read/write helpers (`design-system/team.ts`) to stop asking for a team name they could read from here. |
 
 The `agile-toolkit:` prefix is reserved for these Dashboard-internal keys and
 is excluded from per-app export/import so a workspace snapshot is never

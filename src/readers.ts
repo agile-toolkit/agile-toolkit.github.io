@@ -160,6 +160,14 @@ function readSalaryFormula(): AppData | null {
   return { chips, timestamp: scenarios[scenarios.length - 1]?.savedAt }
 }
 
+// Raw team name from Team Identity's session, independent of the AppData
+// chip-building below — used to seed the cross-app `agile-toolkit:activeTeam`
+// contract (see src/team.ts).
+export function readTeamIdentityName(): string | null {
+  const session = read<{ teamName?: string }>('team-identity:lastSession')
+  return session?.teamName?.trim() || null
+}
+
 // ── team-identity ────────────────────────────────────────────────────────────
 function readTeamIdentity(): AppData | null {
   const session = read<{
