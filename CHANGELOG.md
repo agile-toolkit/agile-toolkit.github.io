@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+## 0.3.2 — Add test coverage for readers.ts (2026-09-02)
+
+- **test**: `src/readers.ts` (the parser for every sibling app's
+  localStorage summary, the Dashboard's core integration surface) had zero
+  test coverage and no test runner configured at all. Added `vitest` +
+  `jsdom`, and 36 tests across `src/readers.test.ts` (summary-key and
+  fallback path for all 10 apps, plus branching edge cases) and
+  `src/utils.test.ts` (`timeAgo`/`trunc`/`plural`). `npm test` now passes
+  cleanly. Also fixed a `vite.config.ts` type error surfaced by adding the
+  `test` config block — `tsc -b` typechecks `vite.config.ts` via
+  `tsconfig.node.json` in this repo's project-references setup, so
+  `defineConfig` needed to come from `vitest/config` (which merges in the
+  `test` field's types) instead of plain `vite`.
+
 ## 0.3.1 (2026-09-01)
 
 - fix: the "Import data" button's icon (`UploadIcon` in `ExportImport.tsx`)

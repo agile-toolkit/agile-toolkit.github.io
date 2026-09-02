@@ -14,6 +14,7 @@ npm install
 npm run dev      # local dev server
 npm run build    # tsc -b && vite build
 npm run preview  # preview a production build
+npm test         # vitest run — src/readers.ts and src/utils.ts unit coverage
 ```
 
 Deploys to GitHub Pages via `.github/workflows/deploy.yml` on push to `main`.
@@ -42,6 +43,11 @@ double-exported.
   dedicated `<app>:lastSession` summary key (richer, pre-aggregated) with a
   fallback to that app's raw arrays for apps that haven't written a summary
   key yet, or for legacy data written before the summary key existed.
+  `src/readers.test.ts` covers both the summary-key and fallback path for
+  every app, plus a few branching edge cases (Moving Motivators' solo-vs-team
+  recency pick, Change Planner's overdue-action count) — this is the
+  suite-wide integration surface, so a silent regression here breaks every
+  app's dashboard card at once.
 - **`AppData.attention`** — optional flag a reader sets when that app has
   something at-risk (Change Planner: an overdue open action; Kanban Designer:
   a column over its WIP limit). Renders as the red `Badge` `'attention'`
