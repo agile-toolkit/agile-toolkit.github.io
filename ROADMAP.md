@@ -21,11 +21,6 @@ repo is next picked, per the one-repo-per-run rule.
 ## Polish backlog
 
 Small items, no issues filed. Cleared in batches (§ Batch polish).
-- `region` a11y finding from the 2026-09-01 visual audit: "Data Management"
-  footer content isn't contained by a landmark region on any viewport/theme
-  (moderate impact, not contrast/keyboard/labeling — doesn't block this
-  release). Wrap the footer `Data Management` block in a `<section>` or
-  `aria-label`ed landmark.
 - Design system adoption (header/theme/card primitives) is tracked per-app in
   each app's own repo, not here — the Dashboard's own job is just to keep
   `design-system/` correct and each app's local `src/tokens.css` copy in
@@ -75,3 +70,14 @@ platform GOAL:
 - ~~Contract + component copied into `design-system/` with a catalog entry,
   so other apps can adopt reading — or writing — it as their own future
   epic (Phase 2, filed per-repo, not here)~~
+
+**v0.3.5 — Fix factually wrong app-card descriptions** (2026-09-02) — found via a suite-wide UX/scope audit:
+- ~~`apps.ts`'s `sprint_metrics` card wrongly described it as "a Chrome
+  extension for Jira"; `change_planner`'s wrongly cited "the PDCA cycle"
+  instead of Jurgen Appelo's 4-facet framework — rewrote all 10 card
+  descriptions to match each app's actual README~~
+- ~~"N tools" stat now derives from `APPS.length` instead of a hardcoded
+  `10`~~
+- ~~Wrapped `ExportImport.tsx`'s "Data Management" block in a
+  `<section aria-label>` landmark, clearing the 2026-09-01 visual-audit
+  polish item~~

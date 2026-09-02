@@ -82,7 +82,7 @@ export default function App() {
       <main className="max-w-[1120px] mx-auto px-6 py-10">
         <div className="flex items-center justify-between mb-5">
           <p className="text-[0.8125rem] font-semibold uppercase tracking-widest text-slate-500 dark:text-gray-400">
-            {t('stats.label', { count: 10 })}
+            {t('stats.label', { count: APPS.length })}
             {activeCount > 0 && (
               <>
                 {' '}&nbsp;·&nbsp;{' '}

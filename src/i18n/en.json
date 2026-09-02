@@ -59,8 +59,8 @@
   "apps.planning_poker.title": "Planning Poker",
   "apps.planning_poker.desc": "Lightweight estimation sessions with a shared view of the table. Real-time tool with PIN-based team sessions and Fibonacci cards.",
   "apps.sprint_metrics.title": "Sprint Metrics",
-  "apps.sprint_metrics.desc": "Burn-down, forecast, and sprint data in one place for the current iteration. Chrome extension for Jira with flow metrics.",
+  "apps.sprint_metrics.desc": "A sprint metrics dashboard — velocity, burn-down/burn-up, Cumulative Flow Diagrams, and finish-date forecasts, entirely client-side with no backend.",
   "apps.change_planner.title": "Change Planner",
-  "apps.change_planner.desc": "Structure and communicate change across teams and releases. Interactive planning based on the PDCA cycle and a 4-facet model for organizational change.",
+  "apps.change_planner.desc": "Plan change initiatives across Jurgen Appelo's 4 facets — Dance with the System, Mind the People, Stimulate the Network, Change the Environment.",
   "team.pill_label": "Active team: {{name}}"
 }

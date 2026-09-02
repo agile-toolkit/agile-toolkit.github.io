@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+## 0.3.5 — Fix factually wrong app-card descriptions (2026-09-02)
+
+- **fix**: `apps.ts`'s `sprint_metrics` card description claimed the app was
+  "a Chrome extension for Jira" — it's a client-side web app with no Jira
+  integration. `change_planner`'s claimed it was "based on the PDCA
+  cycle" — it's based on Jurgen Appelo's 4-facet framework, per its own
+  README. Both looked like two mismatched taglines stitched together;
+  rewrote all 10 card descriptions in `apps.ts` to match each sibling
+  app's actual README one-liner, and fixed the same two wrong strings in
+  the (currently unused) `apps.*.desc` i18n keys across all 4 locales so
+  they don't mislead a future reader either.
+- **fix**: the "N tools" stat hardcoded `count: 10` instead of deriving it
+  from `APPS.length` — correct today, but would silently go stale if an
+  app is added or removed from the suite.
+- **a11y**: wrapped `ExportImport.tsx`'s "Data Management" block in a
+  `<section aria-label>` landmark — flagged by the 2026-09-01 visual
+  audit as unlabeled/uncontained content (ROADMAP polish backlog).
+- Found via a suite-wide UX/scope audit.
+
 ## 0.3.4 — Rework hero badge wording (2026-09-02)
 
 - **content**: replaced the hero badge's placeholder "Agile Practice"
