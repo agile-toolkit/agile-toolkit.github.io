@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.3.4 — Rework hero badge wording (2026-09-02)
+
+- **content**: replaced the hero badge's placeholder "Agile Practice"
+  text (a flat, generic stand-in from the previous Management 3.0
+  removal pass) with "One Team, Ten Tools" — names the suite's actual
+  differentiator (one shared team, ten connected apps) instead of a
+  generic category label. All 4 locales.
+
 ## 0.3.3 — Remove Management 3.0 branding references (2026-09-02)
 
 - **content**: removed explicit "Management 3.0" / "Jurgen Appelo" brand
