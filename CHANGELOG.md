@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.3.1 (2026-09-01)
+
+- fix: the "Import data" button's icon (`UploadIcon` in `ExportImport.tsx`)
+  rendered as a broken, off-center shape instead of an up-arrow — its SVG
+  path used relative `m`/`l` commands that didn't mirror `DownloadIcon`
+  correctly and landed partly outside the 24×24 viewBox. Replaced with a
+  path that mirrors `DownloadIcon`'s (correct) chevron-plus-stem geometry.
+
 ## 0.3.0 — E2: Shared team identity primitive (2026-09-01)
 
 - docs: refresh `GOAL.md` from the suite-wide `GOALS.md` platform thesis
