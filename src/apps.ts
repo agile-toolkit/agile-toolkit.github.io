@@ -12,7 +12,7 @@ export const APPS: AppMeta[] = [
     title: 'Moving Motivators',
     icon: '🎴',
     href: 'https://agile-toolkit.github.io/moving-motivators/',
-    desc: 'Explore motivation and priorities with a familiar card-based exercise. Rank CHAMPFROGS motivators and assess change impact.',
+    desc: 'Explore motivation and priorities with a familiar card-based exercise. Rank your top intrinsic motivators and assess change impact.',
   },
   {
     id: 'scrum-facilitator',
@@ -33,21 +33,21 @@ export const APPS: AppMeta[] = [
     title: 'Salary Formula',
     icon: '💰',
     href: 'https://agile-toolkit.github.io/salary-formula/',
-    desc: 'Transparent, formula-based compensation models teams can reason about. Design fair salary formulas based on Management 3.0 principles.',
+    desc: 'Transparent, formula-based compensation models teams can reason about. Design fair salary formulas the whole team can see and understand.',
   },
   {
     id: 'team-identity',
     title: 'Team Identity',
     icon: '🤝',
     href: 'https://agile-toolkit.github.io/team-identity/',
-    desc: 'Align on who the team is and how you want to show up together. Digital facilitation of Identity Symbols and Work Expo practices.',
+    desc: 'Align on who the team is and how you want to show up together. Digital facilitation for team identity and working-agreement workshops.',
   },
   {
     id: 'improvement-board',
     title: 'Improvement Board',
     icon: '📌',
     href: 'https://agile-toolkit.github.io/improvement-board/',
-    desc: 'Surface improvements, experiments, and follow-through from retros. Platform for Improvement Dialogues and Copilot Programs.',
+    desc: 'Surface improvements, experiments, and follow-through from retros. Platform for structured improvement conversations and peer coaching.',
   },
   {
     id: 'work-profiles',
@@ -75,6 +75,6 @@ export const APPS: AppMeta[] = [
     title: 'Change Planner',
     icon: '🔄',
     href: 'https://agile-toolkit.github.io/change-planner/',
-    desc: "Structure and communicate change across teams and releases. Interactive planning based on the PDCA cycle and Jurgen Appelo's How to Change the World.",
+    desc: "Structure and communicate change across teams and releases. Interactive planning based on the PDCA cycle and a 4-facet model for organizational change.",
   },
 ]

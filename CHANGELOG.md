@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 0.3.3 — Remove Management 3.0 branding references (2026-09-02)
+
+- **content**: removed explicit "Management 3.0" / "Jurgen Appelo" brand
+  references and named-practice terminology ("CHAMPFROGS", "Identity
+  Symbols", "Work Expo", "Improvement Dialogues", "Copilot Programs")
+  from the page title, the hero badge, and every app card description in
+  `src/apps.ts` and all 4 locale files — reworded to describe what each
+  tool does generically rather than citing the specific framework or
+  named practice it draws from. No functional change.
+
 ## 0.3.2 — Add test coverage for readers.ts (2026-09-02)
 
 - **test**: `src/readers.ts` (the parser for every sibling app's
