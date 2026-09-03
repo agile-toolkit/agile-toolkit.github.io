@@ -3,3 +3,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Hero banner — dashboard-only, not part of the shared tokens.css contract.
+   The gradient used to be one hardcoded dark navy value applied regardless
+   of theme, so it looked like a stray dark box dropped onto an otherwise
+   light page in light theme. Themed on-brand (cobalt) in both directions
+   instead, so it reads as a deliberate accent band either way. */
+:root {
+  --hero-gradient: linear-gradient(150deg, var(--cobalt-600) 0%, var(--cobalt-700) 60%, var(--cobalt-800) 100%);
+}
+[data-theme="dark"] {
+  --hero-gradient: linear-gradient(150deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+}

@@ -21,16 +21,12 @@ export default function AppCard({ app, data }: Props) {
   const descKey  = `apps.${app.id.replace(/-/g, '_')}.desc`
   const badgeVariant = data?.live ? 'live' : data?.attention ? 'attention' : hasData ? 'active' : null
 
-  const borderClass = data?.live
-    ? 'border-t-[2px] border-t-orange-400 border-x-slate-200 dark:border-x-gray-700 border-b-slate-200 dark:border-b-gray-700'
-    : hasData
-    ? 'border-t-[2px] border-t-emerald-400 border-x-slate-200 dark:border-x-gray-700 border-b-slate-200 dark:border-b-gray-700'
-    : 'border-slate-200 dark:border-gray-700'
-
   return (
     <a
       href={app.href}
-      className={`group flex flex-col bg-white dark:bg-gray-900 rounded-xl border transition-all duration-200 overflow-hidden hover:shadow-lg hover:shadow-blue-50 dark:hover:shadow-blue-900/20 hover:border-blue-400 dark:hover:border-blue-500 ${borderClass}`}
+      data-accent={app.accent}
+      className="group flex flex-col bg-white dark:bg-gray-900 rounded-xl border-t-[3px] border-x border-b border-x-slate-200 dark:border-x-gray-700 border-b-slate-200 dark:border-b-gray-700 transition-all duration-200 overflow-hidden hover:shadow-lg hover:shadow-blue-50 dark:hover:shadow-blue-900/20 hover:border-blue-400 dark:hover:border-blue-500"
+      style={{ borderTopColor: 'var(--app-accent)' }}
     >
       {/* Header */}
       <div className="flex items-center gap-3 px-5 pt-4 pb-0">

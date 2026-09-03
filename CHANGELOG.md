@@ -2,6 +2,31 @@
 
 ## Unreleased
 
+## 0.3.6 — Per-app accent card borders; theme-aware hero banner (2026-09-03)
+
+- **fix (consistency)**: cards only got a colored top border when the app
+  had usage data (`live`→orange, `active`→emerald); apps with no data yet
+  fell back to a plain uniform gray border with no top-border override at
+  all — a structurally different look, not just a different color, which
+  read as "some cards are unfinished." Replaced with the suite's own
+  per-app accent contract (`tokens.css` section 5,
+  `data-accent="cobalt"/"pink"/"amber"/"violet"/"teal"/"coral"`, already
+  used by every app's own root element): every card now gets a `data-accent`
+  matching its actual sibling app and a `border-t-[color:var(--app-accent)]`
+  top border, always present, light/dark-theme-aware for free via the
+  existing token system. Live/active/attention status stays on the badge,
+  which already existed independently — decoupling "which app is this"
+  from "is there data" instead of conflating them into one signal.
+  `AppMeta` gains an `accent` field (`src/apps.ts`).
+- **fix (contrast)**: the hero banner's dark navy gradient
+  (`#1a1a2e`/`#16213e`/`#0f3460`) was hardcoded regardless of theme — a
+  jarring dark box on an otherwise light page in light theme. Added
+  `--hero-gradient` (dashboard-only, `src/index.css`, not part of the
+  shared `tokens.css` contract since no other app has a hero banner):
+  a cobalt-brand gradient for light theme, the original navy gradient
+  kept for dark (it already read fine there, matching the dark canvas
+  the rest of the suite uses).
+
 ## 0.3.5 — Fix factually wrong app-card descriptions (2026-09-02)
 
 - **fix**: `apps.ts`'s `sprint_metrics` card description claimed the app was

@@ -67,7 +67,7 @@ export default function App() {
       {/* Hero */}
       <header
         className="text-white py-14 text-center px-4"
-        style={{ background: 'linear-gradient(150deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%)' }}
+        style={{ background: 'var(--hero-gradient)' }}
       >
         <div className="inline-block bg-white/10 border border-white/20 rounded-full px-4 py-1 text-xs uppercase tracking-widest text-white/85 mb-5">
           {t('hero.badge')}

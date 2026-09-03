@@ -81,3 +81,13 @@ platform GOAL:
 - ~~Wrapped `ExportImport.tsx`'s "Data Management" block in a
   `<section aria-label>` landmark, clearing the 2026-09-01 visual-audit
   polish item~~
+
+**v0.3.6 — Per-app accent card borders; theme-aware hero banner** (2026-09-03) — a user directly flagged both:
+- ~~Cards with no usage data yet had a structurally different, plain gray
+  border instead of just a different top-border color — replaced with the
+  suite's own per-app `data-accent` contract, so every card always has a
+  colored top border matching its actual sibling app, decoupled from the
+  live/active status badge~~
+- ~~Hero banner's hardcoded dark navy gradient looked like a stray dark box
+  on light theme — added a theme-aware `--hero-gradient` token (cobalt
+  brand gradient for light, original navy kept for dark)~~
