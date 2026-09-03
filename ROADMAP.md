@@ -82,6 +82,15 @@ platform GOAL:
   `<section aria-label>` landmark, clearing the 2026-09-01 visual-audit
   polish item~~
 
+**v0.3.11 — Redesign Team Identity icon; add new shared icons** (2026-09-03) — user directly flagged the icon still wasn't right, plus asked for the emoji sweep to continue and Facilitator Mode to persist across apps:
+- ~~Replaced `TeamIcon` (too similar to Work Profiles' person icon) with
+  a new `IdentityCardIcon` specific to Team Identity~~
+- ~~Added 10 new SVG icons for the next round of the emoji sweep
+  (Planning Poker, Scrum Facilitator), each visually verified before use~~
+- ~~Documented `useFacilitatorMode`'s storage key as shared
+  (`agile-toolkit:facilitatorMode`) across every app instead of
+  app-prefixed, so the mode survives switching apps~~
+
 **v0.3.10 — Fix broken and irrelevant hub tile icons** (2026-09-03) — user directly flagged both:
 - ~~`HandshakeIcon` (Team Identity) had broken path geometry, rendered as
   a garbled shape — removed and replaced with a new `TeamIcon`~~

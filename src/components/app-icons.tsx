@@ -65,14 +65,13 @@ export function TrendUpIcon({ className = 'w-6 h-6' }: IconProps) {
   )
 }
 
-/** Team Identity — two people (the team) */
-export function TeamIcon({ className = 'w-6 h-6' }: IconProps) {
+/** Team Identity — an ID card (identity, not just "a team") */
+export function IdentityCardIcon({ className = 'w-6 h-6' }: IconProps) {
   return (
-    <svg className={className} viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-      <circle cx="7" cy="6" r="2.6" />
-      <path d="M2 16c0-3 2.2-5 5-5s5 2 5 5z" />
-      <circle cx="14.5" cy="7" r="2.1" opacity="0.55" />
-      <path d="M10.8 16c.3-2.6 2-4.3 4.2-4.3s3.6 1.5 4 3.6z" opacity="0.55" />
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
+      <rect x="3" y="3" width="14" height="14" rx="2" />
+      <circle cx="10" cy="8" r="2" />
+      <path d="M6 15c0-2.2 1.8-3.5 4-3.5s4 1.3 4 3.5" />
     </svg>
   )
 }
