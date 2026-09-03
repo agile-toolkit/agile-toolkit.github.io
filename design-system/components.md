@@ -279,10 +279,12 @@ inside a self-contained button.
 function useFacilitatorMode(storageKey: string): [boolean, () => void]
 ```
 
-Returns `[facilitatorMode, toggleFacilitatorMode]`. Pass an app-prefixed
-`storageKey` (e.g. `'team-identity:facilitatorMode'`) — `sessionStorage` is
-shared across all suite apps on the same origin, so an unprefixed key would
-leak one app's toggle state into another's.
+Returns `[facilitatorMode, toggleFacilitatorMode]`. Pass the shared
+`storageKey` `'agile-toolkit:facilitatorMode'` — the same string in every
+app. `sessionStorage` is shared across all suite apps on the same origin,
+and that's deliberate here: a facilitator running a session across
+several tools (e.g. Planning Poker into Scrum Facilitator) shouldn't have
+to re-enable the mode in each one. Do not app-prefix this key.
 
 ### `<FacilitatorToggle />` props
 
@@ -306,7 +308,7 @@ leak one app's toggle state into another's.
 import { useFacilitatorMode } from './components/useFacilitatorMode'
 import FacilitatorToggle from './components/FacilitatorToggle'
 
-const [facilitatorMode, toggleFacilitatorMode] = useFacilitatorMode('myapp:facilitatorMode')
+const [facilitatorMode, toggleFacilitatorMode] = useFacilitatorMode('agile-toolkit:facilitatorMode')
 
 <AppHeader
   title={t('app.title')}
@@ -351,7 +353,9 @@ Most icons (`CloseIcon`, `CheckIcon`, `ArrowLeftIcon`, `ArrowRightIcon`,
 `TipIcon`, `ChartIcon`, `RefreshIcon`, `LinkIcon`, `CalendarIcon`,
 `PersonIcon`, `EditIcon`, `PrintIcon`, `ClipboardIcon`,
 `TargetIcon`, `FlagIcon`, `FolderIcon`, `BellIcon`, `BellOffIcon`,
-`SearchIcon`) use `fill`/`stroke="currentColor"` — they inherit whatever
+`SearchIcon`, `EyeIcon`, `SunIcon`, `QuestionIcon`, `UploadIcon`,
+`DownloadIcon`, `ThumbsUpIcon`, `CheckboxEmptyIcon`, `CheckboxCheckedIcon`,
+`ShuffleIcon`, `TeamIcon`) use `fill`/`stroke="currentColor"` — they inherit whatever
 Tailwind text-color class already sits on the surrounding button or span
 (a delete button's `text-red-400` colors its icon automatically), matching
 the convention already used by `AppHeader`'s `GridIcon`, `ThemeToggle`'s
@@ -372,7 +376,7 @@ import { CloseIcon, WarningIcon } from './components/icons'
 ### `app-icons.tsx` — Dashboard hub tiles
 
 `CardsIcon` / `StopwatchIcon` / `KanbanColumnsIcon` / `CoinIcon` /
-`TrendUpIcon` / `TeamIcon` / `PokerCardIcon` (plus `PersonIcon` /
+`TrendUpIcon` / `IdentityCardIcon` / `PokerCardIcon` (plus `PersonIcon` /
 `ChartIcon` / `RefreshIcon` reused from `icons.tsx`) replace the 10 emoji
 previously stored in `apps.ts`'s `icon` field. `AppMeta.icon` is now a
 `ComponentType<{ className?: string }>`, rendered inside a span styled

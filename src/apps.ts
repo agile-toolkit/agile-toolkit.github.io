@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react'
-import { CardsIcon, StopwatchIcon, KanbanColumnsIcon, CoinIcon, TrendUpIcon, TeamIcon, PokerCardIcon } from './components/app-icons'
+import { CardsIcon, StopwatchIcon, KanbanColumnsIcon, CoinIcon, TrendUpIcon, IdentityCardIcon, PokerCardIcon } from './components/app-icons'
 import { PersonIcon, ChartIcon, RefreshIcon } from './components/icons'
 
 /** Matches the `data-accent="…"` each app sets on its own root — see tokens.css section 5. */
@@ -50,7 +50,7 @@ export const APPS: AppMeta[] = [
   {
     id: 'team-identity',
     title: 'Team Identity',
-    icon: TeamIcon,
+    icon: IdentityCardIcon,
     href: 'https://agile-toolkit.github.io/team-identity/',
     desc: 'A guided workshop for naming your team, picking a symbol, choosing shared values, and agreeing on working norms — ends in a shareable team charter.',
     accent: 'amber',

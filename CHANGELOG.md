@@ -2,6 +2,28 @@
 
 ## Unreleased
 
+## 0.3.11 — Redesign Team Identity icon; add new shared icons (2026-09-03)
+
+- **fix**: the previous `TeamIcon` (two overlapping people) still wasn't
+  right for Team Identity per the user — too similar to Work Profiles'
+  single-person icon on the same amber accent, and generic "team" rather
+  than "identity." Replaced with a new `IdentityCardIcon` (a person
+  inside an ID-card frame), visually distinct and specific to what the
+  app actually produces (a team's identity charter). `TeamIcon` moves to
+  the generic `icons.tsx` library for reuse elsewhere (e.g. Planning
+  Poker's team-session label).
+- **feat**: added 10 new icons to `icons.tsx` — `EyeIcon`, `SunIcon`,
+  `QuestionIcon`, `UploadIcon`, `DownloadIcon`, `ThumbsUpIcon`,
+  `CheckboxEmptyIcon`, `CheckboxCheckedIcon`, `ShuffleIcon`, `TeamIcon` —
+  covering the next round of decorative emoji flagged in Planning Poker
+  and Scrum Facilitator. Every new icon was rendered and screenshotted
+  standalone before being added, after the earlier broken-handshake
+  incident.
+- **docs**: `useFacilitatorMode`'s `storageKey` is now documented as a
+  single shared key (`'agile-toolkit:facilitatorMode'`) across every
+  app, not app-prefixed — user-requested, so Facilitator Mode survives
+  navigating between suite apps in one tab instead of resetting per app.
+
 ## 0.3.10 — Fix broken and irrelevant hub tile icons (2026-09-03)
 
 - **fix**: the previous release's `HandshakeIcon` (Team Identity) had
