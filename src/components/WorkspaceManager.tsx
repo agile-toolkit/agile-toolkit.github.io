@@ -1,57 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { scanOwnedLocalStorage } from '../data-keys'
-
-// ── types ──────────────────────────────────────────────────────────────────────
-
-interface WorkspaceSnapshot {
-  savedAt: number
-  data: Record<string, string>
-}
-
-type Workspaces = Record<string, WorkspaceSnapshot>
-
-// ── storage helpers ────────────────────────────────────────────────────────────
-
-const WORKSPACES_KEY = 'agile-toolkit:workspaces'
-const ACTIVE_KEY = 'agile-toolkit:activeWorkspace'
-
-function readWorkspaces(): Workspaces {
-  try {
-    return JSON.parse(localStorage.getItem(WORKSPACES_KEY) ?? '{}') as Workspaces
-  } catch {
-    return {}
-  }
-}
-
-function writeWorkspaces(ws: Workspaces) {
-  localStorage.setItem(WORKSPACES_KEY, JSON.stringify(ws))
-}
-
-function readActive(): string {
-  return localStorage.getItem(ACTIVE_KEY) ?? 'Default'
-}
-
-function writeActive(name: string) {
-  localStorage.setItem(ACTIVE_KEY, name)
-}
-
-function snapshotCurrent(): Record<string, string> {
-  const owned = scanOwnedLocalStorage()
-  const snapshot: Record<string, string> = {}
-  for (const key of Object.keys(owned)) {
-    const raw = localStorage.getItem(key)
-    if (raw !== null) snapshot[key] = raw
-  }
-  return snapshot
-}
-
-function restoreSnapshot(data: Record<string, string>) {
-  for (const [key, value] of Object.entries(data)) {
-    try { localStorage.setItem(key, value) } catch { /* quota */ }
-  }
-  window.dispatchEvent(new Event('storage'))
-}
+import {
+  type Workspaces,
+  readWorkspaces,
+  writeWorkspaces,
+  readActive,
+  writeActive,
+  saveInto,
+  switchTo,
+  createWorkspace,
+  deleteWorkspace,
+  WorkspaceQuotaError,
+} from '../workspaces'
 
 // ── component ──────────────────────────────────────────────────────────────────
 
@@ -93,49 +53,63 @@ export default function WorkspaceManager() {
     setWorkspaces({ ...ws })
   }
 
+  /** Reports a quota failure and swallows anything else the caller can't act on. */
+  function report(e: unknown, name: string) {
+    window.alert(
+      e instanceof WorkspaceQuotaError
+        ? t('workspace.save_failed', { name })
+        : t('workspace.load_failed', { name }),
+    )
+  }
+
   function handleSaveCurrent() {
-    const ws = { ...workspaces }
-    ws[active] = { savedAt: Date.now(), data: snapshotCurrent() }
-    persistWorkspaces(ws)
-    setSavedFlash(true)
-    setTimeout(() => setSavedFlash(false), 2000)
+    try {
+      setWorkspaces(saveInto(active, workspaces))
+      setSavedFlash(true)
+      setTimeout(() => setSavedFlash(false), 2000)
+    } catch (e) {
+      report(e, active)
+    }
   }
 
   function handleSwitchWorkspace(name: string) {
-    writeActive(name)
-    setActive(name)
     setDropdownOpen(false)
+    if (name === active) return
+    try {
+      setWorkspaces(switchTo(active, name, workspaces))
+      setActive(name)
+    } catch (e) {
+      report(e, name)
+    }
   }
 
   function handleNewWorkspace() {
     setDropdownOpen(false)
     const name = window.prompt(t('workspace.prompt_name'), '')?.trim()
     if (!name) return
-    const ws = { ...workspaces }
-    if (!ws[name]) ws[name] = { savedAt: 0, data: {} }
-    persistWorkspaces(ws)
-    writeActive(name)
-    setActive(name)
+    if (workspaces[name]) { handleSwitchWorkspace(name); return }
+    try {
+      setWorkspaces(createWorkspace(active, name, workspaces))
+      setActive(name)
+    } catch (e) {
+      report(e, name)
+    }
   }
 
   function handleLoad(name: string) {
-    const snap = workspaces[name]
-    if (!snap?.savedAt) return
-    restoreSnapshot(snap.data)
-    writeActive(name)
-    setActive(name)
+    if (!workspaces[name]?.savedAt) return
+    handleSwitchWorkspace(name)
     setManageOpen(false)
   }
 
   function handleDelete(name: string) {
     if (!window.confirm(t('workspace.delete_confirm', { name }))) return
-    const ws = { ...workspaces }
-    delete ws[name]
-    persistWorkspaces(ws)
-    if (active === name) {
-      const fallback = Object.keys(ws)[0] ?? 'Default'
-      writeActive(fallback)
-      setActive(fallback)
+    try {
+      const result = deleteWorkspace(name, active, workspaces)
+      setWorkspaces(result.workspaces)
+      setActive(result.active)
+    } catch (e) {
+      report(e, name)
     }
   }
 

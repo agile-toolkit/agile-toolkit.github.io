@@ -65,7 +65,14 @@ export type AnyBackup = BackupV2 | BackupV1
  * Throws if the JSON is unparseable or has no _meta.
  */
 export function parseBackup(json: string): { meta: BackupMeta; data: Record<string, unknown> } {
-  const raw = JSON.parse(json) as Record<string, unknown>
+  const parsed: unknown = JSON.parse(json)
+  // Checked before the property access: a file containing `null` or a bare
+  // array would otherwise throw a TypeError on `raw._meta` instead of the
+  // message the user is meant to see.
+  if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    throw new Error('Not a valid Agile Toolkit backup file.')
+  }
+  const raw = parsed as Record<string, unknown>
   if (!raw._meta || typeof raw._meta !== 'object') throw new Error('Not a valid Agile Toolkit backup file.')
 
   const meta = raw._meta as Record<string, unknown>

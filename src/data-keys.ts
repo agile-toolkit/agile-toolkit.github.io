@@ -31,7 +31,9 @@ export const APP_KEY_GROUPS: AppKeyGroup[] = [
   {
     appId: 'moving-motivators',
     appTitle: 'Moving Motivators',
-    keyPrefixes: ['moving-motivators:'],
+    // 'mm_' covers mm_about_dismissed, which matched nothing before and so was
+    // silently dropped from every export and workspace snapshot.
+    keyPrefixes: ['moving-motivators:', 'mm_'],
     legacyKeys: [],
   },
   {
@@ -67,7 +69,10 @@ export const APP_KEY_GROUPS: AppKeyGroup[] = [
   {
     appId: 'work-profiles',
     appTitle: 'Work Profiles',
-    keyPrefixes: ['work-profiles-', 'work-profiles:', 'wp-profiles-'],
+    // 'wp-' rather than 'wp-profiles-': the narrower prefix missed
+    // wp-sprint-capacity, real capacity data that was therefore absent from
+    // every backup and every workspace snapshot.
+    keyPrefixes: ['work-profiles-', 'work-profiles:', 'wp-'],
     legacyKeys: [],
   },
   {

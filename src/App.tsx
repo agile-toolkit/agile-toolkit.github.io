@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { APPS } from './apps'
 import { readAll, readTeamIdentityName } from './readers'
-import { writeActiveTeam } from './team'
+import { readActiveTeam, writeActiveTeam } from './team'
 import type { AppData } from './types'
 import AppCard from './components/AppCard'
 import ExportImport from './components/ExportImport'
@@ -20,12 +20,20 @@ export default function App() {
 
   const refresh = useCallback(() => {
     try { setData(readAll()) } catch { /* ignore */ }
-    // Team Identity is the canonical "produces the team object" app per
-    // GOAL.md — seed the cross-app activeTeam contract from it until other
-    // apps adopt writing it directly (E2 Phase 2, filed per-repo).
+    // Backfill only. Team Identity now writes `agile-toolkit:activeTeam`
+    // itself when a charter is saved, so this exists purely for people whose
+    // charter predates that — it seeds the contract once and then stays out of
+    // the way.
+    //
+    // It has to be conditional. This runs on a 5s poll, and unconditionally
+    // re-deriving the name from the charter meant any team name set by another
+    // app (Moving Motivators writes the same key from its session lobby) was
+    // silently reverted within five seconds.
     try {
-      const name = readTeamIdentityName()
-      if (name) writeActiveTeam(name, 'team-identity')
+      if (!readActiveTeam()) {
+        const name = readTeamIdentityName()
+        if (name) writeActiveTeam(name, 'team-identity')
+      }
     } catch { /* ignore */ }
   }, [])
 

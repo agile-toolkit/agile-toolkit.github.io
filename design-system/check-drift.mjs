@@ -32,6 +32,7 @@ const APPS = [
 const COPYABLE_COMPONENTS = [
   'LanguagePicker.tsx', 'AppHeader.tsx', 'ThemeToggle.tsx',
   'useFacilitatorMode.ts', 'FacilitatorToggle.tsx', 'icons.tsx',
+  'ErrorBoundary.tsx',
 ]
 
 let driftCount = 0

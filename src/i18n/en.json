@@ -31,6 +31,8 @@
   "workspace.delete": "Delete",
   "workspace.delete_confirm": "Delete workspace \"{{name}}\"? This cannot be undone.",
   "workspace.prompt_name": "Workspace name:",
+  "workspace.save_failed": "Could not save workspace \"{{name}}\" — this browser's storage is full. Export a backup and delete a workspace you no longer need.",
+  "workspace.load_failed": "Could not fully load workspace \"{{name}}\". Your data has not been changed on disk; reload the page before continuing.",
   "workspace.no_snapshot": "Not saved yet",
   "workspace.saved_at": "Saved {{time}}",
   "workspace.empty": "No workspaces yet — click Save current to create one.",

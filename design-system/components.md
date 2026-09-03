@@ -689,3 +689,41 @@ Dashboard read/write) shipped in the Dashboard; per-app adoption (reading it
 to prefill an existing team-name field, or writing it instead of a
 standalone key) is each app's own future epic, filed when that repo is next
 picked.
+
+---
+
+## ErrorBoundary
+
+The outermost wrapper in every app's `main.tsx`. Catches a render error that
+would otherwise unmount the whole tree and leave a blank page.
+
+**Source:** `design-system/components/ErrorBoundary.tsx`
+
+This one matters more here than in a typical app. Every app's state lives in
+localStorage, and every app reads payloads written by *other* apps. When one of
+those payloads has an unexpected shape, the dereference throws during render —
+and because the bad data is still in localStorage afterwards, reloading does
+not fix it. The app stays bricked until someone opens devtools.
+
+So the fallback UI offers the action that actually recovers: **clear this app's
+saved data**. It removes only keys matching the prefixes the app declares, so
+recovering one app never destroys another's data — they all share one origin.
+
+```tsx
+<ErrorBoundary
+  storagePrefixes={["planning-poker:", "planning-poker-"]}
+  legacyKeys={["sprintMetrics_planningPoker"]}
+>
+  <App />
+</ErrorBoundary>
+```
+
+`storagePrefixes` and `legacyKeys` must stay in step with the app's entry in the
+Dashboard's `src/data-keys.ts` — that file decides what gets exported and
+snapshotted into a workspace, this one decides what gets cleared. A key missing
+from either is a key that silently survives a reset or silently misses a backup.
+
+The component is deliberately dependency-free: no i18next, no shared utils. A
+boundary that needs the app's own modules to have initialised is no use when the
+failure *is* in initialisation, so it carries a four-locale string table of its
+own and picks a language from `i18nextLng`.

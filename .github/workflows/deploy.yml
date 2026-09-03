@@ -26,8 +26,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
 
-      - run: npm install
+      # `npm ci` rather than `npm install`: the lockfile is the point of having
+      # one, and this was the only workflow in the suite resolving dependencies
+      # afresh on every deploy.
+      - run: npm ci
+
+      - run: npm test
 
       - run: npm run build
 
@@ -38,4 +44,4 @@ jobs:
           path: ./dist
 
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

@@ -2,6 +2,39 @@
 
 ## Unreleased
 
+## 0.4.0 — Workspace data-loss fixes, registry gaps, error boundary (2026-09-03)
+
+- **fix**: switching workspaces destroyed data. `handleSwitchWorkspace` wrote
+  the active *name* and nothing else — the data on screen stayed put, so
+  pressing **Save** afterwards wrote the previous team's data into the workspace
+  you had just switched to. Silent and unrecoverable. Switching now checkpoints
+  the outgoing workspace and loads the incoming one.
+- **fix**: restoring a workspace never cleared, so any app the incoming
+  workspace had no entry for kept showing the outgoing team's data — team A's
+  improvement board appearing in team B's workspace.
+- **fix**: "New workspace" started as a copy of whatever was on screen.
+- **fix**: quota failures were swallowed per key, producing a silent partial
+  restore — a mixture of two teams' data, which is worse than either. A
+  snapshot is a full copy of every app's data inside a ~5 MB origin budget, so
+  quota is the realistic failure; it now surfaces as `WorkspaceQuotaError`.
+- **fix**: `wp-sprint-capacity` (real sprint-capacity data) and
+  `mm_about_dismissed` matched no prefix in `data-keys.ts`, so `claimedByApp`
+  returned `null` and both were silently excluded from backup, export and every
+  workspace snapshot.
+- **fix**: the `activeTeam` backfill ran unconditionally on a 5s poll, silently
+  reverting any team name set by another app within five seconds. Now a
+  one-time seed for charters predating Team Identity writing the contract
+  itself.
+- **fix**: `parseBackup` threw a raw `TypeError` instead of its intended message
+  on a file containing `null` or a bare array.
+- **refactor**: workspace storage extracted to `src/workspaces.ts` and covered
+  by 18 tests — the interesting part is what happens to megabytes of someone's
+  team data, not the dropdown.
+- **feat**: `ErrorBoundary` added to the design system and adopted by all 11
+  apps plus this one.
+- **ci**: `npm ci` instead of `npm install` (this was the only workflow
+  ignoring its own lockfile), and `npm test` now gates the deploy.
+
 ## 0.3.10 — Fix broken and irrelevant hub tile icons (2026-09-03)
 
 - **fix**: the previous release's `HandshakeIcon` (Team Identity) had

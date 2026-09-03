@@ -31,6 +31,8 @@
   "workspace.delete": "Eliminar",
   "workspace.delete_confirm": "¿Eliminar el espacio \"{{name}}\"? No se puede deshacer.",
   "workspace.prompt_name": "Nombre del espacio:",
+  "workspace.save_failed": "No se pudo guardar el espacio \"{{name}}\": el almacenamiento del navegador está lleno. Exporta una copia y elimina un espacio que ya no necesites.",
+  "workspace.load_failed": "No se pudo cargar por completo el espacio \"{{name}}\". Tus datos no se han modificado en disco; recarga la página antes de continuar.",
   "workspace.no_snapshot": "Aún no guardado",
   "workspace.saved_at": "Guardado {{time}}",
   "workspace.empty": "No hay espacios todavía. Haz clic en Guardar actual para crear uno.",
