@@ -111,6 +111,31 @@ import LanguagePicker from './components/LanguagePicker'
 // LanguagePicker is rendered inside AppHeader with no extra wiring needed.
 ```
 
+### Dark mode (required — this drifted before, don't let it drift again)
+
+Every class in the source file already has a `dark:` pair. When copying
+this file into an app, copy it verbatim — do not trim the `dark:`
+classes "to keep it simple." On 2026-09-03, 5 of 10 app copies had
+**zero** `dark:` classes (dropdown stayed white-on-white-adjacent in
+dark mode) because the file had been hand-copied before dark mode
+existed and never revisited. If an app's palette isn't the `brand-*`
+scale (e.g. the Dashboard's `slate`/`blue`), re-tint every class in the
+table below together — never leave some tinted and others on the
+`brand-*` default:
+
+| Element                  | Light                      | Dark                              |
+|---------------------------|-----------------------------|------------------------------------|
+| Trigger text              | `text-gray-600`             | `dark:text-gray-400`               |
+| Trigger hover bg          | `hover:bg-gray-100`         | `dark:hover:bg-gray-800`           |
+| Chevron icon              | `text-gray-400`             | `dark:text-gray-500`               |
+| Dropdown bg               | `bg-white`                  | `dark:bg-gray-800`                 |
+| Dropdown border           | `border-gray-200`           | `dark:border-gray-700`             |
+| Option text (inactive)    | `text-gray-700`             | `dark:text-gray-200`               |
+| Option hover bg (inactive)| `hover:bg-gray-50`          | `dark:hover:bg-gray-700`           |
+| Option bg (active)        | `bg-brand-50`               | `dark:bg-brand-900/30`             |
+| Option text (active)      | `text-brand-700`            | `dark:text-brand-300`              |
+| Checkmark icon            | `text-brand-600`            | `dark:text-brand-400`              |
+
 ---
 
 ## ThemeToggle
