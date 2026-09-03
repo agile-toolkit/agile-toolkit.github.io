@@ -9,6 +9,21 @@ Source files live in `design-system/components/`. Copy them into `src/components
 
 Color values, spacing, and radii are documented in `design-system/tokens.css`.
 
+### Checking for drift
+
+Components are distributed by copy-paste, not an npm package — nothing
+stops a local edit (or a missed update to the source) from silently
+drifting. Run `node design-system/check-drift.mjs` from this repo's root
+to diff every app's copy of `LanguagePicker.tsx`/`AppHeader.tsx`/
+`ThemeToggle.tsx` against the source and report differences. Two real
+bugs were found this way on 2026-09-03: `LanguagePicker.tsx`'s source had
+never been given `dark:` classes at all (5 of 10 apps had a light-only
+dropdown in dark mode), and `AppHeader.tsx`'s source was missing 3
+`dark:` additions every single app had independently already made. Not
+every reported diff is a bug — Team Identity's `AppHeader.tsx` has a
+deliberate, commented `hideLanguagePicker` prop for its facilitator
+mode; the script's job is to surface candidates, not to auto-judge them.
+
 ---
 
 ## AppHeader
