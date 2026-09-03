@@ -12,9 +12,10 @@ import ProgressBar from './ProgressBar'
 interface Props {
   app: AppMeta
   data: AppData | null
+  facilitatorMode?: boolean
 }
 
-export default function AppCard({ app, data }: Props) {
+export default function AppCard({ app, data, facilitatorMode }: Props) {
   const { t } = useTranslation()
   const hasData = data !== null
   const titleKey = `apps.${app.id.replace(/-/g, '_')}.title`
@@ -37,9 +38,10 @@ export default function AppCard({ app, data }: Props) {
         {badgeVariant && <Badge variant={badgeVariant} />}
       </div>
 
-      {/* Description */}
+      {/* Description — kept as a flex-1 spacer even when hidden, so card
+          footers still align across a grid row */}
       <p className="px-5 pt-2.5 text-sm text-slate-500 dark:text-gray-400 leading-relaxed flex-1">
-        {t(descKey, app.desc)}
+        {!facilitatorMode && t(descKey, app.desc)}
       </p>
 
       {/* Stats panel */}

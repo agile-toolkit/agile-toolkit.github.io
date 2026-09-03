@@ -116,7 +116,7 @@ export default function App() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {sortedApps.map(app => (
-            <AppCard key={app.id} app={app} data={data[app.id] ?? null} />
+            <AppCard key={app.id} app={app} data={data[app.id] ?? null} facilitatorMode={facilitatorMode} />
           ))}
         </div>
       </main>

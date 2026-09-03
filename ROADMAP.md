@@ -82,6 +82,10 @@ platform GOAL:
   `<section aria-label>` landmark, clearing the 2026-09-01 visual-audit
   polish item~~
 
+**v0.3.8 — Hide app-card descriptions in Facilitator Mode** (2026-09-03) — a direct user follow-up:
+- ~~`AppCard`'s description paragraph now hides while presenting, kept as
+  a spacer so card footers stay aligned across the grid~~
+
 **v0.3.7 — Facilitator Mode** (2026-09-03) — a user directly asked for it suite-wide:
 - ~~Promoted Team Identity's Facilitator Mode into a shared design-system
   pattern (`useFacilitatorMode.ts` + `FacilitatorToggle.tsx`,

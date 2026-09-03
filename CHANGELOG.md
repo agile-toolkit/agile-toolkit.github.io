@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.3.8 — Hide app-card descriptions in Facilitator Mode (2026-09-03)
+
+- **fix (follow-up)**: `AppCard`'s description paragraph — explicitly
+  flagged by the user as unnecessary while presenting — is now hidden
+  when Facilitator Mode is active, kept as a `flex-1` spacer so card
+  footers still line up across a grid row. `facilitatorMode` threaded
+  down from `App.tsx`.
+
 ## 0.3.7 — Facilitator Mode (2026-09-03)
 
 - **feat**: promoted Team Identity's Facilitator (projector) mode into a

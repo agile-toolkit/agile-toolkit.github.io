@@ -343,6 +343,7 @@ A card that represents one app on the Dashboard. Shows icon, title, description,
 |--------|-------------------|-----------------------------------------------------|
 | `app`  | `AppMeta`         | Static metadata: id, title, icon, href, desc        |
 | `data` | `AppData \| null` | Live localStorage data; `null` = app never used     |
+| `facilitatorMode` | `boolean` (optional) | Hides the description paragraph (kept as a `flex-1` spacer so footers still align across a grid row) while presenting |
 
 ### Top-border states
 
