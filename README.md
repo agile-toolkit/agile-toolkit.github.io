@@ -60,7 +60,10 @@ double-exported.
   radii, typography, light/dark theme variables) and `components.md` (catalog
   with props + usage). Each app keeps its own **copy** of `tokens.css` at
   `src/tokens.css` (never imported/symlinked) and copies components into its
-  own `src/components/` on adoption.
+  own `src/components/` on adoption. Includes `useFacilitatorMode.ts` +
+  `FacilitatorToggle.tsx` — a projector/presentation mode toggle (bigger UI,
+  hidden secondary chrome) any app can adopt; this Dashboard is the second
+  app to adopt it, after it originated in Team Identity.
 - **Theme** — `data-theme="dark"` attribute on `<html>` (not a CSS class);
   `darkMode: ['selector', '[data-theme="dark"]']` in `tailwind.config.js`; an
   anti-flash inline script in `index.html` reads `localStorage.theme` and

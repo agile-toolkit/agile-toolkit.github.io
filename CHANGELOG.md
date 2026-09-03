@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+## 0.3.7 — Facilitator Mode (2026-09-03)
+
+- **feat**: promoted Team Identity's Facilitator (projector) mode into a
+  shared design-system pattern (`useFacilitatorMode.ts` +
+  `FacilitatorToggle.tsx`) and adopted it here on the Dashboard itself —
+  bigger UI via one `html.facilitator-mode { font-size: 1.25rem }` rule
+  (everything sized in `rem` scales automatically), plus hiding secondary
+  chrome (language picker, workspace manager, export/import panel, footer)
+  while active. Toggled from a new header button next to the theme toggle,
+  session-scoped via `sessionStorage('agile-toolkit:facilitatorMode')`.
+  First of an 11-repo rollout — see `design-system/components.md`.
+- **refactor**: promoted `AppHeader`'s `hideLanguagePicker` prop (previously
+  a Team Identity-only local addition) into the canonical design-system
+  source, and extended `check-drift.mjs` to track the two new files.
+
 ## 0.3.6 — Per-app accent card borders; theme-aware hero banner (2026-09-03)
 
 - **fix (consistency)**: cards only got a colored top border when the app

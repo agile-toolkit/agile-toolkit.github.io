@@ -146,3 +146,16 @@
   --theme-input-bg:       #111827;   /* gray-900 */
   --theme-input-border:   #4b5563;   /* gray-600 */
 }
+
+/* ── Facilitator (projector) mode ────────────────────────────────────────── */
+/*
+ * Toggled by design-system/components/useFacilitatorMode.ts + FacilitatorToggle.tsx.
+ * Bigger UI for in-room workshops presented on a screen — everything sized
+ * in rem scales automatically from this one rule. Apps typically also hide
+ * secondary chrome (language picker, nav pills, progress bars) and further
+ * enlarge key elements while facilitator-mode is active; see
+ * useFacilitatorMode.ts for the full pattern.
+ */
+html.facilitator-mode {
+  font-size: 1.25rem;
+}

@@ -11,8 +11,9 @@
 // environment").
 //
 // Only checks components components.md documents as "copy on adoption" for
-// other apps (LanguagePicker, AppHeader, ThemeToggle). AppCard, Badge, etc.
-// are Dashboard-only and not meant to be copied elsewhere yet.
+// other apps (LanguagePicker, AppHeader, ThemeToggle, useFacilitatorMode,
+// FacilitatorToggle). AppCard, Badge, etc. are Dashboard-only and not meant
+// to be copied elsewhere yet.
 
 import fs from 'node:fs'
 import path from 'node:path'
@@ -28,7 +29,10 @@ const APPS = [
   'sprint-metrics', 'change-planner',
 ]
 
-const COPYABLE_COMPONENTS = ['LanguagePicker.tsx', 'AppHeader.tsx', 'ThemeToggle.tsx']
+const COPYABLE_COMPONENTS = [
+  'LanguagePicker.tsx', 'AppHeader.tsx', 'ThemeToggle.tsx',
+  'useFacilitatorMode.ts', 'FacilitatorToggle.tsx',
+]
 
 let driftCount = 0
 let missingCount = 0

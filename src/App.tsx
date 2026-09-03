@@ -6,14 +6,17 @@ import { writeActiveTeam } from './team'
 import type { AppData } from './types'
 import AppCard from './components/AppCard'
 import ExportImport from './components/ExportImport'
+import FacilitatorToggle from './components/FacilitatorToggle'
 import LanguagePicker from './components/LanguagePicker'
 import TeamPill from './components/TeamPill'
 import ThemeToggle from './components/ThemeToggle'
+import { useFacilitatorMode } from './components/useFacilitatorMode'
 import WorkspaceManager from './components/WorkspaceManager'
 
 export default function App() {
   const { t } = useTranslation()
   const [data, setData] = useState<Record<string, AppData | null>>({})
+  const [facilitatorMode, toggleFacilitatorMode] = useFacilitatorMode('agile-toolkit:facilitatorMode')
 
   const refresh = useCallback(() => {
     try { setData(readAll()) } catch { /* ignore */ }
@@ -58,8 +61,14 @@ export default function App() {
             <TeamPill />
           </div>
           <div className="flex items-center gap-1 flex-shrink-0">
-            <LanguagePicker />
+            {!facilitatorMode && <LanguagePicker />}
             <ThemeToggle />
+            <FacilitatorToggle
+              active={facilitatorMode}
+              onToggle={toggleFacilitatorMode}
+              labelOn={t('facilitator.toggle_on')}
+              labelOff={t('facilitator.toggle_off')}
+            />
           </div>
         </div>
       </nav>
@@ -96,7 +105,7 @@ export default function App() {
               </>
             )}
           </p>
-          <WorkspaceManager />
+          {!facilitatorMode && <WorkspaceManager />}
         </div>
 
         {activeCount === 0 && (
@@ -112,15 +121,17 @@ export default function App() {
         </div>
       </main>
 
-      <ExportImport />
+      {!facilitatorMode && <ExportImport />}
 
-      <footer className="text-center py-10 text-sm text-slate-500 dark:text-gray-400 border-t border-slate-200 dark:border-gray-800 mt-2">
-        <a href="https://github.com/agile-toolkit" className="text-blue-600 dark:text-blue-400 underline">
-          github.com/agile-toolkit
-        </a>
-        <span className="mx-2 opacity-40">·</span>
-        {t('footer.text')}
-      </footer>
+      {!facilitatorMode && (
+        <footer className="text-center py-10 text-sm text-slate-500 dark:text-gray-400 border-t border-slate-200 dark:border-gray-800 mt-2">
+          <a href="https://github.com/agile-toolkit" className="text-blue-600 dark:text-blue-400 underline">
+            github.com/agile-toolkit
+          </a>
+          <span className="mx-2 opacity-40">·</span>
+          {t('footer.text')}
+        </footer>
+      )}
     </div>
   )
 }

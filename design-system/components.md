@@ -15,14 +15,19 @@ Components are distributed by copy-paste, not an npm package — nothing
 stops a local edit (or a missed update to the source) from silently
 drifting. Run `node design-system/check-drift.mjs` from this repo's root
 to diff every app's copy of `LanguagePicker.tsx`/`AppHeader.tsx`/
-`ThemeToggle.tsx` against the source and report differences. Two real
-bugs were found this way on 2026-09-03: `LanguagePicker.tsx`'s source had
-never been given `dark:` classes at all (5 of 10 apps had a light-only
-dropdown in dark mode), and `AppHeader.tsx`'s source was missing 3
-`dark:` additions every single app had independently already made. Not
-every reported diff is a bug — Team Identity's `AppHeader.tsx` has a
-deliberate, commented `hideLanguagePicker` prop for its facilitator
-mode; the script's job is to surface candidates, not to auto-judge them.
+`ThemeToggle.tsx`/`useFacilitatorMode.ts`/`FacilitatorToggle.tsx` against
+the source and report differences. Two real bugs were found this way on
+2026-09-03: `LanguagePicker.tsx`'s source had never been given `dark:`
+classes at all (5 of 10 apps had a light-only dropdown in dark mode), and
+`AppHeader.tsx`'s source was missing 3 `dark:` additions every single app
+had independently already made. Not every reported diff is a bug — an
+app screen that never shows nav pills legitimately omits `navItems`; the
+script's job is to surface candidates, not to auto-judge them.
+
+`AppHeader.tsx`'s `hideLanguagePicker` prop was originally a Team
+Identity-only local addition for its facilitator mode; promoted into the
+canonical source on 2026-09-03 when Facilitator Mode became a suite-wide
+pattern (see below) — every adopting app needs it.
 
 ---
 
@@ -43,6 +48,7 @@ The standard top-of-page navigation bar for every app in the suite. White, stick
 | `title`        | `string`                                                             | App name displayed next to the grid icon                  |
 | `onTitleClick` | `() => void` (optional)                                              | Called when the title is clicked (go-home / reset). Omit to render a non-interactive `<span>`. |
 | `navItems`     | `{ key: string; label: string; active: boolean; onClick: () => void }[]` (optional) | Nav pills rendered between title and language picker |
+| `hideLanguagePicker` | `boolean` (optional)                                           | Hide the language picker — pass the app's `facilitatorMode` boolean (see Facilitator Mode below) |
 | `children`     | `React.ReactNode` (optional)                                         | Extra controls appended after the language picker         |
 
 ### Usage — minimal
@@ -235,6 +241,92 @@ Pair every Tailwind color class with its `dark:` counterpart. The semantic token
 | Muted text           | `text-gray-400`        | `dark:text-gray-600`       |
 | Input background     | `bg-white`             | `dark:bg-gray-900`         |
 | Input border         | `border-gray-300`      | `dark:border-gray-600`     |
+
+---
+
+## Facilitator Mode
+
+Presentation/projector mode for in-room workshops: bigger UI (via one
+`html.facilitator-mode { font-size: 1.25rem }` CSS rule, everything sized in
+`rem` scales automatically) and hidden secondary chrome (language picker, nav
+pills, progress bars). Session-scoped per tab via `sessionStorage` — toggled
+by a header button.
+
+Originated as a Team Identity-only feature; promoted to a shared
+design-system pattern on 2026-09-03 for suite-wide adoption.
+
+**Source:** `design-system/components/useFacilitatorMode.ts` (hook) +
+`design-system/components/FacilitatorToggle.tsx` (button)
+**Depends on:** the `html.facilitator-mode` rule in
+`design-system/colors_and_type.css` § 9 (already present in the rule's
+source; copy it into the app's own `src/tokens.css` if that copy predates
+this addition)
+**Live in:** each app's `src/components/FacilitatorToggle.tsx` +
+`src/components/useFacilitatorMode.ts` (copy on adoption)
+
+### Why a hook + button, not a self-contained toggle like ThemeToggle
+
+Facilitator mode isn't purely a passive CSS effect — most apps also need to
+*react* to it elsewhere in their own `App.tsx`: hiding `AppHeader`'s
+language picker/nav pills, hiding secondary panels, further enlarging key
+elements beyond what the `rem` cascade gives for free. That means the
+boolean has to be lifted into the app's own component tree, not hidden
+inside a self-contained button.
+
+### `useFacilitatorMode(storageKey)`
+
+```ts
+function useFacilitatorMode(storageKey: string): [boolean, () => void]
+```
+
+Returns `[facilitatorMode, toggleFacilitatorMode]`. Pass an app-prefixed
+`storageKey` (e.g. `'team-identity:facilitatorMode'`) — `sessionStorage` is
+shared across all suite apps on the same origin, so an unprefixed key would
+leak one app's toggle state into another's.
+
+### `<FacilitatorToggle />` props
+
+| Prop       | Type         | Description                                  |
+|------------|--------------|-----------------------------------------------|
+| `active`   | `boolean`    | Current facilitator-mode state                |
+| `onToggle` | `() => void` | Called on click                                |
+| `labelOn`  | `string`     | Tooltip when inactive, e.g. `t('facilitator.toggle_on')`  |
+| `labelOff` | `string`     | Tooltip when active, e.g. `t('facilitator.toggle_off')`   |
+
+### i18n keys (add to every locale)
+
+| Key                     | English                    |
+|--------------------------|----------------------------|
+| `facilitator.toggle_on`  | "Facilitator Mode"         |
+| `facilitator.toggle_off` | "Exit Facilitator Mode"    |
+
+### Usage
+
+```tsx
+import { useFacilitatorMode } from './components/useFacilitatorMode'
+import FacilitatorToggle from './components/FacilitatorToggle'
+
+const [facilitatorMode, toggleFacilitatorMode] = useFacilitatorMode('myapp:facilitatorMode')
+
+<AppHeader
+  title={t('app.title')}
+  hideLanguagePicker={facilitatorMode}
+  navItems={facilitatorMode ? [] : [/* ...normal nav items... */]}
+>
+  <ThemeToggle />
+  <FacilitatorToggle
+    active={facilitatorMode}
+    onToggle={toggleFacilitatorMode}
+    labelOn={t('facilitator.toggle_on')}
+    labelOff={t('facilitator.toggle_off')}
+  />
+</AppHeader>
+```
+
+Make sure the app's own `src/tokens.css` (its copy of
+`design-system/colors_and_type.css`) includes the `html.facilitator-mode`
+rule (§ 9) — re-copy that section if the local copy predates this addition,
+since it's copy-distributed like every other design-system file.
 
 ---
 

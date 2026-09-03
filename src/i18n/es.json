@@ -62,5 +62,7 @@
   "apps.sprint_metrics.desc": "Un panel de métricas de sprint: velocidad, burn-down/burn-up, Diagramas de Flujo Acumulado y previsión de fecha de finalización, totalmente del lado del cliente sin backend.",
   "apps.change_planner.title": "Planificador de Cambios",
   "apps.change_planner.desc": "Planifica iniciativas de cambio según las 4 facetas de Jurgen Appelo: Bailar con el Sistema, Cuidar a las Personas, Estimular la Red, Cambiar el Entorno.",
-  "team.pill_label": "Equipo activo: {{name}}"
+  "team.pill_label": "Equipo activo: {{name}}",
+  "facilitator.toggle_on": "Modo Facilitador",
+  "facilitator.toggle_off": "Salir del Modo Facilitador"
 }

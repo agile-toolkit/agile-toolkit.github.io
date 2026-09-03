@@ -62,5 +62,7 @@
   "apps.sprint_metrics.desc": "A sprint metrics dashboard — velocity, burn-down/burn-up, Cumulative Flow Diagrams, and finish-date forecasts, entirely client-side with no backend.",
   "apps.change_planner.title": "Change Planner",
   "apps.change_planner.desc": "Plan change initiatives across Jurgen Appelo's 4 facets — Dance with the System, Mind the People, Stimulate the Network, Change the Environment.",
-  "team.pill_label": "Active team: {{name}}"
+  "team.pill_label": "Active team: {{name}}",
+  "facilitator.toggle_on": "Facilitator Mode",
+  "facilitator.toggle_off": "Exit Facilitator Mode"
 }

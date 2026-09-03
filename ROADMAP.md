@@ -82,6 +82,14 @@ platform GOAL:
   `<section aria-label>` landmark, clearing the 2026-09-01 visual-audit
   polish item~~
 
+**v0.3.7 — Facilitator Mode** (2026-09-03) — a user directly asked for it suite-wide:
+- ~~Promoted Team Identity's Facilitator Mode into a shared design-system
+  pattern (`useFacilitatorMode.ts` + `FacilitatorToggle.tsx`,
+  `AppHeader`'s `hideLanguagePicker` promoted to canonical) and adopted it
+  on the Dashboard itself — bigger UI, hidden secondary chrome (language
+  picker, workspace manager, export/import, footer), toggled from the
+  header. First of an 11-repo rollout.~~
+
 **v0.3.6 — Per-app accent card borders; theme-aware hero banner** (2026-09-03) — a user directly flagged both:
 - ~~Cards with no usage data yet had a structurally different, plain gray
   border instead of just a different top-border color — replaced with the
