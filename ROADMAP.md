@@ -82,6 +82,12 @@ platform GOAL:
   `<section aria-label>` landmark, clearing the 2026-09-01 visual-audit
   polish item~~
 
+**v0.3.9 — Replace hub tile emoji with colored SVG icons** (2026-09-03) — first installment of a suite-wide emoji→SVG sweep the user asked for:
+- ~~Shared `icons.tsx` (generic UI-chrome) + `app-icons.tsx` (Dashboard
+  hub tiles) added to `design-system/`; the 10 app-tile emoji in
+  `apps.ts` replaced with colored components tied to each app's
+  `--app-accent` token~~
+
 **v0.3.8 — Hide app-card descriptions in Facilitator Mode** (2026-09-03) — a direct user follow-up:
 - ~~`AppCard`'s description paragraph now hides while presenting, kept as
   a spacer so card footers stay aligned across the grid~~

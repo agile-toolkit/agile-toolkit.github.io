@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+## 0.3.9 — Replace hub tile emoji with colored SVG icons (2026-09-03)
+
+- **feat**: added a shared SVG icon library to the design-system
+  (`icons.tsx` — generic UI-chrome icons; `app-icons.tsx` — the 10
+  Dashboard hub-tile icons), replacing the emoji previously stored in
+  `apps.ts`'s `icon` field. `AppMeta.icon` is now a component, rendered
+  inside a span styled `color: var(--app-accent)` so each tile's icon
+  automatically matches its app's brand color in both themes. First
+  installment of a suite-wide emoji→SVG sweep the user asked for;
+  purely functional emoji (Team Identity's symbol picker, Planning
+  Poker's `☕` card, the Dashboard's own team-symbol pass-through chip)
+  are explicitly out of scope and stay as emoji.
+
 ## 0.3.8 — Hide app-card descriptions in Facilitator Mode (2026-09-03)
 
 - **fix (follow-up)**: `AppCard`'s description paragraph — explicitly

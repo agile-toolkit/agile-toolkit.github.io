@@ -330,6 +330,63 @@ since it's copy-distributed like every other design-system file.
 
 ---
 
+## Icons
+
+Two shared SVG icon files replace the suite's decorative emoji (buttons,
+badges, section headers, hub tiles) with consistent, dark-mode-safe icons.
+**Not** in scope: emoji that are functional content rather than decoration
+— Team Identity's Identity Symbols picker, Planning Poker's `☕` card
+value, and the Dashboard's live pass-through of a team's chosen symbol
+chip — those stay real emoji.
+
+**Source:** `design-system/components/icons.tsx` (generic UI-chrome icons)
++ `design-system/components/app-icons.tsx` (the Dashboard's 10 hub-tile
+icons)
+**Live in:** each app's `src/components/icons.tsx` (copy on adoption);
+`app-icons.tsx` is Dashboard-only
+
+### `icons.tsx`
+
+Most icons (`CloseIcon`, `CheckIcon`, `ArrowLeftIcon`, `ArrowRightIcon`,
+`TipIcon`, `ChartIcon`, `RefreshIcon`, `LinkIcon`, `CalendarIcon`,
+`PersonIcon`, `EditIcon`, `PrintIcon`, `ClipboardIcon`, `HandshakeIcon`,
+`TargetIcon`, `FlagIcon`, `FolderIcon`, `BellIcon`, `BellOffIcon`,
+`SearchIcon`) use `fill`/`stroke="currentColor"` — they inherit whatever
+Tailwind text-color class already sits on the surrounding button or span
+(a delete button's `text-red-400` colors its icon automatically), matching
+the convention already used by `AppHeader`'s `GridIcon`, `ThemeToggle`'s
+sun/moon, and `FacilitatorToggle`'s `ProjectorIcon`.
+
+A few (`WarningIcon`, `CheckCircleIcon`, `XCircleIcon`, `StarFilledIcon`,
+`TrophyIcon`, `FireIcon`, `CelebrateIcon`) carry a fixed semantic color
+instead (amber warning, emerald success, red danger, gold star/trophy) —
+the color IS the meaning here, regardless of surrounding context.
+
+```tsx
+import { CloseIcon, WarningIcon } from './components/icons'
+
+<button className="text-red-500 hover:text-red-700"><CloseIcon className="w-4 h-4" /></button>
+<WarningIcon className="w-4 h-4" />
+```
+
+### `app-icons.tsx` — Dashboard hub tiles
+
+`CardsIcon` / `StopwatchIcon` / `KanbanColumnsIcon` / `CoinIcon` /
+`PinIcon` / `PokerCardIcon` (plus `HandshakeIcon` / `PersonIcon` /
+`ChartIcon` / `RefreshIcon` reused from `icons.tsx`) replace the 10 emoji
+previously stored in `apps.ts`'s `icon` field. `AppMeta.icon` is now a
+`ComponentType<{ className?: string }>`, rendered inside a span styled
+`color: var(--app-accent)` so each tile's icon automatically matches its
+app's brand color in both themes — no per-icon color choice needed, it
+rides the existing per-app accent contract (tokens.css section 5).
+
+```tsx
+const Icon = app.icon
+<span style={{ color: 'var(--app-accent)' }}><Icon className="w-6 h-6" /></span>
+```
+
+---
+
 ## AppCard
 
 A card that represents one app on the Dashboard. Shows icon, title, description, live/active badge, a stats panel with contextual localStorage data, and a CTA link.

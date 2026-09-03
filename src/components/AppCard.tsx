@@ -21,6 +21,7 @@ export default function AppCard({ app, data, facilitatorMode }: Props) {
   const titleKey = `apps.${app.id.replace(/-/g, '_')}.title`
   const descKey  = `apps.${app.id.replace(/-/g, '_')}.desc`
   const badgeVariant = data?.live ? 'live' : data?.attention ? 'attention' : hasData ? 'active' : null
+  const Icon = app.icon
 
   return (
     <a
@@ -31,7 +32,9 @@ export default function AppCard({ app, data, facilitatorMode }: Props) {
     >
       {/* Header */}
       <div className="flex items-center gap-3 px-5 pt-4 pb-0">
-        <span className="text-2xl leading-none flex-shrink-0">{app.icon}</span>
+        <span className="flex-shrink-0" style={{ color: 'var(--app-accent)' }}>
+          <Icon className="w-6 h-6" />
+        </span>
         <span className="flex-1 font-semibold text-blue-600 dark:text-blue-400 text-[0.9375rem] leading-snug">
           {t(titleKey, app.title)}
         </span>
