@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react'
-import { CardsIcon, StopwatchIcon, KanbanColumnsIcon, CoinIcon, PinIcon, PokerCardIcon } from './components/app-icons'
-import { HandshakeIcon, PersonIcon, ChartIcon, RefreshIcon } from './components/icons'
+import { CardsIcon, StopwatchIcon, KanbanColumnsIcon, CoinIcon, TrendUpIcon, TeamIcon, PokerCardIcon } from './components/app-icons'
+import { PersonIcon, ChartIcon, RefreshIcon } from './components/icons'
 
 /** Matches the `data-accent="…"` each app sets on its own root — see tokens.css section 5. */
 export type AppAccent = 'cobalt' | 'pink' | 'amber' | 'violet' | 'teal' | 'coral'
@@ -50,7 +50,7 @@ export const APPS: AppMeta[] = [
   {
     id: 'team-identity',
     title: 'Team Identity',
-    icon: HandshakeIcon,
+    icon: TeamIcon,
     href: 'https://agile-toolkit.github.io/team-identity/',
     desc: 'A guided workshop for naming your team, picking a symbol, choosing shared values, and agreeing on working norms — ends in a shareable team charter.',
     accent: 'amber',
@@ -58,7 +58,7 @@ export const APPS: AppMeta[] = [
   {
     id: 'improvement-board',
     title: 'Improvement Board',
-    icon: PinIcon,
+    icon: TrendUpIcon,
     href: 'https://agile-toolkit.github.io/improvement-board/',
     desc: 'Capture problems, run structured Improvement Dialogues, assign peer coaches, and track progress from Identified through Done.',
     accent: 'violet',

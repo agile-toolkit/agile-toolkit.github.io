@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 0.3.10 — Fix broken and irrelevant hub tile icons (2026-09-03)
+
+- **fix**: the previous release's `HandshakeIcon` (Team Identity) had
+  broken path geometry and rendered as a garbled shape, not a
+  handshake — user-reported. Removed it (it had no other consumers) and
+  replaced the tile with a new `TeamIcon` (two overlapping people).
+  Also swapped Improvement Board's `PinIcon` — a location pin doesn't
+  represent capturing problems, structured dialogues, and progress
+  tracking — for a new `TrendUpIcon` (upward trend line), also
+  user-flagged as not relevant.
+
 ## 0.3.9 — Replace hub tile emoji with colored SVG icons (2026-09-03)
 
 - **feat**: added a shared SVG icon library to the design-system

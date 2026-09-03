@@ -349,7 +349,7 @@ icons)
 
 Most icons (`CloseIcon`, `CheckIcon`, `ArrowLeftIcon`, `ArrowRightIcon`,
 `TipIcon`, `ChartIcon`, `RefreshIcon`, `LinkIcon`, `CalendarIcon`,
-`PersonIcon`, `EditIcon`, `PrintIcon`, `ClipboardIcon`, `HandshakeIcon`,
+`PersonIcon`, `EditIcon`, `PrintIcon`, `ClipboardIcon`,
 `TargetIcon`, `FlagIcon`, `FolderIcon`, `BellIcon`, `BellOffIcon`,
 `SearchIcon`) use `fill`/`stroke="currentColor"` — they inherit whatever
 Tailwind text-color class already sits on the surrounding button or span
@@ -372,7 +372,7 @@ import { CloseIcon, WarningIcon } from './components/icons'
 ### `app-icons.tsx` — Dashboard hub tiles
 
 `CardsIcon` / `StopwatchIcon` / `KanbanColumnsIcon` / `CoinIcon` /
-`PinIcon` / `PokerCardIcon` (plus `HandshakeIcon` / `PersonIcon` /
+`TrendUpIcon` / `TeamIcon` / `PokerCardIcon` (plus `PersonIcon` /
 `ChartIcon` / `RefreshIcon` reused from `icons.tsx`) replace the 10 emoji
 previously stored in `apps.ts`'s `icon` field. `AppMeta.icon` is now a
 `ComponentType<{ className?: string }>`, rendered inside a span styled

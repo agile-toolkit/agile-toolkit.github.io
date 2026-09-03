@@ -144,16 +144,6 @@ export function ClipboardIcon({ className = 'w-4 h-4' }: IconProps) {
   )
 }
 
-export function HandshakeIcon({ className = 'w-4 h-4' }: IconProps) {
-  return (
-    <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M1.5 8l3-2.5 2 1.5 2-1.5 3 2.5" />
-      <path d="M4.5 6.5l3.5 3.5 1.5-1.5M11 6.5l-3 3" />
-      <path d="M1.5 8v3.5l2 1.5M14.5 8v3.5l-2 1.5" />
-    </svg>
-  )
-}
-
 export function TargetIcon({ className = 'w-4 h-4' }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">

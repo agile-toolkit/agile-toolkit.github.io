@@ -55,12 +55,24 @@ export function CoinIcon({ className = 'w-6 h-6' }: IconProps) {
   )
 }
 
-/** Improvement Board — map pin */
-export function PinIcon({ className = 'w-6 h-6' }: IconProps) {
+/** Improvement Board — upward trend (progress on captured problems) */
+export function TrendUpIcon({ className = 'w-6 h-6' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M2.5 14.5l5-5 3.5 3.5 6-6.5" />
+      <path d="M13.5 6h3.5v3.5" />
+    </svg>
+  )
+}
+
+/** Team Identity — two people (the team) */
+export function TeamIcon({ className = 'w-6 h-6' }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-      <path d="M10 2a5.5 5.5 0 00-5.5 5.5c0 4.2 5.5 10 5.5 10s5.5-5.8 5.5-10A5.5 5.5 0 0010 2z" />
-      <circle cx="10" cy="7.5" r="2.1" fill="white" />
+      <circle cx="7" cy="6" r="2.6" />
+      <path d="M2 16c0-3 2.2-5 5-5s5 2 5 5z" />
+      <circle cx="14.5" cy="7" r="2.1" opacity="0.55" />
+      <path d="M10.8 16c.3-2.6 2-4.3 4.2-4.3s3.6 1.5 4 3.6z" opacity="0.55" />
     </svg>
   )
 }

@@ -82,6 +82,12 @@ platform GOAL:
   `<section aria-label>` landmark, clearing the 2026-09-01 visual-audit
   polish item~~
 
+**v0.3.10 — Fix broken and irrelevant hub tile icons** (2026-09-03) — user directly flagged both:
+- ~~`HandshakeIcon` (Team Identity) had broken path geometry, rendered as
+  a garbled shape — removed and replaced with a new `TeamIcon`~~
+- ~~`PinIcon` (Improvement Board) didn't represent the app's purpose —
+  replaced with a new `TrendUpIcon`~~
+
 **v0.3.9 — Replace hub tile emoji with colored SVG icons** (2026-09-03) — first installment of a suite-wide emoji→SVG sweep the user asked for:
 - ~~Shared `icons.tsx` (generic UI-chrome) + `app-icons.tsx` (Dashboard
   hub tiles) added to `design-system/`; the 10 app-tile emoji in
