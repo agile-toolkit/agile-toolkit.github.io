@@ -355,7 +355,8 @@ Most icons (`CloseIcon`, `CheckIcon`, `ArrowLeftIcon`, `ArrowRightIcon`,
 `TargetIcon`, `FlagIcon`, `FolderIcon`, `BellIcon`, `BellOffIcon`,
 `SearchIcon`, `EyeIcon`, `SunIcon`, `QuestionIcon`, `UploadIcon`,
 `DownloadIcon`, `ThumbsUpIcon`, `CheckboxEmptyIcon`, `CheckboxCheckedIcon`,
-`ShuffleIcon`, `TeamIcon`) use `fill`/`stroke="currentColor"` — they inherit whatever
+`ShuffleIcon`, `TeamIcon`, `ClapperboardIcon`, `StopwatchIcon`, `PlayIcon`,
+`PauseIcon`) use `fill`/`stroke="currentColor"` — they inherit whatever
 Tailwind text-color class already sits on the surrounding button or span
 (a delete button's `text-red-400` colors its icon automatically), matching
 the convention already used by `AppHeader`'s `GridIcon`, `ThemeToggle`'s
@@ -376,7 +377,7 @@ import { CloseIcon, WarningIcon } from './components/icons'
 ### `app-icons.tsx` — Dashboard hub tiles
 
 `CardsIcon` / `StopwatchIcon` / `KanbanColumnsIcon` / `CoinIcon` /
-`TrendUpIcon` / `IdentityCardIcon` / `PokerCardIcon` (plus `PersonIcon` /
+`TrendUpIcon` / `IdentityCardIcon` / `MedalIcon` / `PokerCardIcon` (plus
 `ChartIcon` / `RefreshIcon` reused from `icons.tsx`) replace the 10 emoji
 previously stored in `apps.ts`'s `icon` field. `AppMeta.icon` is now a
 `ComponentType<{ className?: string }>`, rendered inside a span styled

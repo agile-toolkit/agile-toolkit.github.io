@@ -3,7 +3,7 @@
  *
  * A small shared set of SVG icons replacing the suite's most commonly
  * typed decorative emoji (✕ ✓ → ← 💡 ⚠️ 📊 🔄 🔗 📅 👤 ✏️ 🖨️ 📋 🤝 🎯 🏁 📁
- * 🔔 🔇 🔍 👁 ☀️ ❓ 📤 ⬇️ 👍 ☑ ☐ 🔀, plus a few semantic-colored ones:
+ * 🔔 🔇 🔍 👁 ☀️ ❓ 📤 ⬇️ 👍 ☑ ☐ 🔀 🎬 ⏱ ▶ ⏸, plus a few semantic-colored ones:
  * warning, celebrate, trophy, fire, star. Emoji that are FUNCTIONAL CONTENT rather than decoration —
  * Team Identity's Identity Symbols picker, Planning Poker's ☕ card value,
  * the Dashboard's live pass-through of a team's chosen symbol — are not
@@ -286,6 +286,47 @@ export function TeamIcon({ className = 'w-4 h-4' }: IconProps) {
       <path d="M2 16c0-3 2.2-5 5-5s5 2 5 5z" />
       <circle cx="14.5" cy="7" r="2.1" opacity="0.55" />
       <path d="M10.8 16c.3-2.6 2-4.3 4.2-4.3s3.6 1.5 4 3.6z" opacity="0.55" />
+    </svg>
+  )
+}
+
+/** Clapperboard — demo/presentation */
+export function ClapperboardIcon({ className = 'w-4 h-4' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" strokeLinecap="round" aria-hidden="true">
+      <rect x="2" y="7" width="12" height="6.5" rx="1" />
+      <path d="M2.3 7L3.5 4h2l-1.2 3zM6.7 7l1.2-3h2l-1.2 3zM11.1 7l1.2-3H13v3z" />
+      <line x1="2" y1="7" x2="14" y2="7" />
+    </svg>
+  )
+}
+
+/** Stopwatch — elapsed/overtime */
+export function StopwatchIcon({ className = 'w-4 h-4' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="8" cy="8.5" r="6" />
+      <path d="M8 5v3.5l2.5 1.5" />
+      <path d="M6 1.5h4M8 1.5v1.3" />
+    </svg>
+  )
+}
+
+/** Play — start/resume */
+export function PlayIcon({ className = 'w-4 h-4' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M4 2.5v11l9-5.5z" />
+    </svg>
+  )
+}
+
+/** Pause — pause a running timer */
+export function PauseIcon({ className = 'w-4 h-4' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <rect x="3.5" y="2.5" width="3" height="11" rx="0.6" />
+      <rect x="9.5" y="2.5" width="3" height="11" rx="0.6" />
     </svg>
   )
 }

@@ -1,11 +1,25 @@
 # Changelog
 
 ## Unreleased
+
+## 0.4.1 — Fix Work Profiles hub icon; backport 4 icons from Scrum Facilitator (2026-09-04)
+
+- **fix**: Work Profiles' hub tile used `PersonIcon` — a generic single
+  person, indistinguishable in intent from Team Identity's icon (both sit
+  on the same amber accent) and not specific to what the app actually
+  does (a skills/contributions record, not just "a person"). Replaced
+  with a new `MedalIcon` reflecting the app's own framing — "recognized
+  contributions... over job titles." Visually verified at real hub-tile
+  size before shipping. User-reported.
+- **chore**: backported `ClapperboardIcon`, `StopwatchIcon`, `PlayIcon`,
+  `PauseIcon` — added directly to Scrum Facilitator's local `icons.tsx`
+  in its own emoji-sweep run since this repo wasn't picked yet — into
+  `design-system/components/icons.tsx` so other apps can reuse them
+  instead of redefining locally.
 - **ci**: CI Node bumped 20 → 22 and `engines` declared. `jsdom@30` requires
   Node `^22.22.2 || ^24.15.0 || >=26`, so the test step could never have passed
   on the pinned Node 20 — invisible until this release started running the
   tests in CI at all. Builds were unaffected (vite and tsc do not load jsdom).
-
 
 ## 0.4.0 — Workspace data-loss fixes, registry gaps, error boundary (2026-09-03)
 

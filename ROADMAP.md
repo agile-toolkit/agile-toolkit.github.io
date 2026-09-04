@@ -51,6 +51,14 @@ below is already live in `main`:
   Scrum Facilitator (participant/retro-note chips), Sprint Metrics (mood
   emoji)~~
 
+**v0.4.1 — Fix Work Profiles hub icon; backport 4 icons from Scrum Facilitator** (2026-09-04) — user directly flagged the icon:
+- ~~Replaced Work Profiles' `PersonIcon` (generic, indistinguishable from
+  Team Identity's icon on the same accent) with a new `MedalIcon` fitting
+  the app's own "recognized contributions... over job titles" framing~~
+- ~~Backported `ClapperboardIcon`/`StopwatchIcon`/`PlayIcon`/`PauseIcon`
+  from Scrum Facilitator's own emoji-sweep run into the shared
+  `icons.tsx` so other apps can reuse them~~
+
 **v0.2.0 — E1: Reader completeness** (2026-09-01):
 - ~~[#31](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/31) —
   attention badge on cards for at-risk app state~~

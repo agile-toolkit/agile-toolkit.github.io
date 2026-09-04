@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react'
-import { CardsIcon, StopwatchIcon, KanbanColumnsIcon, CoinIcon, TrendUpIcon, IdentityCardIcon, PokerCardIcon } from './components/app-icons'
-import { PersonIcon, ChartIcon, RefreshIcon } from './components/icons'
+import { CardsIcon, StopwatchIcon, KanbanColumnsIcon, CoinIcon, TrendUpIcon, IdentityCardIcon, MedalIcon, PokerCardIcon } from './components/app-icons'
+import { ChartIcon, RefreshIcon } from './components/icons'
 
 /** Matches the `data-accent="…"` each app sets on its own root — see tokens.css section 5. */
 export type AppAccent = 'cobalt' | 'pink' | 'amber' | 'violet' | 'teal' | 'coral'
@@ -66,7 +66,7 @@ export const APPS: AppMeta[] = [
   {
     id: 'work-profiles',
     title: 'Work Profiles',
-    icon: PersonIcon,
+    icon: MedalIcon,
     href: 'https://agile-toolkit.github.io/work-profiles/',
     desc: 'A team skill map and project-credit log — transparent skills, better task matching, and recognized contributions, over job titles.',
     accent: 'amber',

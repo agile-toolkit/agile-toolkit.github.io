@@ -76,6 +76,16 @@ export function IdentityCardIcon({ className = 'w-6 h-6' }: IconProps) {
   )
 }
 
+/** Work Profiles — a medal (recognized contributions, not just "a person") */
+export function MedalIcon({ className = 'w-6 h-6' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="10" cy="7" r="4.2" />
+      <path d="M6.5 10.5l-1.5 6.5 5-2.5 5 2.5-1.5-6.5" />
+    </svg>
+  )
+}
+
 /** Planning Poker — single number card */
 export function PokerCardIcon({ className = 'w-6 h-6' }: IconProps) {
   return (
