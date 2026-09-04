@@ -335,11 +335,17 @@ since it's copy-distributed like every other design-system file.
 ## Icons
 
 Two shared SVG icon files replace the suite's decorative emoji (buttons,
-badges, section headers, hub tiles) with consistent, dark-mode-safe icons.
+badges, section headers, empty-state art, hub tiles) with consistent,
+dark-mode-safe icons.
 **Not** in scope: emoji that are functional content rather than decoration
-— Team Identity's Identity Symbols picker, Planning Poker's `☕` card
+— Team Identity's Identity Symbols picker, Moving Motivators' motivator
+cards, Sprint Metrics' 1–5 mood scale, Planning Poker's `☕` card
 value, and the Dashboard's live pass-through of a team's chosen symbol
 chip — those stay real emoji.
+
+Decorative emoji are **replaced**, never just deleted: every emoji removed
+from UI chrome leaves an icon in its place, so nothing silently loses its
+visual anchor.
 
 **Source:** `design-system/components/icons.tsx` (generic UI-chrome icons)
 + `design-system/components/app-icons.tsx` (the Dashboard's 10 hub-tile
@@ -355,7 +361,13 @@ Most icons (`CloseIcon`, `CheckIcon`, `ArrowLeftIcon`, `ArrowRightIcon`,
 `TargetIcon`, `FlagIcon`, `FolderIcon`, `BellIcon`, `BellOffIcon`,
 `SearchIcon`, `EyeIcon`, `SunIcon`, `QuestionIcon`, `UploadIcon`,
 `DownloadIcon`, `ThumbsUpIcon`, `CheckboxEmptyIcon`, `CheckboxCheckedIcon`,
-`ShuffleIcon`, `TeamIcon`) use `fill`/`stroke="currentColor"` — they inherit whatever
+`ShuffleIcon`, `TeamIcon`, `ChatIcon`, `BarrierIcon`, `ClapperIcon`,
+`ClockIcon`, `StopwatchIcon`, `HourglassIcon`, `TrafficLightIcon`,
+`FlowIcon`, `TrendUpIcon`, `TrendDownIcon`, `InboxIcon`, `ScalesIcon`,
+`GlobeIcon`, `CompassIcon`, `DocumentIcon`, `ImageIcon`, `BoltIcon`,
+`FlaskIcon`, `TagIcon`, `PuzzleIcon`, `GearIcon`, `CardsIcon`,
+`KanbanIcon`, `SparkIcon`, `RocketIcon`, `WrenchIcon`, `RobotIcon`,
+`UndoIcon`) use `fill`/`stroke="currentColor"` — they inherit whatever
 Tailwind text-color class already sits on the surrounding button or span
 (a delete button's `text-red-400` colors its icon automatically), matching
 the convention already used by `AppHeader`'s `GridIcon`, `ThemeToggle`'s
@@ -388,6 +400,11 @@ rides the existing per-app accent contract (tokens.css section 5).
 const Icon = app.icon
 <span style={{ color: 'var(--app-accent)' }}><Icon className="w-6 h-6" /></span>
 ```
+
+`CardsIcon`, `StopwatchIcon` and `TrendUpIcon` exist in both files: the
+`app-icons.tsx` versions are the 20×20 hub-tile drawings, the `icons.tsx`
+versions are the 16×16 inline UI-chrome ones. Import hub tiles from
+`app-icons`, everything else from `icons`.
 
 ---
 
