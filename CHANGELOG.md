@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+## 0.4.2 — Add glass effect to the shared AppHeader (2026-09-04)
+
+- **fix**: `AppHeader.tsx` — the header every consumer app copies — used a
+  flat opaque `bg-white`/`dark:bg-gray-900`, while the Dashboard's own
+  bespoke nav has always had a translucent `backdrop-blur` glass effect.
+  User-reported inconsistency. Changed the shared source to
+  `bg-[var(--glass)] backdrop-blur-sm`, using the `--glass` token already
+  defined in every app's `tokens.css` (part of `colors_and_type.css`) but
+  never actually consumed anywhere. Verified the blur renders correctly
+  in both themes before shipping. All 10 apps' local copies still need
+  re-syncing from this source — `check-drift.mjs` now reports all 10 as
+  drifted on this file, which is the rollout list for follow-up runs, one
+  repo per cycle.
+
 ## 0.4.1 — Fix Work Profiles hub icon (2026-09-04)
 
 - **fix**: Work Profiles' hub tile used `PersonIcon` — a generic single

@@ -59,6 +59,15 @@ below is already live in `main`:
   from Scrum Facilitator's own emoji-sweep run into the shared
   `icons.tsx` so other apps can reuse them~~
 
+**v0.4.2 — Add glass effect to the shared AppHeader** (2026-09-04) — user directly flagged the inconsistency:
+- ~~`AppHeader.tsx`'s background changed from opaque `bg-white`/
+  `dark:bg-gray-900` to `bg-[var(--glass)] backdrop-blur-sm`, matching the
+  Dashboard's own bespoke nav — uses the `--glass` token already sitting
+  unused in every app's `tokens.css`~~
+- Rollout to all 10 consumer apps' `AppHeader.tsx` copies not done here —
+  `check-drift.mjs` lists all 10 as drifted on this file now, one repo
+  per follow-up cycle.
+
 **v0.2.0 — E1: Reader completeness** (2026-09-01):
 - ~~[#31](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/31) —
   attention badge on cards for at-risk app state~~

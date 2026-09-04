@@ -29,6 +29,14 @@ Identity-only local addition for its facilitator mode; promoted into the
 canonical source on 2026-09-03 when Facilitator Mode became a suite-wide
 pattern (see below) — every adopting app needs it.
 
+`AppHeader.tsx`'s background changed from opaque `bg-white`/`dark:bg-gray-900`
+to the translucent `bg-[var(--glass)] backdrop-blur-sm` on 2026-09-04 —
+user-reported: the Dashboard's own bespoke nav has always had this glass
+effect, but the shared header every consumer app copies did not. All 10
+apps' `src/components/AppHeader.tsx` copies still have the old opaque
+background until each is re-synced from this source in its own repo —
+run `check-drift.mjs` to see which are still pending.
+
 ---
 
 ## AppHeader
@@ -79,7 +87,7 @@ import AppHeader from './components/AppHeader'
 
 | Property      | Value                                           |
 |---------------|-------------------------------------------------|
-| Background    | `bg-white`                                      |
+| Background    | `bg-[var(--glass)] backdrop-blur-sm` (translucent, blurs content scrolling underneath — matches the Dashboard's own nav) |
 | Border        | `border-b border-gray-200`                      |
 | Position      | `sticky top-0 z-10`                             |
 | Height        | `h-14` (56 px)                                  |
