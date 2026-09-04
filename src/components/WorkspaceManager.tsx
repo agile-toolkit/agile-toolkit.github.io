@@ -12,6 +12,7 @@ import {
   deleteWorkspace,
   WorkspaceQuotaError,
 } from '../workspaces'
+import { CheckIcon, CloseIcon, GearIcon } from './icons'
 
 // ── component ──────────────────────────────────────────────────────────────────
 
@@ -151,7 +152,12 @@ export default function WorkspaceManager() {
               : 'bg-white dark:bg-gray-900 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-800'
           }`}
         >
-          {savedFlash ? t('workspace.saved') : t('workspace.save')}
+          {savedFlash ? (
+            <span className="inline-flex items-center gap-1">
+              <CheckIcon className="w-3 h-3" />
+              {t('workspace.saved')}
+            </span>
+          ) : t('workspace.save')}
         </button>
 
         {/* Workspace selector */}
@@ -179,8 +185,8 @@ export default function WorkspaceManager() {
                           : 'text-slate-700 dark:text-gray-200'
                       }`}
                     >
-                      <span className="w-4 flex-shrink-0 text-center">
-                        {name === active ? '✓' : ''}
+                      <span className="w-4 flex-shrink-0 flex justify-center">
+                        {name === active ? <CheckIcon className="w-3.5 h-3.5" /> : null}
                       </span>
                       <span className="truncate">{name}</span>
                     </button>
@@ -199,7 +205,7 @@ export default function WorkspaceManager() {
                 onClick={() => { setDropdownOpen(false); setManageOpen(true) }}
                 className="w-full text-left px-3 py-2 text-sm text-slate-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-800 transition-colors flex items-center gap-2"
               >
-                <span className="w-4 flex-shrink-0 text-center text-slate-400">⚙</span>
+                <span className="w-4 flex-shrink-0 flex justify-center text-slate-400"><GearIcon className="w-3.5 h-3.5" /></span>
                 {t('workspace.manage')}
               </button>
             </div>
@@ -222,9 +228,9 @@ export default function WorkspaceManager() {
               <button
                 onClick={() => setManageOpen(false)}
                 aria-label={t('workspace.close')}
-                className="text-[color:var(--fg-3)] hover:text-slate-600 dark:hover:text-gray-300 transition-colors text-lg leading-none"
+                className="text-[color:var(--fg-3)] hover:text-slate-600 dark:hover:text-gray-300 transition-colors leading-none"
               >
-                ✕
+                <CloseIcon className="w-4 h-4" />
               </button>
             </div>
 
@@ -264,7 +270,8 @@ export default function WorkspaceManager() {
                             ? 'text-blue-600 dark:text-blue-400'
                             : 'text-slate-900 dark:text-gray-50'
                         }`}>
-                          {name}{name === active && ' ✓'}
+                          {name}
+                          {name === active && <CheckIcon className="w-3.5 h-3.5 inline ml-1 -mt-0.5" />}
                         </p>
                       )}
                       <p className="text-xs text-[color:var(--fg-3)] mt-0.5">

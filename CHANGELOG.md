@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-## 0.4.1 — Fix Work Profiles hub icon; backport 4 icons from Scrum Facilitator (2026-09-04)
+## 0.4.1 — Fix Work Profiles hub icon (2026-09-04)
 
 - **fix**: Work Profiles' hub tile used `PersonIcon` — a generic single
   person, indistinguishable in intent from Team Identity's icon (both sit
@@ -11,11 +11,17 @@
   with a new `MedalIcon` reflecting the app's own framing — "recognized
   contributions... over job titles." Visually verified at real hub-tile
   size before shipping. User-reported.
-- **chore**: backported `ClapperboardIcon`, `StopwatchIcon`, `PlayIcon`,
-  `PauseIcon` — added directly to Scrum Facilitator's local `icons.tsx`
-  in its own emoji-sweep run since this repo wasn't picked yet — into
-  `design-system/components/icons.tsx` so other apps can reuse them
-  instead of redefining locally.
+- **design-system**: 31 new shared icons (chat, barrier, clapper, clock,
+  stopwatch, hourglass, traffic light, flow, trend up/down, inbox, scales,
+  globe, compass, document, image, bolt, flask, tag, puzzle, gear, cards,
+  kanban, spark, play, pause, rocket, wrench, robot, undo) so the remaining decorative emoji across the suite have
+  real replacements. Documented the rule the suite follows: decorative emoji
+  are *replaced* with an icon, never deleted outright.
+- **fix**: the Dashboard's own leftover decorative glyphs — the workspace
+  switcher's `✓`/`⚙`/`✕` and the `Saved ✓` / `Open app →` label glyphs baked
+  into all four locales — now render as SVG icons. The design-system copy of
+  `AppCard.tsx` carried the same `Open app →` glyph and was fixed alongside its
+  `src/` twin, so the two don't drift.
 - **ci**: CI Node bumped 20 → 22 and `engines` declared. `jsdom@30` requires
   Node `^22.22.2 || ^24.15.0 || >=26`, so the test step could never have passed
   on the pinned Node 20 — invisible until this release started running the

@@ -7,6 +7,7 @@ import MemberAvatars from './MemberAvatars'
 import ProgressBar from './ProgressBar'
 import Badge from './Badge'
 import StatChipRow from './StatChipRow'
+import { ArrowRightIcon } from './icons'
 
 interface Props {
   app: AppMeta
@@ -75,8 +76,9 @@ export default function AppCard({ app, data }: Props) {
 
       {/* Footer */}
       <div className="flex justify-end px-5 pt-2.5 pb-4">
-        <span className="text-[0.8125rem] font-medium text-blue-600 group-hover:translate-x-0.5 transition-transform inline-block">
-          Open app →
+        <span className="text-[0.8125rem] font-medium text-blue-600 group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
+          Open app
+          <ArrowRightIcon className="w-3.5 h-3.5" />
         </span>
       </div>
     </a>
