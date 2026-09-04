@@ -28,6 +28,12 @@ Small items, no issues filed. Cleared in batches (§ Batch polish).
 
 ## Shipped
 
+- ~~Add Kanban Tracker's app card — new app first reached `mvp` this run
+  (v0.2.0, PR agile-toolkit/kanban-tracker#4). `readKanbanTracker()` in
+  `readers.ts` mirrors Kanban Designer's reader (multi-board live preview,
+  WIP-limit attention flag), since it has no "current board" key to key off
+  of — falls back to the most recently updated board instead.~~
+
 Versioning was not tracked per-feature before the 2026-07-25 GOAL/ROADMAP
 pass — the package stayed at `0.1.0` throughout that period. Everything
 below is already live in `main`:

@@ -34,6 +34,8 @@ const REAL_KEYS = [
   'sprint-metrics-projects',
   'sprint-metrics:lastSession',
   'change-planner-initiatives',
+  'kanban-tracker-boards',
+  'kanban-tracker:lastSession',
   'agile-toolkit:workspaces',
   'agile-toolkit:activeTeam',
   // Genuinely global, owned by nobody:
