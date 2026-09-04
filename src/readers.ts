@@ -412,6 +412,35 @@ function readChangePlanner(): AppData | null {
   }
 }
 
+// ── kanban-tracker ───────────────────────────────────────────────────────────
+function readKanbanTracker(): AppData | null {
+  type Col = { name: string; wipLimit?: number | null; cards?: unknown[] }
+  type Board = { id: string; name: string; updatedAt?: number; columns?: Col[] }
+  const boards = read<Board[]>('kanban-tracker-boards') ?? []
+  if (!boards.length) return null
+
+  // No "current board" key — this app doesn't persist which board was open,
+  // so the most recently updated one is the best stand-in for "active".
+  const cur = [...boards].sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))[0]!
+
+  const totalCards = boards.reduce(
+    (s, b) => s + (b.columns ?? []).reduce((cs, c) => cs + (c.cards ?? []).length, 0),
+    0,
+  )
+  const chips: StatChip[] = [chip(boards.length, plural(boards.length, 'board'))]
+  if (cur.name) chips.push(chip(`"${trunc(cur.name, 18)}"`, 'active'))
+  if (totalCards > 0) chips.push(chip(totalCards, plural(totalCards, 'card')))
+
+  const boardColumns: BoardColumnPreview[] = (cur.columns ?? []).map(c => ({
+    name: c.name,
+    count: (c.cards ?? []).length,
+    wip: c.wipLimit ?? undefined,
+    overWip: !!c.wipLimit && (c.cards ?? []).length > c.wipLimit,
+  }))
+
+  return { chips, timestamp: cur.updatedAt, boardColumns, attention: boardColumns.some(c => c.overWip) }
+}
+
 // ── public API ───────────────────────────────────────────────────────────────
 export function readAll(): Record<string, AppData | null> {
   return {
@@ -425,5 +454,6 @@ export function readAll(): Record<string, AppData | null> {
     'planning-poker':     readPlanningPoker(),
     'sprint-metrics':     readSprintMetrics(),
     'change-planner':     readChangePlanner(),
+    'kanban-tracker':     readKanbanTracker(),
   }
 }

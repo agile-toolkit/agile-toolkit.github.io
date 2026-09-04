@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react'
 import { CardsIcon, StopwatchIcon, KanbanColumnsIcon, CoinIcon, TrendUpIcon, MedalIcon, PokerCardIcon } from './components/app-icons'
-import { ChartIcon, RefreshIcon, IdentityCardIcon } from './components/icons'
+import { ChartIcon, RefreshIcon, IdentityCardIcon, PlayIcon } from './components/icons'
 
 /** Matches the `data-accent="…"` each app sets on its own root — see tokens.css section 5. */
 export type AppAccent = 'cobalt' | 'pink' | 'amber' | 'violet' | 'teal' | 'coral'
@@ -94,5 +94,13 @@ export const APPS: AppMeta[] = [
     href: 'https://agile-toolkit.github.io/change-planner/',
     desc: "Plan change initiatives across Jurgen Appelo's 4 facets — Dance with the System, Mind the People, Stimulate the Network, Change the Environment.",
     accent: 'cobalt',
+  },
+  {
+    id: 'kanban-tracker',
+    title: 'Kanban Tracker',
+    icon: PlayIcon,
+    href: 'https://agile-toolkit.github.io/kanban-tracker/',
+    desc: 'Import a board designed in Kanban Designer and run it — move cards between columns, checklist progress, WIP-limit and overdue warnings. Runs the work; does not design the board.',
+    accent: 'teal',
   },
 ]

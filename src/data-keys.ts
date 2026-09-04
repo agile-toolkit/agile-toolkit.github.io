@@ -93,6 +93,12 @@ export const APP_KEY_GROUPS: AppKeyGroup[] = [
     keyPrefixes: ['change-planner-', 'change-planner:'],
     legacyKeys: [],
   },
+  {
+    appId: 'kanban-tracker',
+    appTitle: 'Kanban Tracker',
+    keyPrefixes: ['kanban-tracker-', 'kanban-tracker:'],
+    legacyKeys: [],
+  },
 ]
 
 /**

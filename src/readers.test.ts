@@ -218,3 +218,27 @@ describe('change-planner', () => {
     expect(data.chips.some(c => c.value === 1 && c.label === 'active')).toBe(true)
   })
 })
+
+describe('kanban-tracker', () => {
+  it('flags a column over its WIP limit', () => {
+    set('kanban-tracker-boards', [
+      { id: 'b1', name: 'Board 1', updatedAt: 1, columns: [{ name: 'Doing', wipLimit: 2, cards: [1, 2, 3] }] },
+    ])
+    const data = readAll()['kanban-tracker']!
+    expect(data.attention).toBe(true)
+    expect(data.boardColumns![0]!.overWip).toBe(true)
+  })
+
+  it('picks the most recently updated board as current (no current-id key)', () => {
+    set('kanban-tracker-boards', [
+      { id: 'b1', name: 'First', updatedAt: 1 },
+      { id: 'b2', name: 'Second', updatedAt: 2 },
+    ])
+    const data = readAll()['kanban-tracker']!
+    expect(data.chips.some(c => c.value === '"Second"')).toBe(true)
+  })
+
+  it('returns null with no boards', () => {
+    expect(readAll()['kanban-tracker']).toBeNull()
+  })
+})

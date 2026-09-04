@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 0.4.4 — Add Kanban Tracker's app card (2026-09-04)
+
+- **feat**: Kanban Tracker reached `mvp` (v0.2.0) — added its card to
+  `apps.ts` (teal accent, per the accent table) and `data-keys.ts`
+  (`kanban-tracker-`/`kanban-tracker:` prefixes, for backup/export/reset).
+  New `readKanbanTracker()` in `readers.ts` mirrors Kanban Designer's
+  reader — multi-board list, live column/card counts, WIP-limit attention
+  flag — but picks the most recently updated board as "current" rather
+  than reading a `-current-id` key, since Kanban Tracker doesn't persist
+  which board was open.
+
 ## 0.4.3 — Promote IdentityCardIcon to the shared icon set (2026-09-04)
 
 - **fix**: `IdentityCardIcon` (used for Team Identity's hub tile) lived in
