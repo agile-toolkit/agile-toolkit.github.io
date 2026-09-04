@@ -292,6 +292,21 @@ export function TeamIcon({ className = 'w-4 h-4' }: IconProps) {
   )
 }
 
+/**
+ * ID card — identity, not just "a team". Promoted from the Dashboard-only
+ * app-icons.tsx (Team Identity's hub-tile icon) once Team Identity's own
+ * app needed the same icon for its intro-screen hero.
+ */
+export function IdentityCardIcon({ className = 'w-4 h-4' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
+      <rect x="3" y="3" width="14" height="14" rx="2" />
+      <circle cx="10" cy="8" r="2" />
+      <path d="M6 15c0-2.2 1.8-3.5 4-3.5s4 1.3 4 3.5" />
+    </svg>
+  )
+}
+
 /** Speech bubble — comments, dialogue */
 export function ChatIcon({ className = 'w-4 h-4' }: IconProps) {
   return (

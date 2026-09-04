@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 0.4.3 — Promote IdentityCardIcon to the shared icon set (2026-09-04)
+
+- **fix**: `IdentityCardIcon` (used for Team Identity's hub tile) lived in
+  `app-icons.tsx`, documented as Dashboard-only — but the user pointed out
+  Team Identity's own app still used the generic `TeamIcon` for its intro
+  screen hero, the exact mismatch this icon was created to fix on the
+  hub tile. Moved `IdentityCardIcon` into the shared `icons.tsx` so
+  Team Identity's own app can import it too; `apps.ts` updated to pull it
+  from its new home. Visually verified the hub tile still renders
+  correctly after the move.
+
 ## 0.4.2 — Add glass effect to the shared AppHeader (2026-09-04)
 
 - **fix**: `AppHeader.tsx` — the header every consumer app copies — used a

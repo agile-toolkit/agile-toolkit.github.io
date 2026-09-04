@@ -369,7 +369,7 @@ Most icons (`CloseIcon`, `CheckIcon`, `ArrowLeftIcon`, `ArrowRightIcon`,
 `TargetIcon`, `FlagIcon`, `FolderIcon`, `BellIcon`, `BellOffIcon`,
 `SearchIcon`, `EyeIcon`, `SunIcon`, `QuestionIcon`, `UploadIcon`,
 `DownloadIcon`, `ThumbsUpIcon`, `CheckboxEmptyIcon`, `CheckboxCheckedIcon`,
-`ShuffleIcon`, `TeamIcon`, `ChatIcon`, `BarrierIcon`, `ClapperIcon`,
+`ShuffleIcon`, `TeamIcon`, `IdentityCardIcon`, `ChatIcon`, `BarrierIcon`, `ClapperIcon`,
 `ClockIcon`, `StopwatchIcon`, `HourglassIcon`, `TrafficLightIcon`,
 `FlowIcon`, `TrendUpIcon`, `TrendDownIcon`, `InboxIcon`, `ScalesIcon`,
 `GlobeIcon`, `CompassIcon`, `DocumentIcon`, `ImageIcon`, `BoltIcon`,
@@ -396,8 +396,10 @@ import { CloseIcon, WarningIcon } from './components/icons'
 ### `app-icons.tsx` — Dashboard hub tiles
 
 `CardsIcon` / `StopwatchIcon` / `KanbanColumnsIcon` / `CoinIcon` /
-`TrendUpIcon` / `IdentityCardIcon` / `MedalIcon` / `PokerCardIcon` (plus
-`ChartIcon` / `RefreshIcon` reused from `icons.tsx`) replace the 10 emoji
+`TrendUpIcon` / `MedalIcon` / `PokerCardIcon` (plus `ChartIcon` /
+`RefreshIcon` / `IdentityCardIcon` reused from `icons.tsx` — the latter
+promoted there on 2026-09-04 once Team Identity's own app needed it too,
+not just its hub tile) replace the 10 emoji
 previously stored in `apps.ts`'s `icon` field. `AppMeta.icon` is now a
 `ComponentType<{ className?: string }>`, rendered inside a span styled
 `color: var(--app-accent)` so each tile's icon automatically matches its

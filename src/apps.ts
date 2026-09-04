@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react'
-import { CardsIcon, StopwatchIcon, KanbanColumnsIcon, CoinIcon, TrendUpIcon, IdentityCardIcon, MedalIcon, PokerCardIcon } from './components/app-icons'
-import { ChartIcon, RefreshIcon } from './components/icons'
+import { CardsIcon, StopwatchIcon, KanbanColumnsIcon, CoinIcon, TrendUpIcon, MedalIcon, PokerCardIcon } from './components/app-icons'
+import { ChartIcon, RefreshIcon, IdentityCardIcon } from './components/icons'
 
 /** Matches the `data-accent="…"` each app sets on its own root — see tokens.css section 5. */
 export type AppAccent = 'cobalt' | 'pink' | 'amber' | 'violet' | 'teal' | 'coral'

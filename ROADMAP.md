@@ -68,6 +68,11 @@ below is already live in `main`:
   `check-drift.mjs` lists all 10 as drifted on this file now, one repo
   per follow-up cycle.
 
+**v0.4.3 — Promote IdentityCardIcon to the shared icon set** (2026-09-04) — user directly flagged Team Identity's own app icon:
+- ~~`IdentityCardIcon` moved from Dashboard-only `app-icons.tsx` into the
+  shared `icons.tsx` so Team Identity's own app can use it too, not just
+  its hub tile~~
+
 **v0.2.0 — E1: Reader completeness** (2026-09-01):
 - ~~[#31](https://github.com/agile-toolkit/agile-toolkit.github.io/issues/31) —
   attention badge on cards for at-risk app state~~

@@ -65,17 +65,6 @@ export function TrendUpIcon({ className = 'w-6 h-6' }: IconProps) {
   )
 }
 
-/** Team Identity — an ID card (identity, not just "a team") */
-export function IdentityCardIcon({ className = 'w-6 h-6' }: IconProps) {
-  return (
-    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-      <rect x="3" y="3" width="14" height="14" rx="2" />
-      <circle cx="10" cy="8" r="2" />
-      <path d="M6 15c0-2.2 1.8-3.5 4-3.5s4 1.3 4 3.5" />
-    </svg>
-  )
-}
-
 /** Work Profiles — a medal (recognized contributions, not just "a person") */
 export function MedalIcon({ className = 'w-6 h-6' }: IconProps) {
   return (
