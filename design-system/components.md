@@ -366,7 +366,7 @@ Most icons (`CloseIcon`, `CheckIcon`, `ArrowLeftIcon`, `ArrowRightIcon`,
 `FlowIcon`, `TrendUpIcon`, `TrendDownIcon`, `InboxIcon`, `ScalesIcon`,
 `GlobeIcon`, `CompassIcon`, `DocumentIcon`, `ImageIcon`, `BoltIcon`,
 `FlaskIcon`, `TagIcon`, `PuzzleIcon`, `GearIcon`, `CardsIcon`,
-`KanbanIcon`, `SparkIcon`, `RocketIcon`, `WrenchIcon`, `RobotIcon`,
+`KanbanIcon`, `SparkIcon`, `PlayIcon`, `PauseIcon`, `RocketIcon`, `WrenchIcon`, `RobotIcon`,
 `UndoIcon`) use `fill`/`stroke="currentColor"` — they inherit whatever
 Tailwind text-color class already sits on the surrounding button or span
 (a delete button's `text-red-400` colors its icon automatically), matching

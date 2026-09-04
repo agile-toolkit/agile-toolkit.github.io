@@ -536,6 +536,25 @@ export function SparkIcon({ className = 'w-4 h-4' }: IconProps) {
   )
 }
 
+/** Play triangle — start/resume a timer */
+export function PlayIcon({ className = 'w-4 h-4' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M4.5 2.8a.7.7 0 011.06-.6l7.2 4.6a.7.7 0 010 1.2l-7.2 4.6a.7.7 0 01-1.06-.6z" />
+    </svg>
+  )
+}
+
+/** Pause bars — pause a timer */
+export function PauseIcon({ className = 'w-4 h-4' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <rect x="4" y="2.8" width="2.8" height="10.4" rx="0.8" />
+      <rect x="9.2" y="2.8" width="2.8" height="10.4" rx="0.8" />
+    </svg>
+  )
+}
+
 /** Rocket — launches, new initiatives */
 export function RocketIcon({ className = 'w-4 h-4' }: IconProps) {
   return (
