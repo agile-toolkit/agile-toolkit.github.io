@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+## 0.4.5 — Test coverage for reader-completeness (2026-09-05)
+
+- **test** (issues #32, #33, #37): E1 ("Reader completeness") turned out
+  to already be fully shipped — `readMovingMotivators()` already reads
+  `moving-motivators:motivationSnapshot`/`teamSessionHistory` and prefers
+  whichever of solo vs. team data is newer, and `readSprintMetrics()`
+  already surfaces a truncated `lastSprintGoal` chip — both landed
+  alongside earlier features (`v0.2.0`, `v0.3.0`) without an issue
+  reference. Added the missing test coverage these two readers lacked:
+  a team-only session's participant-count chip, the `teamSessionHistory`
+  fallback when the snapshot key is absent, and the goal chip's presence/
+  truncation. `GOAL.md`/`ROADMAP.md` (issue #37) were also already live
+  on `main` (relocated out of `.artefacts/` since the issue was filed).
+  No behavior changes; closes all three issues as already-shipped.
+
 ## 0.4.4 — Add Kanban Tracker's app card (2026-09-04)
 
 - **feat**: Kanban Tracker reached `mvp` (v0.2.0) — added its card to
