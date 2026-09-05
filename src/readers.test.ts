@@ -34,6 +34,20 @@ describe('moving-motivators', () => {
   it('returns null when neither solo nor team data exists', () => {
     expect(readAll()['moving-motivators']).toBeNull()
   })
+
+  it('shows a participant-count chip for a team-only session with no solo data', () => {
+    set('moving-motivators:motivationSnapshot', { teamName: 'ABCD', topMotivators: ['mastery', 'freedom'], participantCount: 6, date: new Date(300).toISOString() })
+    const data = readAll()['moving-motivators']!
+    expect(data.chips.some(c => c.label === 'participants' && c.value === 6)).toBe(true)
+  })
+
+  it('falls back to the most recent team history entry when the snapshot key is absent', () => {
+    set('moving-motivators:teamSessionHistory', [
+      { sessionId: 'ABCD', teamName: 'ABCD', topMotivators: ['curiosity'], participantCount: 3, date: new Date(400).toISOString() },
+    ])
+    const data = readAll()['moving-motivators']!
+    expect(data.chips[0]!.value).toBe('Curiosity')
+  })
 })
 
 describe('scrum-facilitator', () => {
@@ -187,6 +201,23 @@ describe('sprint-metrics', () => {
     set('sprint-metrics-config', { name: 'Legacy Project' })
     const data = readAll()['sprint-metrics']!
     expect(data.velocities).toEqual([10, 12])
+  })
+
+  it('surfaces a truncated goal chip when lastSprintGoal is set', () => {
+    set('sprint-metrics:lastSession', {
+      projectName: 'Core', avgVelocity: 30, lastVelocity: 28,
+      lastSprintGoal: 'Ship the onboarding redesign end to end', updatedAt: new Date(1).toISOString(),
+    })
+    const data = readAll()['sprint-metrics']!
+    const goalChip = data.chips.find(c => c.label === 'goal')
+    expect(goalChip).toBeTruthy()
+    expect(String(goalChip!.value)).toContain('Ship the onboarding redesign')
+  })
+
+  it('omits the goal chip when lastSprintGoal is empty', () => {
+    set('sprint-metrics:lastSession', { projectName: 'Core', avgVelocity: 30, lastSprintGoal: '', updatedAt: new Date(1).toISOString() })
+    const data = readAll()['sprint-metrics']!
+    expect(data.chips.some(c => c.label === 'goal')).toBe(false)
   })
 })
 
