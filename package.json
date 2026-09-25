@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:debug": "tsc -b && vite build --mode debug",
     "preview": "vite preview",
     "test": "vitest run"
   },
