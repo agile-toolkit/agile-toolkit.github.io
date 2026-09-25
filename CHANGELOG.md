@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- **build**: sourcemaps are now opt-in. `npm run build` (the production
+  build that `deploy.yml` publishes) no longer emits `.map` files into
+  `dist/`; `npm run build:debug` (`vite build --mode debug`) produces the
+  same bundle with sourcemaps for local debugging.
+
 ## 0.4.5 — Test coverage for reader-completeness (2026-09-05)
 
 - **test** (issues #32, #33, #37): E1 ("Reader completeness") turned out
