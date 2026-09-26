@@ -68,6 +68,15 @@ double-exported.
   `darkMode: ['selector', '[data-theme="dark"]']` in `tailwind.config.js`; an
   anti-flash inline script in `index.html` reads `localStorage.theme` and
   sets the attribute before first paint.
+- **Network check** (`network-check.html`, `src/network-check/`) — a second
+  Vite entry, served at `/network-check.html`. It opens a real WebSocket to
+  each public relay that Planning Poker and Moving Motivators use for team
+  sessions (plus a few candidates) and waits for a protocol answer: an MQTT
+  CONNACK from the brokers, an EOSE from the Nostr relays. It reports
+  pass/fail and time per relay, gives a verdict, and has a "Copy results"
+  button for support. Plain TypeScript, no React, and English only. The relay
+  list in `src/network-check/probes.ts` must track the apps'
+  `src/live/channels.ts`.
 - **Export/Import** (`src/backup.ts`, `src/components/ExportImport.tsx`) — v2
   backup format: `{ _meta: { version, exportedAt, workspace, keyCount,
   appIds }, data: {...} }`. `parseBackup()` also reads the older v1 flat
