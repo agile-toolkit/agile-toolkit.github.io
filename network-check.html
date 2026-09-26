@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="cobalt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Network check — Agile Toolkit</title>
+    <meta name="description" content="Checks whether team sessions in Planning Poker and Moving Motivators can connect from your network." />
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Hanken+Grotesk:wght@400;600&family=JetBrains+Mono:wght@400&display=swap">
+    <script>
+      (function(){
+        var t = localStorage.getItem('theme');
+        document.documentElement.setAttribute('data-theme',
+          (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) ? 'dark' : 'light'
+        );
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="nc-page">
+      <a class="nc-back" href="/">← Agile Toolkit</a>
+      <h1>Network check</h1>
+      <p class="nc-lead">
+        Team sessions in Planning Poker and Moving Motivators travel through free public relays.
+        This page tries each one from your network — office, home or VPN — and tells you which get through.
+      </p>
+
+      <section id="nc-verdict" class="nc-verdict" aria-live="polite" hidden></section>
+
+      <ul id="nc-list" class="nc-list" aria-label="Relay results"></ul>
+
+      <div class="nc-actions">
+        <button id="nc-run" class="nc-btn nc-btn-primary" type="button">Run again</button>
+        <button id="nc-copy" class="nc-btn" type="button" hidden>Copy results</button>
+      </div>
+
+      <div class="nc-notes">
+        <p><strong>MQTT</strong> brokers use ports 8884, 8084 and 8081, which corporate firewalls often block. <strong>Nostr</strong> relays use the standard web port 443.</p>
+        <p>Relays marked <em>candidate</em> aren’t used by the apps yet; they’re checked to see whether adding them would help.</p>
+        <p>Each check only opens a connection and asks the relay to answer. No session data is sent. As with any website, the relays see your IP address.</p>
+      </div>
+    </main>
+    <script type="module" src="/src/network-check/main.ts"></script>
+  </body>
+</html>
