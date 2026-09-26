@@ -74,8 +74,12 @@ double-exported.
   sessions (plus a few candidates) and waits for a protocol answer: an MQTT
   CONNACK from the brokers, an EOSE from the Nostr relays. It reports
   pass/fail and time per relay, gives a verdict, and has a "Copy results"
-  button for support. Plain TypeScript, no React, and English only. The relay
-  list in `src/network-check/probes.ts` must track the apps'
+  button for support. Plain TypeScript, no React. Linked from the dashboard
+  footer. Translated into EN/ES/BE/RU via its own
+  `src/network-check/i18n/*.json`; it reads and writes the same
+  `localStorage.i18nextLng` key as the dashboard, so both follow one language
+  choice. The copied report is always English, so the maintainer can read
+  it. The relay list in `src/network-check/probes.ts` must track the apps'
   `src/live/channels.ts`.
 - **Export/Import** (`src/backup.ts`, `src/components/ExportImport.tsx`) — v2
   backup format: `{ _meta: { version, exportedAt, workspace, keyCount,

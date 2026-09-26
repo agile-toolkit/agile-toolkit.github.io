@@ -132,12 +132,16 @@ export default function App() {
       {!facilitatorMode && <ExportImport />}
 
       {!facilitatorMode && (
-        <footer className="text-center py-10 text-sm text-slate-500 dark:text-gray-400 border-t border-slate-200 dark:border-gray-800 mt-2">
-          <a href="https://github.com/agile-toolkit" className="text-blue-600 dark:text-blue-400 underline">
+        <footer className="flex flex-wrap justify-center items-baseline gap-x-2 gap-y-1 px-4 text-center py-10 text-sm text-slate-500 dark:text-gray-400 border-t border-slate-200 dark:border-gray-800 mt-2">
+          <a href="https://github.com/agile-toolkit" className="text-blue-600 dark:text-blue-400 underline whitespace-nowrap">
             github.com/agile-toolkit
           </a>
-          <span className="mx-2 opacity-40">·</span>
-          {t('footer.text')}
+          <span className="opacity-40" aria-hidden="true">·</span>
+          <a href="/network-check.html" className="text-blue-600 dark:text-blue-400 underline whitespace-nowrap">
+            {t('footer.network_check')}
+          </a>
+          <span className="opacity-40" aria-hidden="true">·</span>
+          <span>{t('footer.text')}</span>
         </footer>
       )}
     </div>

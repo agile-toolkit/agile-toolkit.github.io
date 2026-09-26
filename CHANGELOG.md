@@ -7,6 +7,8 @@
   EMQX, Mosquitto) on their WebSocket ports and the Nostr relays (Damus,
   nos.lol, Primal) on 443, then reports which ones answered and how fast.
   Useful from office networks and VPNs that block non-standard ports.
+  Linked from the dashboard footer and available in all 4 languages; it
+  follows the language chosen on the dashboard.
 - **chore** (security): 0 `npm audit` vulnerabilities, down from 10. `vite` ^6.4.3 (patched dev-server path traversal / `fs.deny`
   bypass) and `vitest` ^4.1.11 (patched `@vitest/mocker` arbitrary file
   read); transitive fixes via `npm audit fix` (postcss, nanoid,

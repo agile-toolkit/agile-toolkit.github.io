@@ -21,26 +21,29 @@
   </head>
   <body>
     <main class="nc-page">
-      <a class="nc-back" href="/">← Agile Toolkit</a>
-      <h1>Network check</h1>
-      <p class="nc-lead">
-        Team sessions in Planning Poker and Moving Motivators travel through free public relays.
-        This page tries each one from your network — office, home or VPN — and tells you which get through.
-      </p>
+      <div class="nc-top">
+        <a class="nc-back" href="/" data-i18n="back">← Agile Toolkit</a>
+        <label class="nc-lang">
+          <span class="nc-sr-only" data-i18n="language">Language</span>
+          <select id="nc-lang"></select>
+        </label>
+      </div>
+      <h1 data-i18n="title">Network check</h1>
+      <p class="nc-lead" data-i18n="lead"></p>
 
       <section id="nc-verdict" class="nc-verdict" aria-live="polite" hidden></section>
 
-      <ul id="nc-list" class="nc-list" aria-label="Relay results"></ul>
+      <ul id="nc-list" class="nc-list" data-i18n-label="list_label"></ul>
 
       <div class="nc-actions">
-        <button id="nc-run" class="nc-btn nc-btn-primary" type="button">Run again</button>
-        <button id="nc-copy" class="nc-btn" type="button" hidden>Copy results</button>
+        <button id="nc-run" class="nc-btn nc-btn-primary" type="button" data-i18n="run">Run again</button>
+        <button id="nc-copy" class="nc-btn" type="button" data-i18n="copy" hidden>Copy results</button>
       </div>
 
       <div class="nc-notes">
-        <p><strong>MQTT</strong> brokers use ports 8884, 8084 and 8081, which corporate firewalls often block. <strong>Nostr</strong> relays use the standard web port 443.</p>
-        <p>Relays marked <em>candidate</em> aren’t used by the apps yet; they’re checked to see whether adding them would help.</p>
-        <p>Each check only opens a connection and asks the relay to answer. No session data is sent. As with any website, the relays see your IP address.</p>
+        <p data-i18n="notes.ports"></p>
+        <p data-i18n="notes.candidate"></p>
+        <p data-i18n="notes.privacy"></p>
       </div>
     </main>
     <script type="module" src="/src/network-check/main.ts"></script>

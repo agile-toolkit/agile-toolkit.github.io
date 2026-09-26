@@ -38,6 +38,7 @@
   "workspace.empty": "No workspaces yet — click Save current to create one.",
   "workspace.close": "Close",
   "footer.text": "Practical tools for teams that ship together.",
+  "footer.network_check": "Network check",
   "card.open": "Open app",
   "card.progress_done": "{{count}} done",
   "card.progress_open": "{{count}} open",
