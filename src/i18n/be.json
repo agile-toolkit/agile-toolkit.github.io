@@ -38,6 +38,7 @@
   "workspace.empty": "Прастор пакуль няма. Націсніце Захаваць, каб стварыць.",
   "workspace.close": "Закрыць",
   "footer.text": "Практычныя інструменты для каманд, якія дастаўляюць разам.",
+  "footer.network_check": "Праверка сеткі",
   "card.open": "Адкрыць",
   "card.progress_done": "{{count}} выканана",
   "card.progress_open": "{{count}} адкрыта",

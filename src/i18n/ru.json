@@ -38,6 +38,7 @@
   "workspace.empty": "Пространств пока нет. Нажмите Сохранить, чтобы создать.",
   "workspace.close": "Закрыть",
   "footer.text": "Практические инструменты для команд, которые поставляют вместе.",
+  "footer.network_check": "Проверка сети",
   "card.open": "Открыть",
   "card.progress_done": "{{count}} выполнено",
   "card.progress_open": "{{count}} открыто",
